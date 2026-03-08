@@ -76,6 +76,39 @@ There is no censorship. There is only consequence.
 
 ---
 
+## 🔥 Empathia Events — The Acts
+
+Empathia is not a news platform. It is an **acts platform.**
+
+Where traditional media documents what breaks, Empathia documents what repairs.
+
+### What is an Act?
+Any initiative — carried by one person or many — that has touched another human being.
+
+```
+A neighbor who carried groceries for an elderly stranger
+A nurse who held a hand through the night
+A stranger on a forum who listened at 3am
+A community that rebuilt after a disaster
+```
+
+There is no distinction between physical and digital acts. **An act is an act.** What matters is that there was a human on one side, a human on the other, and something passed between them.
+
+### How It Works
+- Users — alone or as a group — document an act
+- The global community reads and rates the empathy it felt
+- Every act receives a **worldwide empathy score**
+- Places, cities, institutions accumulate their own score through the acts linked to them
+
+### The Global Pulse
+At any moment, Empathia reflects a living measure of human kindness —  
+not the loudest voices, not the most outrageous events —  
+but the quiet, constant, uncounted acts that hold the world together.
+
+> *The news tells you what broke today. Empathia tells you what was repaired.*
+
+---
+
 ## ⚖️ Principles
 
 | Principle | Meaning |
@@ -85,6 +118,45 @@ There is no censorship. There is only consequence.
 | **No manipulation** | The algorithm is public, open, and auditable by anyone |
 | **No advertising** | Empathia is not a product. Its users are not the product. |
 | **Radical transparency** | Scores, code, and governance are open to all |
+
+---
+
+## 💬 The Private Chat — Empathia Circles
+
+All conversations on Empathia — public and private — happen within the application. There is no escape to other platforms. Empathy is measured everywhere, especially in the intimate.
+
+### The Circles
+Private spaces, each with its own empathy score and context:
+
+| Circle | Context |
+|---|---|
+| 💑 Couple | Intimate partnership |
+| 👨‍👩‍👧 Family | Family bonds |
+| 🙏 Spirituality | Shared faith and belief |
+| 👥 Friends | Close relationships |
+| 🏥 Care | Caregivers and patients |
+| 💼 Professional | Work and colleagues |
+
+Each circle is protected, intimate, and carries its own evolving empathy score over time.
+
+### The Mirror of Close Relationships
+A couple can observe the evolution of their mutual empathy over months. A family can see where tenderness grows or fades. These are not just scores — they are the truth of a relationship, made visible.
+
+### A Vision for the Future
+Empathia hopes that one day, laws will evolve to allow private chat histories — in noble and just circumstances — to be brought to light.
+
+Not to surveille. To protect.
+
+```
+A history of empathy scores declining over months in a relationship
+is not just data — it is testimony.
+It is the invisible made visible.
+```
+
+Violence, abuse, manipulation leave traces in the way we speak to each other. Empathia holds those traces with integrity, waiting for the day the world is ready to listen to them.
+
+> *Great applications have always preceded the laws that govern them.*
+> *Empathia opens this path — with humility, and with hope.*
 
 ---
 
