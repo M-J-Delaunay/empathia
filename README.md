@@ -160,6 +160,62 @@ Violence, abuse, manipulation leave traces in the way we speak to each other. Em
 
 ---
 
+## 🌟 Founders & Community Support
+
+### The Continuity Clause
+Every contributor — developer, designer, lawyer, translator — who helps build Empathia, at any point in its history, benefits from the same rights:
+
+- **Featured** on the contributors page
+- **Receive donations** freely offered by the community
+- **Remove their name** whenever they choose
+
+Not only the founders. Not only the first. **Everyone, always.**
+
+```
+First contributor in 2026 = same dignity as
+the contributor who arrives in 2034
+```
+
+Seniority creates no hierarchy.
+Contribution creates gratitude.
+
+### The First Contributors
+The first people who help build Empathia — developers, designers, translators — are featured on a dedicated public page. The community can offer them direct donations, freely, as an act of gratitude.
+
+No imposed salary. No hierarchy. Just human recognition.
+
+### The Founder's Right to Step Back
+The founder — and any contributor — may remove their name from the public page at any moment.
+
+```
+Visible founder → personal choice
+Invisible founder → the work remains
+```
+
+The ego has no place here. The work belongs to the world.
+
+### Community Objectives — With Limits
+The community can fund specific, transparent objectives:
+
+| Objective | Example | Limit |
+|---|---|---|
+| Development | Fund a new feature | Capped budget, publicly visible |
+| Translation | Open a new language | Validated by community vote |
+| Infrastructure | Servers, hosting | Public accounts, fully auditable |
+| Awareness | Global campaign | Content validated collectively |
+
+### The Fundamental Limits
+- No donation grants decision-making power
+- All finances are public and auditable by anyone
+- No advertising can ever be purchased
+- The code remains AGPL-3.0 regardless of funding
+
+### The Spirit
+
+> *We are not funding a company. We are taking care of a shared idea.*
+
+---
+
 ## 🛠️ Technical Stack (proposed)
 
 This is a starting point. The community decides.
