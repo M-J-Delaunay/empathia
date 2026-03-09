@@ -76,6 +76,91 @@ There is no censorship. There is only consequence.
 
 ---
 
+## 🛡️ Protection Against Financial Pressure
+
+### The Threat
+Empathia's integrity faces one existential risk : **power buying empathy.**
+
+A sports club, a corporation, a political party — any entity with money and contracts could pressure those beneath them to generate false empathy ratings on demand.
+
+```
+Power + contract + financial pressure
+= forced ratings
+= corrupted scores
+= the entire system collapses
+```
+
+Empathia anticipates this. And builds its defence into the architecture itself.
+
+### Two Identity Modes
+
+Every user on Empathia exists in two distinct spaces :
+
+```
+Lieu de vie     → personal score
+                  public, permanent, your true self
+                  cannot be anonymized
+
+Lieu de travail → workplace score
+                  anonymous, protected
+                  verified by IP address — not declaration
+```
+
+The system distinguishes between home and workplace automatically. No one needs to declare it. No one can be forced to reveal it.
+
+### What This Protects
+
+A footballer can rate their club honestly.
+A warehouse worker can rate their employer honestly.
+A hospital nurse can rate their institution honestly.
+A contracted artist can rate their label honestly.
+
+```
+Real empathy score of a sports club     → from players themselves
+Real empathy score of a corporation     → from employees themselves
+Real empathy score of an institution    → from staff themselves
+```
+
+This is truth that money cannot buy. A score that contracts cannot corrupt.
+
+### The Natural Whistleblowing Mechanism
+
+Anonymous workplace ratings become a quiet, continuous whistleblowing mechanism — built into the daily fabric of Empathia.
+
+No single dramatic act of courage required. No career destroyed for speaking truth. Just honest experience, protected, accumulated over time.
+
+```
+One rating means little.
+One thousand ratings over one year
+from employees of the same company
+means everything.
+```
+
+### Sports — A Special Case
+
+Sports teams offer a particularly powerful application. Finance has caused enormous harm to the soul of sport — to players, supporters, and communities alike.
+
+Empathia gives those inside the system — players, staff, academy youth — a protected voice to score the empathy of the institutions that hold their contracts.
+
+The beautiful game. The honest score.
+
+### The Legal Framework
+
+This architecture will require careful legal construction :
+
+```
+GDPR compliance          → anonymization must be genuine and verifiable
+Whistleblower protection → EU Directive 2019/1937 provides existing framework
+IP verification          → balance between privacy and location verification
+Anti-coercion clauses    → contractual pressure on ratings = violation
+```
+
+This is where Empathia's legal contributors will be essential. The community is invited to help build this framework.
+
+> *Finance will try to buy empathy. Empathia is built so that it cannot be sold.*
+
+---
+
 ## 🗺️ Empathia Streets — The Living Map
 
 Empathia is not only a digital space. It extends into the physical world through a living map of empathic geography.
