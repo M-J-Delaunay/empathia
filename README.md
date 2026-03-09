@@ -76,6 +76,65 @@ There is no censorship. There is only consequence.
 
 ---
 
+## 🗺️ Empathia Streets — The Living Map
+
+Empathia is not only a digital space. It extends into the physical world through a living map of empathic geography.
+
+Not Google Maps — which shows you where to spend money. **Empathia Streets** shows you where to feel, connect, and grow.
+
+### The Principle
+
+Physical places generate emotional experiences. Emotional experiences generate empathy. Empathy is scored by those who visited.
+
+```
+The result : a map of the world's empathic geography —
+built by the people who live in it.
+```
+
+### What Gets Scored
+
+Places are not categorized by commerce or convenience — but by their capacity to generate emotional empathy when interacting with them.
+
+```
+➕ Adds to empathy          ➖ Lessens empathy
+————————————————————————————————————————
+Museums & galleries         Isolating spaces
+Street art & murals         Places of conflict
+Community gardens           Areas of neglect
+Libraries
+Concert & performance venues
+Places of worship
+Markets & gathering spaces
+Parks, forests, rivers
+Spaces known for rich discussion
+```
+
+The key principle : **understandable art and culture.** Places that speak to the human condition in ways people can feel — regardless of education, language, or background.
+
+### Empathy Hot Spots
+
+Places known for rich human discussion and gathering — cafés, public squares, cultural spaces, community centers — appear as **hot spots** on the map.
+
+Visible to all users. Searchable by location. Explorable from anywhere in the world.
+
+### The Deeper Vision
+
+A city can look at its Empathia Streets map and understand itself differently.
+
+```
+Where does empathy flourish in our streets ?
+Where does it fade ?
+What have we built that connects us ?
+What have we neglected that isolates us ?
+```
+
+Urban planners, architects, educators, and communities gain a new tool — one built not from data extracted from people, but from empathy freely given by them.
+
+> *Every street has a score. Every city tells a story.*
+> *Empathia Streets makes both visible.*
+
+---
+
 ## 🔥 Empathia Events — The Acts
 
 Empathia is not a news platform. It is an **acts platform.**
