@@ -68,7 +68,7 @@ Share mockups, wireframes, or design systems via an Issue or by email. No tool i
 
 For serious contributions, partnerships, legal questions, or anything that deserves a direct conversation:
 
-**📧 empathia.project@protonmail.com **
+**📧 empathia.project@empathia.world **
 
 All sincere messages will receive a response.
 
