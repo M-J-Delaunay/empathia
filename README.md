@@ -76,6 +76,76 @@ There is no censorship. There is only consequence.
 
 ---
 
+## ⚠️ The Black Mirror Risk — Named and Confronted
+
+Empathia is aware of its own shadow.
+
+A system that scores human empathy could become something dark. A social credit system. A tool of conformity. A gate that decides who deserves access to society based on a number.
+
+We name this risk clearly. We do not look away from it.
+
+### The Dystopia That Already Exists
+
+The current world already runs on invisible scoring systems — credit scores, social media algorithms, engagement metrics — none of them consented to, none of them transparent, all of them serving financial interests over human dignity.
+
+> *The risk of a new dystopia does not justify preserving the current one.*
+
+But it does demand that we build differently.
+
+### What Makes Empathia Structurally Different
+
+```
+Social credit system       Empathia
+————————————————————————————————————————
+Imposed by governments  →  Given freely by individuals
+Affects access to life  →  Cannot affect access to services
+Opaque algorithm        →  Fully open and auditable
+Used to control         →  Used to reflect
+Punishes dissent        →  Measures only felt empathy
+Centralized power       →  Community governed
+```
+
+Empathia's score is a mirror. Not a gate.
+
+It cannot be used by governments to restrict movement.
+It cannot be used by employers to deny work.
+It cannot be used by institutions to exclude.
+It is a reflection — nothing more, nothing less.
+
+### The Structural Protections
+
+These are not aspirations. They are built into the architecture and the license :
+
+- **AGPL-3.0** — no one can take this system and close it into a weapon
+- **No government API** — Empathia will never provide scoring data to state entities
+- **No gatekeeping** — a low score never restricts access to any service or right
+- **Community governance** — any attempt to weaponize the system is visible to all
+- **Radical transparency** — the algorithm is public, auditable, and unchangeable without community consensus
+
+### Sunlight Is the Answer
+
+The greatest protection against dystopia is transparency.
+
+A closed scoring system — like those already operating in the shadows of finance and social media — is dangerous precisely because it cannot be seen or challenged.
+
+Empathia is entirely visible. Every line of code. Every decision. Every change.
+
+```
+What cannot be seen cannot be challenged.
+What can be seen can be stopped.
+Empathia can always be seen.
+```
+
+### The Risk That Remains
+
+We do not claim to have eliminated the risk entirely. No system can make that claim.
+
+What we claim is this : Empathia is built with the risk in mind, from the first line of its manifesto. The community that builds it is its greatest protection. And if the day ever comes when Empathia begins to become what it was built to prevent —
+
+> *The code is open. Fork it. Correct it. The vision belongs to everyone.*
+
+---
+
 ## 🛡️ Protection Against Financial Pressure
 
 ### The Threat
