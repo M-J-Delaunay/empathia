@@ -76,6 +76,62 @@ There is no censorship. There is only consequence.
 
 ---
 
+## ⏳ The Latency Principle — Distance Between Act and Score
+
+Empathia is aware of a profound human risk : the anxiety of being judged, and the danger of immediate reaction to a score.
+
+A person who knows they just received a low rating might retaliate. A person obsessively watching their score after every conversation loses the very empathy the platform is meant to nurture.
+
+Empathia builds distance between the act and its consequence — deliberately and by design.
+
+### How It Works
+
+```
+Interaction happens
+         ↓
+Rating given — private, invisible to both parties
+         ↓
+Time passes — days, sometimes weeks
+         ↓
+Score updates quietly — averaged in silently
+         ↓
+No one knows which interaction moved the score
+No one knows by how much
+```
+
+### What This Prevents
+
+```
+❌ "You gave me a bad score, didn't you?"
+❌ Retaliation between people who know each other
+❌ Anxiety spirals after every conversation
+❌ Score-watching obsession
+❌ Manipulation of specific interactions
+❌ Drastic reactions to individual ratings
+```
+
+### What This Preserves
+
+```
+✅ Honest ratings — no fear of immediate reaction
+✅ The score reflects a pattern, not a single moment
+✅ Emotional safety for all users
+✅ A bad day does not define a person
+✅ The score becomes a truth over time — not a verdict in the moment
+```
+
+### The Deeper Philosophy
+
+Empathy is not measured in moments. It is measured in patterns.
+
+One difficult conversation does not make someone unempathetic. One act of extraordinary kindness does not make someone a saint. What a person truly is emerges slowly, across hundreds of interactions, across years.
+
+The latency principle honors that truth.
+
+> *The score is not a judgment. It is a portrait — painted slowly, stroke by stroke, over a lifetime.*
+
+---
+
 ## ⚠️ The Black Mirror Risk — Named and Confronted
 
 Empathia is aware of its own shadow.
