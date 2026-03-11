@@ -6,6 +6,62 @@
 
 ---
 
+## 📜 The Empathia Constitution
+
+*Written March 2026. Permanent. Irrevocable.*
+
+---
+
+**I. On Power**
+
+No one holds power over Empathia.
+Not its first builder. Not its largest donor. Not its most prolific contributor.
+Power does not exist here. It was never built in.
+It cannot be transferred because there is nothing to transfer.
+
+---
+
+**II. On Continuity**
+
+The only decision that can never be made is to stop.
+Everything else can change — the code, the design, the features, the community, the tools.
+Empathy will always exist in the world.
+Empathia exists only to mirror it.
+As long as empathy exists, Empathia must exist.
+
+---
+
+**III. On Decisions**
+
+Every significant decision is made through an empathy-based process.
+The platform governs itself by its own values.
+A community that measures empathy must govern with empathy.
+There is no other legitimate method.
+
+---
+
+**IV. On the Founder**
+
+There is no founder after the first commit.
+There is only the first builder —
+one human among all the humans who will come after,
+deserving of no more weight, no more vote, no more permanence
+than anyone who contributes a single line of code,
+a single translation,
+a single idea offered in good faith.
+
+The work continues without needing to remember who started it.
+The mirror does not need to know who built it.
+It only needs to reflect.
+
+---
+
+*This constitution was not written by a committee or a lawyer.*
+*It was written by the first builder, at the limit of their strength,*
+*so that no one who comes after would ever have to fight for it.*
+
+---
+
 ## 🌱 Vision
 
 The world has spent centuries building systems that reward financial accumulation. Empathia proposes a simple inversion: **what if our social status depended on how we treat each other?**
