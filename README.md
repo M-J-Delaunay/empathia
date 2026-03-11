@@ -1,7 +1,7 @@
-# 🌐 Empathia — v0.12
+# 🌐 Empathia — v0.13
 *March 2026*
 
-> Added: The Journalism of the Unnamed and The Competition of Compassion — Finance decides whose story gets told today. Empathia decides whose story survives tomorrow.
+> Added: The Empathia Extension — Scoring the Web. And The Protective Council — protecting the mirror without controlling it. The extension rides inside the giants and scores them honestly. For the first time.
 
 > This is the current version.
 
@@ -199,6 +199,149 @@ Every country has a score — the simple average of all its users.
 - Hate speech and toxic content are not removed — they carry their score. Users who engage with them will understand through their own ratings.
 
 There is no censorship. There is only consequence.
+
+---
+
+## 🌐 The Empathia Extension — Scoring the Web
+
+Empathia does not wait for the world to come to it.
+It goes to where the world already is.
+
+The Empathia browser extension runs quietly inside the platforms that dominate the web — not to compete with them, but to score them. To hold up a mirror to the very giants that have never been honestly measured.
+
+### How It Works
+
+```
+The user browses normally
+         ↓
+They encounter something that generates
+an empathic reaction — positive or negative
+         ↓
+They click the Empathia extension
+         ↓
+They identify what they are scoring
+         ↓
+They give their score
+         ↓
+That score enters the secured database
+aggregated, weighted, permanent
+         ↓
+The world's empathy map grows
+far beyond what the app alone could build
+```
+
+### What Can Be Scored
+
+```
+👤 A person mentioned in this content
+📰 This publication or news outlet
+🏛️ An institution referenced here
+🎬 A streaming platform or show
+🎵 An artist or creative work
+⚖️ A political group or party
+📱 This app or digital platform
+🌍 An event described here
+🏢 A company or brand
+```
+
+### Activation — Always by Choice
+
+```
+Default state    → off, silent, invisible
+User activates   → when they feel something worth scoring
+Optional setting → gentle reminder for heavy users
+```
+
+Never intrusive. Always consent-based.
+
+### Who Can Score
+
+```
+Logged-in user  → score attributed to their profile
+Anonymous user  → score enters global pool via IP country
+```
+
+For anonymous users, Empathia responds gently —
+*"Your voice was heard. 💜 Create an account to follow your own empathy journey."*
+
+Not a wall. An invitation.
+
+### Bot Detection — Classification, Not Exclusion
+
+```
+Human verified  → scores enter human country ranking
+Bot detected    → scores enter Bot Nation
+CAPTCHA purpose → not to block — to classify
+```
+
+### The Tor and Proxy Question
+
+```
+Tor / proxy users →
+   Can score freely
+   Asked for conditional information
+   Scores enter quarantined pool
+   Pending Protective Council review
+   Not discarded — held with care
+```
+
+### The Public Badge
+
+```
+[ 💜 Empathia Score : 73% ]
+```
+
+No advertiser can buy this badge.
+No PR campaign can manufacture it.
+It comes only from the accumulated honest reactions of real human beings.
+
+> *The extension rides inside the giants. And scores them honestly. For the first time.*
+
+---
+
+## 🛡️ The Protective Council
+
+The mirror must be protected.
+Not controlled — protected.
+
+This distinction is the most important line Empathia will ever draw.
+
+### Composition
+
+```
+Small rotating group
+drawn from highest community empathy scorers
+term-limited — no permanence possible
+diverse across languages and regions
+minimum 3 must agree before any action
+```
+
+### What the Council Can Do
+
+```
+✅ Nullify coordinated attack clusters
+✅ Review quarantined Tor/proxy score pools
+✅ Flag suspicious scoring patterns
+✅ Recommend protective measures to the community
+```
+
+### What the Council Can Never Do
+
+```
+❌ Touch an individual user's score
+❌ Remove a score it simply disagrees with
+❌ Act without consensus
+❌ Act without full public transparency
+❌ Accumulate power beyond its defined term
+```
+
+### The Founding Principle
+
+The council protects the mirror.
+It does not control what the mirror reflects.
+
+> *Power that cannot be seen cannot be challenged.*
+> *The council is always visible. That is what makes it safe.*
 
 ---
 
