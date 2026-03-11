@@ -1,7 +1,7 @@
-# 🌐 Empathia — v0.11
+# 🌐 Empathia — v0.12
 *March 2026*
 
-> Added: The Historical Empathy Anchor — Certain human stories become permanent fixed points on the empathy spectrum. Immovable unless surpassed by documented evidence of equal magnitude. Facts resist decadence. History has weight. The scale must be honest.
+> Added: The Journalism of the Unnamed and The Competition of Compassion — Finance decides whose story gets told today. Empathia decides whose story survives tomorrow.
 
 > This is the current version.
 
@@ -439,7 +439,74 @@ Not a news platform. An **acts platform.**
 
 There is no distinction between physical and digital acts. **An act is an act.**
 
+Where traditional media documents what breaks, Empathia documents what repairs.
+
+### What is an Act?
+Any initiative — carried by one person or many — that has touched another human being.
+
+### The Global Pulse
+At any moment, Empathia reflects a living measure of human kindness —
+not the loudest voices, not the most outrageous events —
+but the quiet, constant, uncounted acts that hold the world together.
+
 > *The news tells you what broke today. Empathia tells you what was repaired.*
+
+### The Journalism of the Unnamed
+
+Finance decides whose story gets told.
+The rest disappear.
+
+The nurse who held a hand through the night.
+The neighbor who rebuilt a stranger's fence after the storm.
+The teacher who stayed late for thirty years without recognition.
+The mother who crossed borders on foot to keep her child alive.
+
+These stories exist in their millions. They always have.
+They simply have no platform that considers them worth amplifying —
+because they generate no revenue, attract no advertiser, serve no algorithm.
+
+Empathia says — these are the most important stories ever told.
+And we will hunt them down together.
+
+This is a new kind of journalism.
+
+```
+Not journalism of power.
+Not journalism of catastrophe.
+Not journalism of outrage.
+
+Journalism of repair.
+Journalism of the unnamed.
+Journalism of the act that happened
+when no one was watching
+and no one was paid to notice.
+```
+
+### The Competition of Compassion
+
+Empathia introduces a new kind of competition into the world —
+not for wealth, not for followers, not for fame.
+
+For the honor of having found a story that moved humanity forward.
+For the privilege of having made an invisible act visible.
+For the distinction of carrying, even briefly, a flagship for human progress.
+
+```
+The hunter of stories is not a journalist.
+They are a witness.
+The act already happened.
+They simply refused to let it disappear.
+```
+
+Every user who documents an act, validates a story, or amplifies a voice
+that finance would have buried —
+becomes part of something larger than themselves.
+
+A living archive of humanity's best impulses.
+A record that decadence cannot erase.
+
+> *Finance decides whose story gets told today.*
+> *Empathia decides whose story survives tomorrow.*
 
 ---
 
