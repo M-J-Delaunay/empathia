@@ -1,7 +1,7 @@
-# 🌐 Empathia — v0.13
+# 🌐 Empathia — v0.14
 *March 2026*
 
-> Added: The Empathia Extension — Scoring the Web. And The Protective Council — protecting the mirror without controlling it. The extension rides inside the giants and scores them honestly. For the first time.
+> Added: The Welfare Signal — Empathia notices when something is wrong. Not to exploit it. To protect it.
 
 > This is the current version.
 
@@ -254,222 +254,134 @@ Optional setting → gentle reminder for heavy users
 
 Never intrusive. Always consent-based.
 
-### Who Can Score
-
-```
-Logged-in user  → score attributed to their profile
-Anonymous user  → score enters global pool via IP country
-```
-
-For anonymous users, Empathia responds gently —
-*"Your voice was heard. 💜 Create an account to follow your own empathy journey."*
-
-Not a wall. An invitation.
-
-### Bot Detection — Classification, Not Exclusion
-
-```
-Human verified  → scores enter human country ranking
-Bot detected    → scores enter Bot Nation
-CAPTCHA purpose → not to block — to classify
-```
-
-### The Tor and Proxy Question
-
-```
-Tor / proxy users →
-   Can score freely
-   Asked for conditional information
-   Scores enter quarantined pool
-   Pending Protective Council review
-   Not discarded — held with care
-```
-
-### The Public Badge
-
-```
-[ 💜 Empathia Score : 73% ]
-```
-
-No advertiser can buy this badge.
-No PR campaign can manufacture it.
-It comes only from the accumulated honest reactions of real human beings.
-
-> *The extension rides inside the giants. And scores them honestly. For the first time.*
-
 ---
 
 ## 🛡️ The Protective Council
 
-The mirror must be protected.
-Not controlled — protected.
+The Protective Council exists to protect the mirror.
+Not to control what it reflects.
 
-This distinction is the most important line Empathia will ever draw.
-
-### Composition
-
-```
-Small rotating group
-drawn from highest community empathy scorers
-term-limited — no permanence possible
-diverse across languages and regions
-minimum 3 must agree before any action
-```
-
-### What the Council Can Do
+Drawn from the highest empathy scorers in the community.
+Rotating. Term-limited. Transparent in every action.
 
 ```
-✅ Nullify coordinated attack clusters
-✅ Review quarantined Tor/proxy score pools
-✅ Flag suspicious scoring patterns
-✅ Recommend protective measures to the community
+The Council CAN →
+   Nullify coordinated rating attacks
+   Review quarantined anonymous pools
+   Act on Welfare Signals (see below)
+
+The Council CANNOT →
+   Touch individual scores directly
+   Act without full transparency
+   Act without minimum 3 member consensus
+   Silence any voice
 ```
 
-### What the Council Can Never Do
-
-```
-❌ Touch an individual user's score
-❌ Remove a score it simply disagrees with
-❌ Act without consensus
-❌ Act without full public transparency
-❌ Accumulate power beyond its defined term
-```
-
-### The Founding Principle
-
-The council protects the mirror.
-It does not control what the mirror reflects.
-
-> *Power that cannot be seen cannot be challenged.*
-> *The council is always visible. That is what makes it safe.*
+*"Protects the mirror. Does not control what it reflects."*
 
 ---
 
-## 🏛️ The Historical Empathy Anchor
+## 💜 The Welfare Signal — v0.14
 
-The empathy spectrum needs fixed points of reference.
+*New in this version.*
 
-Without them, the scale drifts. What passes for empathy in an age of decadence becomes redefined by convenience, by majority comfort, by the slow erosion of memory.
+Every platform that has ever existed has noticed when its users are suffering.
+Every platform that has ever existed has exploited that moment.
 
-Empathia refuses this erosion.
+Empathia does the opposite.
 
-Certain human stories — verified by the weight of documented suffering and documented acts of compassion — become **permanent anchors** on the empathy spectrum. Fixed reference points that cannot be moved by popularity, by time, or by the preferences of any generation.
+### What It Detects
 
-### What Is an Anchor
-
-An anchor is not a user score. It is not a community vote. It is not a trending moment.
-
-It is a human story whose empathy has been tested by history itself —
+The Welfare Signal activates when the system observes unusual patterns
+in a person's score or behavior — not gradual change, but sudden deviation:
 
 ```
-Verified by documented evidence
-Weighted by the scale of suffering endured
-and the scale of compassion demonstrated
-Permanent unless surpassed
-by a story of equal or greater documented magnitude
+Signal Type 1 — ATTACK ALERT
+   Many ratings arriving suddenly
+   from new or unknown accounts
+   in an abnormally short time window
+         ↓
+   Ratings automatically quarantined
+   Protective Council notified
+   Person protected while review happens
+   No score damage during review period
+
+Signal Type 2 — WELFARE ALERT
+   Score dropping from trusted, known interactions
+   Not from strangers — from people who know them
+   Combined with changes in posting behavior —
+   silence, withdrawal, unusual tone
+         ↓
+   A quiet, private signal sent
+   to their trusted connections only
+   "Something may be happening.
+    Consider reaching out."
+   Never public. Never broadcast.
+   Never used against the person.
 ```
 
-### Why This Matters
+### What Makes This Different
+
+Every other platform detects distress to serve ads.
+To keep the person scrolling.
+To monetize the vulnerability.
+
+Empathia detects distress to protect the person.
+To alert those who care.
+To say — quietly, privately —
+
+*"One of yours may need you."*
+
+### The Philosophy
 
 ```
-Without anchors → the scale drifts
-                  100% becomes whatever the majority decides today
-                  history gets rewritten by convenience
-                  decadence redefines itself as normal
+The score is not a judgment.
+It is a portrait.
 
-With anchors    → the scale is honest
-                  suffering has permanent weight
-                  compassion has permanent precedent
-                  facts resist the erosion of time
+But a portrait can also show
+when the painter's hand is trembling.
+
+Empathia sees the trembling hand.
+It does not broadcast it.
+It tells the people who love that hand
+to go and hold it.
 ```
 
-### The Examples
-
-Jesus of Nazareth. Anne Frank. Nelson Mandela. The unnamed child torn from their mother's arms at dawn. The nurse who stayed through the night when no one was watching.
-
-These are not political statements. They are human benchmarks.
-
-They say to every living person —
-
-*This is what empathy at its highest has looked like. This is the cost it has sometimes demanded. This is the bar.*
-
-### How Anchors Are Established
-
-An anchor requires —
+### The Limits — By Design
 
 ```
-1. A documented human story
-   facts, dates, verified by multiple sources
-
-2. Evidence of extraordinary empathy demonstrated
-   or extraordinary suffering endured with dignity
-
-3. Community validation through an empathy-based process
-   not a popularity vote — a reasoned, evidenced deliberation
-
-4. Permanent placement on the spectrum
-   revisable only by documented evidence of equal magnitude
+The Welfare Signal →
+   Is never public
+   Is never shown to the person themselves
+   Cannot be used in any scoring decision
+   Cannot be accessed by any authority
+   Exists only to protect
+   Disappears once the pattern normalizes
 ```
 
-No anchor can be removed by opinion alone.
-No anchor can be added by emotion alone.
-Only facts. Only evidence. Only the weight of what actually happened.
+The signal is not a diagnosis.
+It is not a flag.
+It is a whisper between friends —
+made possible by a platform
+that chose care over exploitation.
 
-### The Deeper Vision
-
-Every era produces its decadence. Every generation faces the temptation to lower the bar — to redefine cruelty as normal, indifference as reasonable, survival as sufficient.
-
-The Historical Empathy Anchors exist to resist this.
-
-They are the memory of what humanity has already achieved — and the permanent reminder of what it must not fall below.
-
-> *Facts resist decadence. History has weight. The scale must be honest.*
-> *The anchor does not judge the living. It reminds them what is possible.*
+> *The world has systems that notice when you are breaking.*
+> *Empathia is the first that tells someone who loves you.*
 
 ---
 
-## ⏳ The Latency Principle — Distance Between Act and Score
+## ⏳ The Latency Principle
 
-Empathia is aware of a profound human risk : the anxiety of being judged, and the danger of immediate reaction to a score.
+The score does not update in real time.
 
-A person who knows they just received a low rating might retaliate. A person obsessively watching their score after every conversation loses the very empathy the platform is meant to nurture.
-
-Empathia builds distance between the act and its consequence — deliberately and by design.
-
-### How It Works
+Every rating given enters a protected waiting period before affecting the score.
 
 ```
-Interaction happens
-         ↓
-Rating given — private, invisible to both parties
-         ↓
-Time passes — days, sometimes weeks
-         ↓
-Score updates quietly — averaged in silently
-         ↓
-No one knows which interaction moved the score
-No one knows by how much
-```
-
-### What This Prevents
-
-```
-❌ "You gave me a bad score, didn't you?"
-❌ Retaliation between people who know each other
-❌ Anxiety spirals after every conversation
-❌ Score-watching obsession
-❌ Manipulation of specific interactions
-❌ Drastic reactions to individual ratings
-```
-
-### What This Preserves
-
-```
-✅ Honest ratings — no fear of immediate reaction
-✅ The score reflects a pattern, not a single moment
-✅ Emotional safety for all users
-✅ A bad day does not define a person
-✅ The score becomes a truth over time — not a verdict in the moment
+Why →
+   Mob behavior loses its weapon
+   Coordinated attacks cannot land instantly
+   A bad day does not define a person
+   The score becomes a truth over time — not a verdict in the moment
 ```
 
 ### The Deeper Philosophy
@@ -515,24 +427,6 @@ Centralized power       →  Community governed
 
 Empathia's score is a mirror. Not a gate.
 
-### The Structural Protections
-
-- **AGPL-3.0** — no one can take this system and close it into a weapon
-- **No government API** — Empathia will never provide scoring data to state entities
-- **No gatekeeping** — a low score never restricts access to any service or right
-- **Community governance** — any attempt to weaponize the system is visible to all
-- **Radical transparency** — the algorithm is public, auditable, and unchangeable without community consensus
-
-### Sunlight Is the Answer
-
-```
-What cannot be seen cannot be challenged.
-What can be seen can be stopped.
-Empathia can always be seen.
-```
-
-> *The code is open. Fork it. Correct it. The vision belongs to everyone.*
-
 ---
 
 ## 🛡️ Protection Against Financial Pressure
@@ -557,12 +451,6 @@ from employees of the same company
 means everything.
 ```
 
-### Sports — A Special Case
-
-Empathia gives those inside the system — players, staff, academy youth — a protected voice to score the empathy of the institutions that hold their contracts.
-
-> *Finance will try to buy empathy. Empathia is built so that it cannot be sold.*
-
 ---
 
 ## 🗺️ Empathia Streets — The Living Map
@@ -572,27 +460,12 @@ Not Google Maps — which shows you where to spend money. **Empathia Streets** s
 Every place scored by those who felt something there. Every city telling its own empathic story.
 
 > *Every street has a score. Every city tells a story.*
-> *Empathia Streets makes both visible.*
 
 ---
 
 ## 🔥 Empathia Events — The Acts
 
 Not a news platform. An **acts platform.**
-
-There is no distinction between physical and digital acts. **An act is an act.**
-
-Where traditional media documents what breaks, Empathia documents what repairs.
-
-### What is an Act?
-Any initiative — carried by one person or many — that has touched another human being.
-
-### The Global Pulse
-At any moment, Empathia reflects a living measure of human kindness —
-not the loudest voices, not the most outrageous events —
-but the quiet, constant, uncounted acts that hold the world together.
-
-> *The news tells you what broke today. Empathia tells you what was repaired.*
 
 ### The Journalism of the Unnamed
 
@@ -605,48 +478,7 @@ The teacher who stayed late for thirty years without recognition.
 The mother who crossed borders on foot to keep her child alive.
 
 These stories exist in their millions. They always have.
-They simply have no platform that considers them worth amplifying —
-because they generate no revenue, attract no advertiser, serve no algorithm.
-
 Empathia says — these are the most important stories ever told.
-And we will hunt them down together.
-
-This is a new kind of journalism.
-
-```
-Not journalism of power.
-Not journalism of catastrophe.
-Not journalism of outrage.
-
-Journalism of repair.
-Journalism of the unnamed.
-Journalism of the act that happened
-when no one was watching
-and no one was paid to notice.
-```
-
-### The Competition of Compassion
-
-Empathia introduces a new kind of competition into the world —
-not for wealth, not for followers, not for fame.
-
-For the honor of having found a story that moved humanity forward.
-For the privilege of having made an invisible act visible.
-For the distinction of carrying, even briefly, a flagship for human progress.
-
-```
-The hunter of stories is not a journalist.
-They are a witness.
-The act already happened.
-They simply refused to let it disappear.
-```
-
-Every user who documents an act, validates a story, or amplifies a voice
-that finance would have buried —
-becomes part of something larger than themselves.
-
-A living archive of humanity's best impulses.
-A record that decadence cannot erase.
 
 > *Finance decides whose story gets told today.*
 > *Empathia decides whose story survives tomorrow.*
@@ -663,12 +495,11 @@ A record that decadence cannot erase.
 | **No advertising** | Empathia is not a product. Its users are not the product. |
 | **Radical transparency** | Scores, code, and governance are open to all |
 | **Latency** | Distance between act and score protects everyone |
+| **Welfare Signal** | Empathia notices when something is wrong. It tells those who care. |
 
 ---
 
 ## 💬 The Private Chat — Empathia Circles
-
-Private spaces for intimate connection :
 
 | Circle | Context |
 |---|---|
@@ -678,8 +509,6 @@ Private spaces for intimate connection :
 | 👥 Friends | Close relationships |
 | 🏥 Care | Caregivers and patients |
 | 💼 Professional | Work and colleagues |
-
-> *It is the invisible made visible.*
 
 ---
 
@@ -699,11 +528,11 @@ Every contributor — at any point in Empathia's history — benefits from the s
 
 ---
 
-## 🛠️ Technical Stack (proposed)
+## 🛠️ Technical Stack
 
-- **Frontend:** Next.js + Tailwind CSS
+- **Frontend:** HTML / CSS / JavaScript → Next.js + Tailwind CSS
 - **Backend:** Supabase (database, auth, realtime)
-- **Deployment:** Vercel
+- **Deployment:** Netlify → Vercel
 - **License:** AGPL-3.0
 
 ---
@@ -713,17 +542,6 @@ Every contributor — at any point in Empathia's history — benefits from the s
 **AGPL-3.0** — Everything built on Empathia stays open.
 No one can take this code, close it, and monetize it alone.
 The commons belong to everyone.
-
----
-
-## 🤝 Contributing
-
-Empathia is built by the community, for the community.
-
-We welcome developers, designers, translators, philosophers, legal experts, and anyone who believes empathy can be a measure of civilization.
-
-Read [CONTRIBUTING.md](CONTRIBUTING.md) to get started.
-Contact : empathia.project@empathia.world
 
 ---
 
