@@ -1,7 +1,7 @@
-# 🌐 Empathia — v0.15
+# 🌐 Empathia — v0.16
 *March 2026*
 
-> Added: The Dump Principle — the community protects itself. No sweatshops. No invisible sacrifice. The burden belongs to everyone. The sacrifice belongs to no one alone.
+> Added: Public Streams, Fireworks, The Element System, The Archive of Fireworks, Research Streams, Subchats. Empathia is not just a mirror for pain — it is a celebration of human connection at its most extraordinary.
 
 > This is the current version.
 
@@ -589,7 +589,168 @@ Empathia says — these are the most important stories ever told.
 
 ---
 
-## ⚖️ Principles
+## 🎆 Public Streams + The Fireworks System — v0.16
+
+*Empathia is not only a mirror for pain. It is a celebration of connection.*
+
+### Public Streams
+
+Any conversation on Empathia can be made public by mutual consent of both participants.
+
+```
+Public conversation →
+   Highlighted in the feed
+   Anyone can watch in real time
+   Like a campfire
+   Everyone welcome to sit around it
+   
+Archived automatically if →
+   A combo effect was triggered
+   The moment was extraordinary
+   The world should remember it
+```
+
+### The Scoreboard
+
+When a conversation is streamed publicly, viewers participate through emoji reactions. The scoreboard fills as people watch and react.
+
+```
+Viewers react →
+   Scoreboard fills
+   
+When scoreboard fills →
+   FIREWORK EVENT 🎆
+   
+The type of firework depends on →
+   Which emojis filled the board
+   Which elements combined
+   Which combos were triggered
+```
+
+### The Element System
+
+Every emoji in Empathia belongs to an element type. Elements combine to create increasingly spectacular firework effects.
+
+```
+🔥 Fire
+💨 Wind
+⚡ Electricity
+🌿 Wood
+⚙️ Iron
+🪨 Rock
+✨ Light
+🌑 Darkness
+🌱 Life
+💀 Death
+```
+
+```
+Element combos →
+   Fire + Wind    = 🌪️ Firestorm
+   Light + Dark   = 🌓 Eclipse
+   Wood + Fire    = 💥 Inferno
+   Life + Death   = 🌗 Transcendence
+   All elements   = 🌌 The Grand Firework
+```
+
+The combo chart is displayed in the chat menu — a recipe book of joy showing which conversation types generate which effects.
+
+```
+"Start a conversation about cats 🐱
+ while someone nearby talks about dogs 🐶
+ and watch what happens."
+```
+
+### The Combo System
+
+Different emoji and element types are compatible. When multiple types combine —
+
+```
+Single element    → Standard firework
+Two elements      → Combo effect
+Three elements    → Spectacular combo
+Rare combinations → Legendary events
+                    saved permanently
+```
+
+Cat 🐱 conversations + Dog 🐶 conversations = Animal Combo firework, more beautiful than either alone.
+
+### The Archive of Fireworks
+
+Conversations that triggered combo effects are automatically saved to Empathia's Historical Stream Archive. Forever.
+
+```
+Anyone can →
+   Replay the conversation
+   Watch the scoreboard fill again
+   Feel the momentum in retrospect
+   Learn from what made it extraordinary
+   Study the element combinations
+```
+
+```
+"The most empathetic conversations
+in human history —
+preserved forever.
+Replayable. Teachable. Alive."
+```
+
+---
+
+## 🔬 Research Streams + Subchats — v0.16
+
+*The most important discoveries in history happened between two people talking. Empathia gives them a stage.*
+
+### Research Streams
+
+A specialized conversation mode for advanced technical and scientific discussion.
+
+```
+Research Stream features →
+   Chemistry tables — shared in real time
+   Molecular structure displays
+   Genetic sequence sharing
+   Mathematical proof building
+   
+Two researchers meet →
+   Build theories together
+   The world watches
+   Students learn in real time
+   Fireworks when breakthrough happens
+```
+
+### Subchats
+
+Every livestreamed conversation — especially heavy scientific ones — can branch into parallel subchats.
+
+```
+Main stream →
+   Two experts discussing
+   molecular combinations
+   
+Subchats branch off →
+   Subchat A → students argue path 1
+   Subchat B → students argue path 2
+   Subchat C → philosophers on implications
+   
+When subchat reaches consensus →
+   Firework in that subchat
+   
+When main stream and subchats
+converge on same conclusion →
+   Grand Combo Firework 🌌
+```
+
+Knowledge flows both ways. The experts learn from the students. The students learn from each other. The world watches it happen.
+
+```
+"What took decades in university halls
+can happen in an afternoon
+when the right minds find each other
+on Empathia."
+```
+
+---
 
 | Principle | Meaning |
 |---|---|
@@ -599,7 +760,12 @@ Empathia says — these are the most important stories ever told.
 | **No advertising** | Empathia is not a product. Its users are not the product. |
 | **Radical transparency** | Scores, code, and governance are open to all |
 | **Latency** | Distance between act and score protects everyone |
-| **Dump Principle** | Content below threshold — media erased, text preserved, no sweatshops |
+| **Public Streams** | Conversations made public by consent — the world watches, reacts, celebrates |
+| **Fireworks** | When chemistry happens — the app celebrates with the community |
+| **Element System** | Every emoji has a type — combinations generate increasingly spectacular effects |
+| **Archive of Fireworks** | Extraordinary conversations preserved forever — replayable, teachable |
+| **Research Streams** | Advanced scientific discussion with shared tables and real-time theory building |
+| **Subchats** | Parallel debates branching from main streams — knowledge flowing both ways |
 | **Moderation Commons** | Those who moderate more are honored, supported, and protected from drain |
 
 ---
