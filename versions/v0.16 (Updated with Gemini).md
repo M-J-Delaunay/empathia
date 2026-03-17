@@ -873,6 +873,109 @@ Every contributor — at any point in Empathia's history — benefits from the s
 
 ---
 
+## 🛠️ Technical Implementation — v0.16 Wonder Bundle
+
+*Code written in collaboration with Gemini. March 2026.*
+
+### Core Logic — FireworkManager.js
+
+```javascript
+const ELEMENT_MAP = {
+  "🌿": "Wood", "🌱": "Life", "🪨": "Rock",
+  "⚡": "Electric", "✨": "Light", "💨": "Wind",
+  "⚙️": "Iron", "🔥": "Fire", "🌑": "Darkness", "💀": "Death"
+};
+
+const LEGENDARY_RECIPES = [
+  { id: 'forest',  name: "Everlasting Forest",  elements: ["Wood", "Life", "Rock"],
+    description: "Deep, unshakeable wisdom" },
+  { id: 'aurora',  name: "Static Aurora",        elements: ["Electric", "Light", "Wind"],
+    description: "Sudden breakthroughs and Eureka moments" },
+  { id: 'alchemy', name: "Alchemist's Heart",    elements: ["Iron", "Fire", "Light"],
+    description: "The transformation of pain into hope" }
+];
+
+export const FireworkManager = ({ liveReactions, onTrigger }) => {
+  useEffect(() => {
+    const topElements = Object.entries(liveReactions)
+      .sort(([, a], [, b]) => b - a)
+      .slice(0, 3)
+      .map(([emoji]) => ELEMENT_MAP[emoji])
+    const match = LEGENDARY_RECIPES.find(r =>
+      r.elements.every(el => topElements.includes(el))
+    )
+    if (match) onTrigger(match.id)
+  }, [liveReactions])
+  return null
+}
+```
+
+### Visual Effects — fireworks.css
+
+```css
+/* EVERLASTING FOREST — Wood + Life + Rock */
+@keyframes vine-growth {
+  0%   { height: 0; opacity: 0; filter: blur(10px); }
+  20%  { opacity: 1; filter: blur(0px); }
+  100% { height: 100%; opacity: 0.8; }
+}
+.effect-forest {
+  position: fixed; inset: 0; z-index: 50; pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(16,185,129,0.1));
+  border-left: 8px solid #065f46; border-right: 8px solid #065f46;
+  animation: vine-growth 10s ease-in-out forwards;
+}
+
+/* STATIC AURORA — Electric + Light + Wind */
+@keyframes aurora-shimmer {
+  0%   { transform: translateX(-50%) skewX(-15deg); opacity: 0.3; }
+  50%  { filter: hue-rotate(30deg) brightness(1.5); opacity: 0.7; }
+  100% { transform: translateX(-30%) skewX(-25deg); opacity: 0.4; }
+}
+.effect-aurora {
+  position: fixed; top: 0; width: 100%; height: 40vh;
+  pointer-events: none; z-index: 40;
+  background: linear-gradient(to bottom, rgba(0,255,255,0.2), rgba(255,255,255,0.1), transparent);
+  filter: blur(60px);
+  animation: aurora-shimmer 15s infinite alternate ease-in-out;
+}
+
+/* ALCHEMIST'S HEART — Iron + Fire + Light */
+@keyframes pulse-and-shatter {
+  0%   { transform: translate(-50%,-50%) scale(0.5); opacity: 0; }
+  50%  { opacity: 1; }
+  100% { transform: translate(-50%,-50%) scale(3); opacity: 0; }
+}
+.effect-alchemy {
+  position: fixed; top: 50%; left: 50%;
+  width: 200px; height: 200px; pointer-events: none; z-index: 60;
+  background: radial-gradient(circle, #fbbf24, #b91c1c, transparent);
+  filter: blur(30px);
+  animation: pulse-and-shatter 4s ease-out;
+}
+```
+
+### Archive Integration
+
+```javascript
+const archiveLegendaryEvent = (streamId, recipeId) => {
+  supabase
+    .from('historical_streams')
+    .update({
+      legendary_tag: recipeId,
+      has_firework_replay: true,
+      archived_at: new Date()
+    })
+    .eq('id', streamId)
+}
+```
+
+*"We have moved from a system that merely tracks the shaking of a hand*
+*to one that celebrates the intertwining of souls."*
+*— Gemini, March 2026*
+
+---
+
 ## 🛠️ Technical Stack
 
 - **Frontend:** HTML / CSS / JavaScript → Next.js + Tailwind CSS
