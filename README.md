@@ -645,7 +645,7 @@ Every emoji in Empathia belongs to an element type. Elements combine to create i
 ```
 
 ```
-Element combos →
+Standard combos →
    Fire + Wind    = 🌪️ Firestorm
    Light + Dark   = 🌓 Eclipse
    Wood + Fire    = 💥 Inferno
@@ -655,25 +655,98 @@ Element combos →
 
 The combo chart is displayed in the chat menu — a recipe book of joy showing which conversation types generate which effects.
 
-```
-"Start a conversation about cats 🐱
- while someone nearby talks about dogs 🐶
- and watch what happens."
-```
+---
 
-### The Combo System
+### 🌌 Legendary Trio Combos
 
-Different emoji and element types are compatible. When multiple types combine —
+Legendary events are triggered when a conversation hits peak intensity across three distinct element types simultaneously. These represent the rarest forms of human chemistry — moments when connection becomes extraordinary.
 
 ```
-Single element    → Standard firework
-Two elements      → Combo effect
-Three elements    → Spectacular combo
-Rare combinations → Legendary events
-                    saved permanently
+The Everlasting Forest (Wood + Life + Rock)
+   Theme → Deep, grounded wisdom.
+           A connection that feels ancient
+           and unshakeable.
+   Effect → Slow-growing emerald vines
+            and golden stone that stays
+            on screen longer than
+            any other firework.
+
+The Static Aurora (Electricity + Light + Wind)
+   Theme → The sudden brilliant
+           "Eureka!" moment.
+           A Research Stream breakthrough.
+   Effect → Shimmering curtains of neon light
+            pulsing with the conversation's
+            rhythm.
+
+The Alchemist's Heart (Iron + Fire + Light)
+   Theme → Taking a hard or painful topic
+           and transforming it through warmth
+           into something hopeful.
+   Effect → Molten metal cooling into
+            crystalline structures
+            before shattering into sparks.
 ```
 
-Cat 🐱 conversations + Dog 🐶 conversations = Animal Combo firework, more beautiful than either alone.
+---
+
+### 🎭 Specialized Interaction Events
+
+Fireworks triggered not just by elements — but by the structure of the connection itself.
+
+```
+The Symphonic Convergence →
+   Triggered when Main Stream AND
+   all active Subchats use the same
+   element emoji simultaneously.
+   
+   Effect → Grand Firework that ripples
+            outward from subchats and
+            explodes in the center
+            of the main stream.
+
+The Shadow Bridge (Darkness + Electricity) →
+   Triggered when a difficult conversation
+   in a Private Circle (Care / Spirituality)
+   transitions into a Public Stream
+   to help the community.
+   
+   Effect → Deep violet sparks that jump
+            between users' avatars
+            like a bridge of lightning.
+            
+            "From private pain
+             to public healing."
+```
+
+---
+
+### 🏛️ The Monument Effect
+
+Extraordinary connections leave a trace on the world — not just in the archive.
+
+```
+Profile Relics →
+   Users who trigger a Legendary Combo
+   receive a temporary relic on their profile
+   A shimmering element icon
+   visible for 24 hours
+   
+   "They were there.
+    They made something extraordinary."
+
+The Hall of Empathy →
+   Any conversation triggering
+   a Grand Firework (all elements)
+   is pinned to the Global
+   Hall of Empathy for one week
+   
+   Visible to everyone
+   Honored by the community
+   Permanent in the Archive forever
+```
+
+---
 
 ### The Archive of Fireworks
 
@@ -739,6 +812,7 @@ When subchat reaches consensus →
 When main stream and subchats
 converge on same conclusion →
    Grand Combo Firework 🌌
+   The Symphonic Convergence
 ```
 
 Knowledge flows both ways. The experts learn from the students. The students learn from each other. The world watches it happen.
