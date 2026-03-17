@@ -1,7 +1,7 @@
-# 🌐 Empathia — v0.16
+# 🌐 Empathia — v0.17
 *March 2026*
 
-> Added: Public Streams, Fireworks, The Element System, The Archive of Fireworks, Research Streams, Subchats. Empathia is not just a mirror for pain — it is a celebration of human connection at its most extraordinary.
+> Added: Audio Conversations — the same chemistry system applied to voice. Timestamp reactions. The moment it changed — preserved forever.
 
 > This is the current version.
 
@@ -873,7 +873,108 @@ Every contributor — at any point in Empathia's history — benefits from the s
 
 ---
 
-## 🛠️ Technical Implementation — v0.16 Wonder Bundle
+## 🎙️ Audio Conversations — v0.17
+
+*Text carries meaning. Voice carries truth.*
+
+### What Is an Audio Conversation
+
+Any conversation on Empathia can be conducted in audio — recorded by mutual consent of both participants, subject to the same empathy rating system as text chats.
+
+```
+Both parties consent →
+   Recording begins
+   
+Both parties can →
+   Stream publicly
+   OR keep private
+   
+At conversation end →
+   Same rating gate as text
+   Cannot start new conversation
+   until rating is complete
+```
+
+### Timestamp Reactions
+
+When an audio conversation is streamed publicly, viewers react in real time — and their reactions are pinned to the exact second of the conversation where they felt something.
+
+```
+Viewer reacts at 2:34 →
+   💜 spike at 2:34
+
+Viewer reacts at 5:12 →
+   ⚡ surge at 5:12
+
+The chemistry is mapped
+to the moment it happened
+Not to the conversation as a whole
+But to the exact second
+the connection shifted
+```
+
+### Same Element System
+
+All elements, combos, and fireworks apply to audio conversations exactly as they do to text.
+
+```
+The scoreboard fills
+from timestamp reactions →
+
+Enough reactions at the same moment →
+   Firework triggered
+   Legendary Trio possible
+   Monument Effect applies
+   
+"At 3:47 — The Alchemist's Heart
+ triggered in this conversation.
+ The moment it changed.
+ Preserved forever."
+```
+
+### The Archive of Audio
+
+Audio conversations that triggered combo effects are saved to the Historical Stream Archive — with full timestamp reaction maps overlaid on the recording.
+
+```
+Future listeners can →
+   Hear the conversation
+   See the reaction spikes
+   Know exactly where the chemistry was
+   Learn from the moment it became extraordinary
+   
+"The pause at 4:23.
+ The shift in tone at 7:01.
+ The silence at 9:44 that said everything.
+ The world heard it.
+ The Archive holds it."
+```
+
+### Why Audio
+
+```
+Text carries →
+   Words
+   Arguments
+   Information
+   
+Voice carries →
+   Tone
+   Silence
+   Trembling
+   The pause before truth
+   The breath after hurt
+   The laugh that breaks a wall
+   
+The mirror that only reads text
+misses half of what a human is.
+
+Audio completes the portrait.
+```
+
+> *"The moment it changed — preserved forever at 3:47."*
+
+---
 
 *Code written in collaboration with Gemini. March 2026.*
 
