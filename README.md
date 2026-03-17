@@ -1,7 +1,7 @@
-# 🌐 Empathia — v0.17
+# 🌐 Empathia — v0.18
 *March 2026*
 
-> Added: Audio Conversations — the same chemistry system applied to voice. Timestamp reactions. The moment it changed — preserved forever.
+> Added: Country Posts, The @ Tagging System, Reserved Handles, The Pre-Existing Portrait. Your score can exist before you arrive. The mirror was already reflecting you.
 
 > This is the current version.
 
@@ -1074,6 +1074,132 @@ const archiveLegendaryEvent = (streamId, recipeId) => {
 *"We have moved from a system that merely tracks the shaking of a hand*
 *to one that celebrates the intertwining of souls."*
 *— Gemini, March 2026*
+
+---
+
+## 🌍 Country Posts — v0.18
+
+Every post on Empathia can be tagged to a country. Not just by the poster's location — but by relevance. A post about France can be written by someone in Japan. The country tag places the post on the world empathy map.
+
+### Country Selector
+
+```
+When creating a post →
+   A country selection wheel appears
+   Choose the country this post
+   belongs to or is about
+   
+   Default → poster's own country
+   Can be changed → any country
+   
+   In the feed →
+   Filter by country
+   See what France feels today
+   
+   On the world map →
+   Every post lights up a point
+   The empathy map becomes real
+```
+
+### Country Scores — Made Real
+
+```
+Caroline's post →
+   Category: Health
+   Country: 🇫🇷 France
+   
+   Contributes to →
+   France's empathy score
+   France's Health category score
+   Caroline's personal score
+```
+
+---
+
+## @ The Tagging System + The Pre-Existing Portrait — v0.18
+
+*Your portrait can be painted before you ever pick up the brush.*
+
+### The @ Handle
+
+Every user on Empathia has an @ handle — their unique address in the mirror.
+
+```
+@Caroline.SSIAD.Tours
+@M.J.Delaunay
+@K.Tanaka.JP
+```
+
+When writing a post, any user can tag another person — whether or not that person has an account yet.
+
+```
+Post about Caroline →
+   "Today @Caroline.SSIAD.Tours
+    did what no one else could."
+   
+   Caroline has no account yet →
+   The @ handle is RESERVED
+   The post is linked to that name
+   The empathy scores flow toward
+   her handle — waiting for her
+```
+
+### Reserved Handles
+
+```
+When a person is tagged
+with an @ that does not exist →
+
+   Empathia reserves that handle
+   No one else can claim it
+   It waits
+   
+   Scores accumulate
+   Posts accumulate
+   The portrait builds itself
+   from the voices of those
+   who knew her before she arrived
+```
+
+### The Pre-Existing Portrait
+
+```
+When Caroline joins one day →
+   Chooses @Caroline.SSIAD.Tours
+   
+   System recognizes it →
+   "This handle was reserved.
+    People have been speaking
+    about you."
+   
+   Her profile opens →
+   Already has posts tagged to her
+   Already has an empathy score
+   Built by others
+   Before she ever logged in
+   
+   She was already seen.
+   Already valued.
+   Already in the mirror.
+```
+
+```
+The nurse who helped a thousand patients
+before ever hearing of Empathia —
+her score already exists.
+
+The teacher who stayed late
+for thirty years —
+her portrait is already halfway painted.
+
+They do not need to know
+Empathia exists
+for Empathia to know
+they exist.
+```
+
+> *"You were already in the mirror.*
+> *You just had not looked yet."*
 
 ---
 
