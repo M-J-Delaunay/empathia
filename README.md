@@ -1,7 +1,7 @@
-# 🌐 Empathia — v0.14
+# 🌐 Empathia — v0.15
 *March 2026*
 
-> Added: The Welfare Signal — Empathia notices when something is wrong. Not to exploit it. To protect it.
+> Added: The Dump Principle — the community protects itself. No sweatshops. No invisible sacrifice. The burden belongs to everyone. The sacrifice belongs to no one alone.
 
 > This is the current version.
 
@@ -370,7 +370,111 @@ that chose care over exploitation.
 
 ---
 
-## ⏳ The Latency Principle
+## 🗑️ The Dump Principle — v0.15
+
+*The last sweatshop closes today.*
+
+Every social network that has ever existed has hired human beings to watch the worst of humanity — hour after hour, day after day — so that the rest of us never have to see it. These people are called content moderators. They work in shadows. They are paid poorly. They are traumatized systematically. They have no empathy score. No mirror. No recognition.
+
+Empathia ends this.
+
+### How It Works
+
+```
+Content receives empathy scores
+from the community over time.
+
+If a post's empathy score falls
+below the community threshold →
+
+   Media → ERASED immediately
+   Videos, images, audio deleted
+   Cannot be retrieved
+   Cannot spread further harm
+
+   Text (title + body) → PRESERVED
+   Archived, never displayed publicly
+   Liberty of speech honored
+   The voice existed — it is recorded
+   But the weapon it carried is destroyed
+```
+
+*"We do not erase voices. We contain the damage they carry."*
+
+### No Human Watches This
+
+```
+No moderator reviews flagged content.
+No person sits in a room
+watching horror all day
+so others don't have to.
+
+The community scores.
+The algorithm removes.
+The threshold protects.
+
+The burden belongs to everyone.
+The sacrifice belongs to no one alone.
+```
+
+### The User Who Posted
+
+```
+Content falls below threshold →
+   User cannot post again
+   until empathy score rises
+   
+   Path back →
+   Conversation only
+   No posting until threshold met
+   Rehabilitation — not punishment
+   The mirror shows them
+   what they became
+   and offers a way back
+```
+
+### The Moderation Commons
+
+Some community members will choose to moderate more than others — reviewing borderline content, protecting the threshold, keeping the commons clean.
+
+```
+Those who moderate beyond the average →
+   Become Contributors automatically
+   Named. Recognized. Valued.
+   
+   Can receive community donations
+   through the Acts funding system
+   
+   Protection clause →
+   A daily moderation limit is enforced
+   Cannot exceed it regardless of choice
+   The platform protects them
+   from moral drain
+   
+   "You have done enough today.
+    Come back tomorrow."
+```
+
+### Why This Matters
+
+```
+Every major platform today →
+   Pays humans to be traumatized
+   Calls it "content moderation"
+   Buries them in NDAs
+   Replaces them when they break
+   
+Empathia →
+   Distributes the burden across
+   every member of the community
+   Limits individual exposure
+   Honors those who give more
+   Protects them from giving too much
+```
+
+> *The last sweatshop closes the day Empathia reaches scale.*
+
+---
 
 The score does not update in real time.
 
@@ -495,7 +599,8 @@ Empathia says — these are the most important stories ever told.
 | **No advertising** | Empathia is not a product. Its users are not the product. |
 | **Radical transparency** | Scores, code, and governance are open to all |
 | **Latency** | Distance between act and score protects everyone |
-| **Welfare Signal** | Empathia notices when something is wrong. It tells those who care. |
+| **Dump Principle** | Content below threshold — media erased, text preserved, no sweatshops |
+| **Moderation Commons** | Those who moderate more are honored, supported, and protected from drain |
 
 ---
 
