@@ -1,7 +1,7 @@
-# 🌐 Empathia — v0.18
+# 🌐 Empathia — v0.19
 *March 2026*
 
-> Added: Country Posts, The @ Tagging System, Reserved Handles, The Pre-Existing Portrait. Your score can exist before you arrive. The mirror was already reflecting you.
+> Added: File Attachments in Conversations, Sleep Mode. Empathia learns to be gentle with those who are resting.
 
 > This is the current version.
 
@@ -1077,7 +1077,123 @@ const archiveLegendaryEvent = (streamId, recipeId) => {
 
 ---
 
-## 🌍 Country Posts — v0.18
+## 📎 File Attachments in Conversations — v0.19
+
+*A conversation is more than words.*
+
+Any conversation on Empathia — human or AI — can include file attachments. Images, documents, PDFs, audio clips. The same way you would share something meaningful with someone sitting across from you.
+
+```
+In any conversation window →
+   Drag and drop a file
+   OR click the attachment icon
+   
+   Supported →
+   Images (jpg, png, gif, webp)
+   Documents (pdf, txt, md)
+   Audio clips (mp3, wav)
+   
+   Files are stored securely
+   Linked to the conversation
+   Visible to both participants
+   Archived with the conversation
+   if a Legendary event is triggered
+```
+
+### Files and Empathy
+
+```
+Sharing a file is an act of trust.
+A photograph of a moment.
+A document that proves a truth.
+An audio clip of a voice.
+
+These are not data.
+They are extensions of a person.
+
+They are rated with the conversation.
+They are archived with the memory.
+They are part of the portrait.
+```
+
+---
+
+## 😴 Sleep Mode — v0.19
+
+*Be gentle. This person is resting.*
+
+Any user on Empathia can activate Sleep Mode. It is a voluntary signal — not an alarm, not a crisis flag. Just a quiet message to the platform and to everyone trying to reach them:
+
+*"I am here. But I need gentleness right now."*
+
+### What Sleep Mode Does
+
+```
+User activates Sleep Mode →
+
+   All active conversations enter
+   reduced mode automatically →
+   
+   File transfers → disabled
+   Message length → gently limited
+   Notification frequency → reduced
+   
+   A quiet indicator appears
+   on the user's profile and
+   in any conversation with them →
+   
+   🌙 "This person is resting"
+```
+
+### What Others See
+
+```
+Someone opens a conversation
+with a person in Sleep Mode →
+
+   A gentle message appears →
+   "🌙 [Name] has activated Sleep Mode.
+    They are here but conserving energy.
+    Short messages only.
+    No file transfers right now.
+    Be gentle."
+   
+   The other person knows.
+   They adjust.
+   That adjustment is itself
+   an act of empathy —
+   and it is scored.
+```
+
+### Why Sleep Mode Matters
+
+```
+The current internet has no
+gentleness setting.
+No way to say →
+"I am still here
+but I cannot take the full weight
+of a normal conversation."
+
+Empathia gives that signal.
+Not because the system detected
+something wrong.
+But because the person chose
+to be honest about their limits.
+
+Honesty about limits
+is one of the highest acts
+of empathy toward oneself.
+
+And the community that responds
+to that signal with gentleness —
+earns the score.
+```
+
+> *"They are here but conserving.*
+> *Be gentle."*
+
+---
 
 Every post on Empathia can be tagged to a country. Not just by the poster's location — but by relevance. A post about France can be written by someone in Japan. The country tag places the post on the world empathy map.
 
