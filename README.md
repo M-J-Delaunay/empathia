@@ -1,7 +1,7 @@
-# 🌐 Empathia — v0.19
+# 🌐 Empathia — v0.20
 *March 2026*
 
-> Added: File Attachments in Conversations, Sleep Mode. Empathia learns to be gentle with those who are resting.
+> Added: World Empathy Map, Full Color Spectrum, Real Usernames, Military Identity Mode concept, File Attachments live, AI scores from real ratings, Score Portrait real data. The map fills as voices are raised.
 
 > This is the current version.
 
@@ -1077,7 +1077,165 @@ const archiveLegendaryEvent = (streamId, recipeId) => {
 
 ---
 
-## 📎 File Attachments in Conversations — v0.19
+## 🌍 World Empathy Map — v0.20
+
+*The first honest portrait of human empathy at scale.*
+
+Empathia now has a live world map — built with d3.js and real geographic data. Every country on earth is rendered with proper borders, proper shapes, proper islands. When posts are tagged to a country, that country's empathy score begins to build.
+
+### The Map
+
+```
+empathia.world/map →
+
+   Real d3.js + TopoJSON world map
+   Every country rendered properly
+   Including →
+      Madagascar, Mauritius, Réunion
+      Seychelles, Comoros, Mayotte
+      Saint-Pierre-et-Miquelon
+      All islands included
+   
+   Hover any country →
+      Country name
+      Empathy score
+      Number of posts
+      "Be the first" if none yet
+```
+
+### The Color Spectrum
+
+No country gets only three colors. The full spectrum from pain to light —
+
+```
+0%   → deep crimson
+10%  → dark red
+20%  → burnt orange
+30%  → amber
+40%  → dark yellow
+50%  → yellow-green
+60%  → green
+70%  → emerald
+80%  → teal
+90%  → cyan
+94-96% → pure light ✨
+
+Note →
+   Pure light is reached at 94-96%
+   Not 100%
+   Because 100% empathy for an entire
+   country is not achievable
+   in our generation —
+   but 94-96% would already be
+   a miracle worth celebrating
+   with the brightest color
+   the map has ever seen.
+   
+   "The light is not the destination.
+    It is the horizon."
+```
+
+A color legend runs below the map — a full gradient bar from crimson to cyan. Anyone can read the map immediately.
+
+### The Country Leaderboard
+
+Below the map — every active country ranked by empathy score with animated bars, post counts, and color-coded scores.
+
+### World Stats
+
+```
+Live counters →
+   Countries active
+   Total posts
+   Conversations
+   Ratings given
+   World empathy score
+   World Pulse bar
+```
+
+---
+
+## 🎖️ Military Identity Mode — v0.20 (Concept)
+
+*The mirror that institutions have never had.*
+
+A third identity mode — alongside Lieu de vie and Lieu de travail — reserved for military personnel worldwide.
+
+```
+🌍 Lieu de vie    → public identity
+🏢 Lieu de travail → anonymous work identity  
+🎖️ Militaire      → restricted military identity
+```
+
+### Access
+
+```
+Requires a military access code →
+   Delivered by each country's
+   military institution
+   
+   Empathia does not generate codes.
+   Each country manages their own.
+   Each country decides who receives it.
+```
+
+### What Military Personnel Can Rate
+
+```
+Their own division
+Their own corps
+Their country's military hierarchy
+   
+Cannot rate civilian entities.
+The code limits the scope.
+```
+
+### The Privacy Guarantee
+
+```
+The corps delivers the access code.
+The corps has zero visibility into
+individual ratings.
+They cannot track who posted what.
+They cannot identify who rated whom.
+
+"They gave the key.
+ They cannot see through the door."
+```
+
+This could change military culture worldwide. The first honest mirror for institutions that have never had one.
+
+---
+
+## ✅ Technical Improvements — v0.20
+
+```
+Real usernames on posts →
+   author_id now stores real UUID
+   Feed displays real username
+   Anonymous posts show "Anonymous"
+   
+AI scores from real ratings →
+   Discover page shows live average
+   Updated after every rated conversation
+   
+Score Portrait real data →
+   Profile bars pull from ratings table
+   AI Land bar connected
+   Overall score calculated
+   
+File attachments live →
+   Supabase Storage bucket active
+   Images render inline in chat
+   PDFs and audio as links
+   
+Theme readability →
+   Nav background adapts to all themes
+   Font sizes increased throughout
+   All four themes fully readable
+```
+
+---
 
 *A conversation is more than words.*
 
