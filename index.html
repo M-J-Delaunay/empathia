@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Empathia — Are you empathetic?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Check if already logged in → redirect to feed
+    window.addEventListener('DOMContentLoaded', async () => {
+      const sb = window.supabase.createClient(
+        'https://drfmruojofxkjlqkyizk.supabase.co',
+        'sb_publishable_-yuAzbx3YeOpBKK1X-LYdg_s14uMHzS'
+      )
+      const { data: { session } } = await sb.auth.getSession()
+      if (session) {
+        window.location.href = '/feed.html'
+      }
+    })
+  </script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:    #c0392b;
+      --orange: #e67e22;
+      --yellow: #f1c40f;
+      --green:  #27ae60;
+      --blue:   #2980b9;
+      --violet: #8e44ad;
+      --bg:     #0a0a0f;
+      --text:   #e8e4dc;
+      --muted:  #6b6760;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── GRAIN OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.4;
+    }
+
+    /* ── SPECTRUM BAR ── */
+    .spectrum {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg,
+        var(--red), var(--orange), var(--yellow),
+        var(--green), var(--blue), var(--violet));
+      z-index: 100;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 3px; left: 0; right: 0;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: linear-gradient(to bottom, rgba(10,10,15,0.95), transparent);
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .nav-logo span {
+      color: var(--violet);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.2s forwards;
+    }
+
+    .hero-question {
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.5s forwards;
+    }
+
+    .hero-question em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 300;
+      color: var(--muted);
+      max-width: 600px;
+      line-height: 1.8;
+      margin-bottom: 4rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.8s forwards;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeUp 1s ease 1.1s forwards;
+    }
+
+    .btn-primary {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, var(--blue), var(--violet));
+      color: white;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .btn-primary:hover {
+      opacity: 0.85;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 1rem 2.5rem;
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid #2a2a35;
+      cursor: pointer;
+      text-decoration: none;
+      transition: color 0.3s, border-color 0.3s, transform 0.3s;
+    }
+
+    .btn-secondary:hover {
+      color: var(--text);
+      border-color: var(--muted);
+      transform: translateY(-2px);
+    }
+
+    /* ── SCORE DEMO ── */
+    .score-demo {
+      margin-top: 6rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 1.4s forwards;
+    }
+
+    .score-bar {
+      width: 200px;
+      height: 4px;
+      background: #1a1a25;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .score-fill {
+      height: 100%;
+      width: 72%;
+      background: linear-gradient(90deg, var(--green), var(--blue), var(--violet));
+      border-radius: 2px;
+      animation: fillBar 2s ease 2s both;
+    }
+
+    .score-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+    }
+
+    .score-value {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--violet);
+    }
+
+    /* ── FEATURES ── */
+    .features {
+      padding: 8rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .features-title {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      color: var(--muted);
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 5rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 3rem;
+    }
+
+    .feature {
+      border-top: 1px solid #1a1a25;
+      padding-top: 2rem;
+    }
+
+    .feature-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-title {
+      font-size: 1.4rem;
+      font-weight: 300;
+      font-style: italic;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+
+    .feature-text {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    /* ── SPECTRUM SECTION ── */
+    .spectrum-section {
+      padding: 6rem 2rem;
+      text-align: center;
+      border-top: 1px solid #1a1a25;
+      border-bottom: 1px solid #1a1a25;
+    }
+
+    .spectrum-title {
+      font-size: clamp(1.5rem, 4vw, 3rem);
+      font-weight: 300;
+      font-style: italic;
+      margin-bottom: 3rem;
+      color: var(--text);
+    }
+
+    .spectrum-full {
+      height: 8px;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      background: linear-gradient(90deg,
+        var(--red), var(--orange), var(--yellow),
+        var(--green), var(--blue), var(--violet));
+      border-radius: 4px;
+    }
+
+    .spectrum-labels {
+      display: flex;
+      justify-content: space-between;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .spectrum-labels span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+
+    /* ── MANIFESTO QUOTE ── */
+    .manifesto {
+      padding: 8rem 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .manifesto blockquote {
+      font-size: clamp(1.3rem, 3vw, 2.2rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: 2rem;
+    }
+
+    .manifesto cite {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      text-transform: uppercase;
+      font-style: normal;
+    }
+
+    /* ── CTA ── */
+    .cta {
+      padding: 8rem 2rem;
+      text-align: center;
+      background: linear-gradient(to bottom, transparent, #0d0d18, transparent);
+    }
+
+    .cta h2 {
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 300;
+      font-style: italic;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 3rem;
+      font-weight: 300;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 3rem;
+      text-align: center;
+      border-top: 1px solid #1a1a25;
+    }
+
+    footer p {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+
+    footer a {
+      color: var(--violet);
+      text-decoration: none;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fillBar {
+      from { width: 0; }
+      to   { width: 72%; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 1.5rem; }
+      .nav-links { display: none; }
+      .score-demo { flex-direction: column; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="spectrum"></div>
+
+  <nav>
+    <div class="nav-logo">Empathia<span>.world</span></div>
+    <ul class="nav-links">
+      <li><a href="#features">Vision</a></li>
+      <li><a href="#manifesto">Manifesto</a></li>
+      <li><a href="https://github.com/M-J-Delaunay/empathia" target="_blank">GitHub</a></li>
+      <li><a href="/cdn-cgi/l/email-protection#9afff7eafbeef2f3fbb4eae8f5f0fff9eedafff7eafbeef2f3fbb4edf5e8f6fe">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">Open Source · Worldwide · Free</p>
+    <h1 class="hero-question">Are you <em>empathetic?</em></h1>
+    <p class="hero-sub">
+      A worldwide open source social network where empathy is the only score that matters.
+      Competing not for wealth — but for kindness.
+    </p>
+    <div class="hero-actions">
+      <a href="https://github.com/M-J-Delaunay/empathia" target="_blank" class="btn-primary">Read the Manifesto</a>
+      <a href="/signup.html" class="btn-secondary">Join the Project</a>
+    </div>
+    <div class="score-demo">
+      <span class="score-label">0%</span>
+      <div class="score-bar"><div class="score-fill"></div></div>
+      <span class="score-label">100%</span>
+      <span class="score-value">Your empathy score</span>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <p class="features-title">What Empathia is</p>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">🌍</div>
+        <h3 class="feature-title">A global forum</h3>
+        <p class="feature-text">Open to the entire world. Every voice equal. Every language welcome. Explore by proximity, country, or dive into the full human conversation.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">💜</div>
+        <h3 class="feature-title">A living score</h3>
+        <p class="feature-text">Every interaction ends with a mutual empathy rating. Your score — expressed as a percentage — is the simple average of every human who has ever spoken with you.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🗺️</div>
+        <h3 class="feature-title">Empathia Streets</h3>
+        <p class="feature-text">A living map of the world's empathic geography. Museums, parks, gathering spaces — every place scored by those who felt something there.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔥</div>
+        <h3 class="feature-title">The Acts</h3>
+        <p class="feature-text">Not a news platform. An acts platform. Where traditional media documents what breaks, Empathia documents what repairs.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🌐</div>
+        <h3 class="feature-title">Country scores</h3>
+        <p class="feature-text">Every nation has a score. Every city. Every institution. A mirror held up to the world — built by the people who live in it.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🛡️</div>
+        <h3 class="feature-title">Cannot be bought</h3>
+        <p class="feature-text">Finance will try to buy empathy. Empathia is built so that it cannot be sold. AGPL-3.0. No ads. No government API. No gatekeeping.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPECTRUM -->
+  <section class="spectrum-section">
+    <h2 class="spectrum-title">Your score is a color</h2>
+    <div class="spectrum-full"></div>
+    <div class="spectrum-labels">
+      <span>0% — No empathy</span>
+      <span>50% — Neutral</span>
+      <span>100% — Deep empathy</span>
+    </div>
+  </section>
+
+  <!-- MANIFESTO QUOTE -->
+  <section class="manifesto" id="manifesto">
+    <blockquote>
+      "Human beings, given the right mirror, will choose to be kinder."
+    </blockquote>
+    <cite>— The Empathia Manifesto</cite>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2>Build with us</h2>
+    <p>Empathia is open source. The vision belongs to everyone.</p>
+    <div style="display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap;">
+      <a href="https://github.com/M-J-Delaunay/empathia" target="_blank" class="btn-primary">View on GitHub</a>
+      <a href="/cdn-cgi/l/email-protection#abcec6dbcadfc3c2ca85dbd9c4c1cec8dfebcec6dbcadfc3c2ca85dcc4d9c7cf" class="btn-secondary">Get in touch</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      Empathia.world — Open Source. Open Hearts. Open World. &nbsp;·&nb

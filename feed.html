@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empathia — Feed</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface2: #161616;
+      --border: rgba(255,255,255,0.06);
+      --text: #e8e8e8;
+      --muted: #555;
+      --accent: #7c4dff;
+      --accent2: #e91e8c;
+      --world: #1a1a2e;
+      --heart: #e91e8c;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: var(--surface);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      letter-spacing: 0.15em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-score {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    .nav-score span {
+      color: var(--accent);
+      font-size: 13px;
+    }
+
+    .nav-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      cursor: pointer;
+    }
+
+    /* MAIN LAYOUT */
+    main {
+      padding-top: 68px;
+      padding-bottom: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    /* MOSAIC GRID */
+    .mosaic {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto;
+      gap: 12px;
+    }
+
+    /* WORLD TILE — spans full width top */
+    .tile-world {
+      grid-column: 1 / -1;
+      height: 260px;
+      background: linear-gradient(135deg, #0d0d1a 0%, #1a0a2e 50%, #0a1a1a 100%);
+      border: 1px solid rgba(124,77,255,0.2);
+      border-radius: 4px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .tile-world:hover { border-color: rgba(124,77,255,0.5); }
+
+    .tile-world::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 50%, rgba(124,77,255,0.08) 0%, transparent 60%),
+                  radial-gradient(circle at 70% 30%, rgba(233,30,140,0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .world-label {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .world-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      font-weight: 300;
+      line-height: 1.1;
+      max-width: 700px;
+    }
+
+    .world-meta {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .world-stat {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .world-stat span {
+      color: var(--text);
+      display: block;
+      font-size: 18px;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .world-empathy-bar {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      border-radius: 1px;
+      overflow: hidden;
+      max-width: 300px;
+    }
+
+    .world-empathy-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      width: 67%;
+      border-radius: 1px;
+      animation: pulse-bar 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse-bar {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* REGULAR TILES */
+    .tile {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.3s, transform 0.2s;
+      position: relative;
+    }
+
+    .tile:hover {
+      border-color: rgba(255,255,255,0.12);
+      transform: translateY(-2px);
+    }
+
+    .tile-large {
+      grid-column: span 2;
+      min-height: 320px;
+    }
+
+    .tile-medium {
+      min-height: 280px;
+    }
+
+    .tile-small {
+      min-height: 200px;
+    }
+
+    .tile-image {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      display: block;
+      background: var(--surface2);
+    }
+
+    .tile-image-placeholder {
+      width: 100%;
+      height: 160px;
+      background: var(--surface2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: var(--muted);
+    }
+
+    .tile-large .tile-image-placeholder {
+      height: 220px;
+    }
+
+    .tile-body {
+      padding: 16px;
+    }
+
+    .tile-tag {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .tile-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1.3;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .tile-large .tile-title { font-size: 24px; }
+
+    .tile-excerpt {
+      font-size: 10px;
+      color: var(--muted);
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .tile-footer {
+      padding: 10px 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tile-author {
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .tile-author span {
+      color: var(--text);
+    }
+
+    .tile-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .heart-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 14px;
+      transition: color 0.2s, transform 0.2s;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .heart-btn:hover { color: var(--heart); transform: scale(1.2); }
+    .heart-btn.rated { color: var(--heart); }
+
+    .heart-count {
+      font-size: 9px;
+      color: var(--muted);
+    }
+
+    /* TEXT-ONLY TILE */
+    .tile-text-only {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 200px;
+    }
+
+    .tile-text-only .tile-title {
+      font-size: 20px;
+      font-style: italic;
+    }
+
+    /* VIDEO TILE */
+    .tile-video-indicator {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0,0,0,0.7);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 3px 8px;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      color: var(--text);
+    }
+
+    /* SUBJECT FILTERS */
+    .filters {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 5px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* RATING OVERLAY */
+    .rating-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s;
+    }
+
+    .rating-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .rating-backdrop {
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(16px) brightness(0.3);
+    }
+
+    .rating-card {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border: 1px solid rgba(124,77,255,0.3);
+      border-radius: 4px;
+      padding: 40px;
+      width: 480px;
+      max-width: 90vw;
+      text-align: center;
+    }
+
+    .rating-question {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-style: italic;
+      font-weight: 300;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .rating-sub {
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 40px;
+    }
+
+    .rating-slider-wrap {
+      position: relative;
+      margin-bottom: 16px;
+    }
+
+    .rating-slider {
+      width: 100%;
+      height: 4px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .rating-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--text);
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(124,77,255,0.5);
+      transition: transform 0.2s;
+    }
+
+    .rating-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .rating-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-top: 8px;
+    }
+
+    .rating-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 56px;
+      font-weight: 300;
+      color: var(--accent);
+      margin: 20px 0;
+      transition: color 0.3s;
+    }
+
+    .rating-submit {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      border-radius: 2px;
+      padding: 12px 40px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: white;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+
+    .rating-submit:hover { opacity: 0.9; }
+
+    .rating-skip {
+      background: none;
+      border: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      cursor: pointer;
+      letter-spacing: 0.1em;
+      text-decoration: underline;
+    }
+
+    /* POST OVERLAY */
+    .post-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 150;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .post-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .post-backdrop {
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(8px) brightness(0.2);
+      cursor: pointer;
+    }
+
+    .post-card {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      width: 640px;
+      max-width: 92vw;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .post-card-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .post-card-tag {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .post-close {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 18px;
+      line-height: 1;
+    }
+
+    .post-card-body { padding: 24px; }
+
+    .post-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 300;
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+
+    .post-card-content {
+      font-size: 12px;
+      line-height: 1.8;
+      color: rgba(232,232,232,0.8);
+      margin-bottom: 24px;
+    }
+
+    .post-card-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .post-author-info {
+      font-size: 9px;
+      color: var(--muted);
+    }
+
+    .post-author-info strong {
+      color: var(--text);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .post-rate-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 8px 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .post-rate-btn:hover {
+      border-color: var(--heart);
+      color: var(--heart);
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .mosaic { grid-template-columns: 1fr; }
+      .tile-large { grid-column: span 1; }
+      .world-headline { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/index.html" class="nav-logo">EMPATHIA<span>.WORLD</span></a>
+    <div class="nav-right">
+      <a href="/create.html" style="font-size:9px; letter-spacing:0.1em; color:var(--accent); text-decoration:none; border:1px solid rgba(124,77,255,0.3); padding:5px 14px; border-radius:2px; transition:all 0.2s;">+ New Post</a>
+      <a href="/map.html" style="font-size:9px; letter-spacing:0.1em; color:var(--muted); text-decoration:none; text-transform:uppercase;">Map</a>
+      <a href="/discover.html" style="font-size:9px; letter-spacing:0.1em; color:var(--muted); text-decoration:none; text-transform:uppercase;">Discover</a>
+      <a href="/chat.html" style="font-size:9px; letter-spacing:0.1em; color:var(--muted); text-decoration:none; text-transform:uppercase;">Conversations</a>
+      <div class="theme-switcher" style="display:flex; gap:4px; align-items:center;"></div>
+      <div class="nav-score">YOUR SCORE <span id="user-score">—</span></div>
+      <a href="/profile.html" style="text-decoration:none;"><div class="nav-avatar">MJ</div></a>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- SUBJECT FILTERS -->
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterTiles('all')">All</button>
+      <button class="filter-btn" onclick="filterTiles('world')">World</button>
+      <button class="filter-btn" onclick="filterTiles('culture')">Culture</button>
+      <button class="filter-btn" onclick="filterTiles('science')">Science</button>
+      <button class="filter-btn" onclick="filterTiles('conflict')">Conflict</button>
+      <button class="filter-btn" onclick="filterTiles('local')">Local</button>
+      <button class="filter-btn" onclick="filterTiles('joy')">Joy</button>
+      <button class="filter-btn" onclick="filterTiles('loss')">Loss</button>
+    </div>
+
+    <!-- MOSAIC -->
+    <div class="mosaic" id="mosaic">
+
+      <!-- WORLD TILE -->
+      <div class="tile-world" onclick="openPost('world')">
+        <div>
+          <div class="world-label">🌐 World Pulse — Live</div>
+          <div class="world-headline">What does the world feel today ?</div>
+        </div>
+        <div class="world-meta">
+          <div class="world-stat">
+            <span id="world-users">—</span>
+            voices today
+          </div>
+          <div class="world-stat">
+            <span>67%</span>
+            world empathy
+          </div>
+          <div class="world-empathy-bar">
+            <div class="world-empathy-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TILE 1 — large, image + text -->
+      <div class="tile tile-large" data-tag="culture" onclick="openPost('culture-1')">
+        <div class="tile-image-placeholder">🎭</div>
+        <div class="tile-body">
+          <div class="tile-tag">Culture</div>
+          <div class="tile-title">The last theater in a small town refuses to close its doors</div>
+          <div class="tile-excerpt">For forty years, the same family has kept the curtain rising every Friday night, regardless of audience size.</div>
+        </div>
+        <div class="tile-footer">
+          <div class="tile-author">by <span>A.Moreau</span> · France · 84%</div>
+          <div class="tile-actions">
+            <button class="heart-btn" onclick="openRating(event, 'culture-1')">♡ <span class="heart-count">12</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TILE 2 — medium -->
+      <div class="tile tile-medium" data-tag="science" onclick="openPost('science-1')">
+        <div class="tile-image-placeholder">🧬</div>
+        <div class="tile-body">
+          <div class="tile-tag">Science</div>
+          <div class="tile-title">Researchers find empathy activates the same neural pathways as physical pain</div>
+        </div>
+        <div class="tile-footer">
+          <div class="tile-author">by <span>K.Tanaka</span> · Japan · 91%</div>
+          <div class="tile-actions">
+            <button class="heart-btn" onclick="openRating(event, 'science-1')">♡ <span class="heart-count">34</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TILE 3 — text only -->
+      <div class="tile tile-medium" data-tag="joy" onclick="openPost('joy-1')">
+        <div class="tile-text-only">
+          <div>
+            <div class="tile-tag">Joy</div>
+            <div class="tile-title">"My neighbor knocked on my door just to give me tomatoes from his garden. I had not spoken to another human in eleven days."</div>
+          </div>
+          <div class="tile-footer" style="padding: 0; border: none; margin-top: 16px;">
+            <div class="tile-author">by <span>Anonymous</span> · Germany · —</div>
+            <button class="heart-btn" onclick="openRating(event, 'joy-1')">♡ <span class="heart-count">89</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TILE 4 — video -->
+      <div class="tile tile-medium" data-tag="conflict" onclick="openPost('conflict-1')">
+        <div class="tile-video-indicator">▶ 0:47</div>
+        <div class="tile-image-placeholder">🕊️</div>
+        <div class="tile-body">
+          <div class="tile-tag">Conflict</div>
+          <div class="tile-title">Two former enemies share a meal — and a silence — at the border</div>
+        </div>
+        <div class="tile-footer">
+          <div class="tile-author">by <span>S.Ibrahim</span> · Lebanon · 78%</div>
+          <div class="tile-actions">
+            <button class="heart-btn" onclick="openRating(event, 'conflict-1')">♡ <span class="heart-count">203</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TILE 5 — small -->
+      <div class="tile tile-small" data-tag="local" onclick="openPost('local-1')">
+        <div class="tile-text-only">
+          <div>
+            <div class="tile-tag">Local · Paris</div>
+            <div class="tile-title">The metro musician who learned every passenger's name on Line 4</div>
+          </div>
+          <div class="tile-footer" style="padding: 0; border: none; margin-top: 12px;">
+            <div class="tile-author">by <span>C.Dubois</span> · 92%</div>
+            <button class="heart-btn" onclick="openRating(event, 'local-1')">♡ <span class="heart-count">57</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TILE 6 -->
+      <div class="tile tile-small" data-tag="loss" onclick="openPost('loss-1')">
+        <div class="tile-text-only">
+          <div>
+            <div class="tile-tag">Loss</div>
+            <div class="tile-title">She kept writing letters to her late husband. The post office kept delivering them — to his grave.</div>
+          </div>
+          <div class="tile-footer" style="padding: 0; border: none; margin-top: 12px;">
+            <div class="tile-author">by <span>M.Okafor</span> · Nigeria · 88%</div>
+            <button class="heart-btn" onclick="openRating(event, 'loss-1')">♡ <span class="heart-count">441</span></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- POST OVERLAY -->
+  <div class="post-overlay" id="post-overlay">
+    <div class="post-backdrop" onclick="closePost()"></div>
+    <div class="post-card">
+      <div class="post-card-header">
+        <div class="post-card-tag" id="post-tag">—</div>
+        <button class="post-close" onclick="closePost()">×</button>
+      </div>
+      <div class="post-card-body">
+        <div class="post-card-title" id="post-title">—</div>
+        <div class="post-card-content" id="post-content">—</div>
+      </div>
+      <div class="post-card-footer">
+        <div class="post-author-info">
+          <strong id="post-author">—</strong>
+          <span id="post-meta">—</span>
+        </div>
+        <button class="post-rate-btn" onclick="openRatingFromPost()">♡ Rate this</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RATING OVERLAY -->
+  <div class="rating-overlay" id="rating-overlay">
+    <div class="rating-backdrop"></div>
+    <div class="rating-card">
+      <div class="rating-question">How did this make you feel ?</div>
+      <div class="rating-sub">YOUR HONEST RESPONSE · NO JUDGMENT · ONLY TRUTH</div>
+      <div class="rating-value" id="rating-display">50</div>
+      <div class="rating-slider-wrap">
+        <input type="range" class="rating-slider" id="rating-slider" min="0" max="100" value="50" oninput="updateRating(this.value)">
+        <div class="rating-labels">
+          <span>0 — No empathy</span>
+          <span>100 — Deep empathy</span>
+        </div>
+      </div>
+      <button class="rating-submit" onclick="submitRating()">SUBMIT MY RATING</button>
+      <button class="rating-skip" onclick="closeRating()">skip — rate later</button>
+    </div>
+  </div>
+
+  <script>
+    let currentPost = null
+    let currentRating = 50
+
+    const posts = {
+      'world': {
+        tag: '🌐 World Pulse',
+        title: 'What does the world feel today ?',
+        content: 'Every moment, thousands of voices speak on Empathia. This is their pulse. Their joy. Their grief. Their quiet acts of kindness that no algorithm would have surfaced. The world empathy score today is 67%. It has been climbing for three consecutive days.',
+        author: 'Empathia · Live',
+        meta: 'Updated every hour'
+      },
+      'culture-1': {
+        tag: 'Culture',
+        title: 'The last theater in a small town refuses to close its doors',
+        content: 'For forty years, the same family has kept the curtain rising every Friday night, regardless of audience size. Some nights there are two hundred people. Some nights there are four. The family does not distinguish. The curtain rises at eight o\'clock. It has never been late.\n\nThe youngest daughter, now running the theater after her father\'s death, says: "He told me — you are not performing for the audience. You are performing for the town. Whether they come or not, the light should be on."',
+        author: 'A.Moreau',
+        meta: 'France · Empathy score 84%'
+      },
+      'science-1': {
+        tag: 'Science',
+        title: 'Researchers find empathy activates the same neural pathways as physical pain',
+        content: 'A new study from the University of Kyoto has found that witnessing another person\'s suffering activates the same neural pathways as experiencing physical pain directly. The researchers suggest this may explain why prolonged exposure to suffering — in caregivers, journalists, aid workers — produces symptoms identical to chronic pain conditions.',
+        author: 'K.Tanaka',
+        meta: 'Japan · Empathy score 91%'
+      },
+      'joy-1': {
+        tag: 'Joy',
+        title: 'Tomatoes',
+        content: '"My neighbor knocked on my door just to give me tomatoes from his garden. I had not spoken to another human in eleven days. I did not know what to say. I said thank you. He said they are better with salt. He left. I stood at my door for a long time after."',
+        author: 'Anonymous',
+        meta: 'Germany · Anonymous voice'
+      },
+      'conflict-1': {
+        tag: 'Conflict',
+        title: 'Two former enemies share a meal — and a silence — at the border',
+        content: 'They fought on opposite sides of a war that ended eleven years ago. They live forty kilometers apart. A journalist arranged a meeting neither of them wanted. They sat down. They ate. Neither spoke for the first twenty minutes. Then one of them said: "I had a son your age." The other said: "I know." They have met every month since.',
+        author: 'S.Ibrahim',
+        meta: 'Lebanon · Empathy score 78%'
+      },
+      'local-1': {
+        tag: 'Local · Paris',
+        title: 'The metro musician who learned every passenger\'s name on Line 4',
+        content: 'He has played the same three stations on Line 4 for nine years. He began learning names six years ago — asking each regular passenger once, remembering forever. He now knows four hundred and twelve names. He greets each one. He says it is not a performance. It is a reminder that you are not anonymous. You never were.',
+        author: 'C.Dubois',
+        meta: 'Paris · Empathy score 92%'
+      },
+      'loss-1': {
+        tag: 'Loss',
+        title: 'Letters to a grave',
+        content: 'She kept writing letters to her late husband for three years after his death. She addressed them to his name, at the cemetery address. She did not expect them to arrive. The post office, discovering what was happening, began delivering them — placing each envelope beneath a stone at the base of his grave. She found them on her next visit. All of them. Unopened. Waiting.',
+        author: 'M.Okafor',
+        meta: 'Nigeria · Empathy score 88%'
+      }
+    }
+
+    function openPost(id) {
+      const post = posts[id]
+      if (!post) return
+      currentPost = id
+      document.getElementById('post-tag').textContent = post.tag
+      document.getElementById('post-title').textContent = post.title
+      document.getElementById('post-content').textContent = post.content
+      document.getElementById('post-author').textContent = post.author
+      document.getElementById('post-meta').textContent = post.meta
+      document.getElementById('post-overlay').classList.add('active')
+    }
+
+    function closePost() {
+      document.getElementById('post-overlay').classList.remove('active')
+    }
+
+    function openRating(event, id) {
+      event.stopPropagation()
+      currentPost = id
+      document.getElementById('rating-slider').value = 50
+      updateRating(50)
+      document.getElementById('rating-overlay').classList.add('active')
+    }
+
+    function openRatingFromPost() {
+      closePost()
+      setTimeout(() => {
+        document.getElementById('rating-slider').value = 50
+        updateRating(50)
+        document.getElementById('rating-overlay').classList.add('active')
+      }, 300)
+    }
+
+    function closeRating() {
+      document.getElementById('rating-overlay').classList.remove('active')
+    }
+
+    function updateRating(value) {
+      currentRating = parseInt(value)
+      const display = document.getElementById('rating-display')
+      display.textContent = value
+      const hue = Math.round((value / 100) * 280)
+      display.style.color = `hsl(${hue}, 70%, 65%)`
+    }
+
+    async function submitRating() {
+      const btn = document.querySelector('.rating-submit')
+      btn.textContent = 'RECORDING...'
+      btn.disabled = true
+
+      try {
+        const { data: { user } } = await sb.auth.getUser()
+
+        // Save rating to database
+        if (user && currentPost && !currentPost.startsWith('culture-') && !currentPost.startsWith('science-') && !currentPost.startsWith('joy-') && !currentPost.startsWith('conflict-') && !currentPost.startsWith('local-') && !currentPost.startsWith('loss-')) {
+          const postId = currentPost.replace('real-', '')
+
+          // Save to ratings table
+          await sb.from('ratings').insert([{
+            rater_id: user.id,
+            rated_id: postId,
+            score: currentRating,
+            context: 'post-' + postId,
+            visible_after: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+          }])
+
+          // Get average score for this post
+          const { data: ratings } = await sb
+            .from('ratings')
+            .select('score')
+            .like('context', `post-${postId}`)
+
+          if (ratings && ratings.length > 0) {
+            const avg = Math.round(
+              ratings.reduce((sum, r) => sum + r.score, 0) / ratings.length
+            )
+            // Update post empathy_score
+            await sb.from('posts')
+              .update({ empathy_score: avg })
+              .eq('id', postId)
+
+            // Update heart count display
+            const heartCount = document.querySelector(`#real-post-${postId} .heart-count`)
+            if (heartCount) heartCount.textContent = ratings.length
+          }
+        }
+
+        btn.textContent = 'RATING RECORDED 💜'
+        btn.style.background = 'rgba(124,77,255,0.3)'
+
+        setTimeout(() => {
+          closeRating()
+          btn.textContent = 'SUBMIT MY RATING'
+          btn.style.background = ''
+          btn.disabled = false
+
+          // Mark heart as rated
+          if (currentPost) {
+            const hearts = document.querySelectorAll('.heart-btn')
+            hearts.forEach(h => {
+              if (h.closest('[id*="' + currentPost + '"]')) {
+                h.classList.add('rated')
+                h.textContent = '♥ '
+              }
+            })
+          }
+
+          // Reload posts to show updated score
+          loadRealPosts()
+        }, 1200)
+
+      } catch (e) {
+        btn.textContent = 'SUBMIT MY RATING'
+        btn.disabled = false
+        console.log('Rating error:', e.message)
+      }
+    }
+
+    function filterTiles(tag) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'))
+      event.target.classList.add('active')
+      document.querySelectorAll('.tile[data-tag]').forEach(tile => {
+        if (tag === 'all' || tile.dataset.tag === tag) {
+          tile.style.display = ''
+        } else {
+          tile.style.display = 'none'
+        }
+      })
+    }
+
+    // Animate tiles on load
+    document.querySelectorAll('.tile, .tile-world').forEach((tile, i) => {
+      tile.style.opacity = '0'
+      tile.style.transform = 'translateY(16px)'
+      tile.style.transition = 'opacity 0.5s ease, transform 0.5s ease, border-color 0.3s'
+      setTimeout(() => {
+        tile.style.opacity = '1'
+        tile.style.transform = 'translateY(0)'
+      }, 100 + i * 80)
+    })
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const sb = window.supabase.createClient(
+      'https://drfmruojofxkjlqkyizk.supabase.co',
+      'sb_publishable_-yuAzbx3YeOpBKK1X-LYdg_s14uMHzS'
+    )
+
+    let currentUsername = 'Empathia Member'
+    let currentUserId = null
+
+    async function loadRealPosts() {
+      try {
+        // Get current user
+        const { data: { user } } = await sb.auth.getUser()
+        if (user) {
+          currentUserId = user.id
+          currentUsername = user.user_metadata?.full_name
+            || user.user_metadata?.name
+            || user.email?.split('@')[0]
+            || 'Empathia Member'
+        }
+
+        const { data: posts, error } = await sb
+          .from('posts')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(10)
+
+        if (error || !posts || posts.length === 0) return
+
+        const mosaic = document.getElementById('mosaic')
+        const worldTile = mosaic.querySelector('.tile-world')
+
+        posts.forEach((post, i) => {
+          const lines = post.content ? post.content.split('\n\n') : ['']
+          const title = lines[0] || 'Untitled'
+          const body = lines.slice(1).join(' ') || ''
+          const country = post.country || '—'
+          const isFirst = i === 0
+
+          // Show real username if this is the current user's post
+          const isMyPost = post.author_id === currentUserId
+          const authorName = post.identity_mode === 'anonymous'
+            ? 'Anonymous'
+            : isMyPost ? currentUsername : 'Empathia Member'
+
+          const tile = document.createElement('div')
+          tile.className = isFirst ? 'tile tile-large' : 'tile tile-medium'
+          tile.dataset.tag = 'world'
+          tile.style.opacity = '0'
+          tile.style.transform = 'translateY(16px)'
+          tile.style.transition = 'opacity 0.5s ease, transform 0.5s ease'
+          tile.style.borderColor = 'rgba(124,77,255,0.15)'
+          tile.style.cursor = 'pointer'
+
+          tile.id = 'real-post-' + post.id
+          tile.onclick = () => openRealPost(
+            post.id,
+            title,
+            body,
+            country,
+            post.created_at,
+            authorName
+          )
+
+          tile.innerHTML = `
+            <div class="tile-body" style="padding:20px;">
+              <div class="tile-tag" style="margin-bottom:8px;">
+                💜 World · ${new Date(post.created_at).toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'})}
+              </div>
+              <div class="tile-title" style="font-size:${isFirst ? '22px' : '17px'}; margin-bottom:10px;">${title}</div>
+              ${body ? `<div class="tile-excerpt">${body.substring(0, 150)}${body.length > 150 ? '...' : ''}</div>` : ''}
+            </div>
+            <div class="tile-footer">
+              <div class="tile-author">by <span>${authorName}</span> · ${country} · 0%</div>
+              <div class="tile-actions">
+                <button class="heart-btn" onclick="event.stopPropagation(); openRating(event, 'real-${post.id}')">♡ <span class="heart-count">0</span></button>
+              </div>
+            </div>
+          `
+
+          // Insert after world tile
+          worldTile.insertAdjacentElement('afterend', tile)
+
+          setTimeout(() => {
+            tile.style.opacity = '1'
+            tile.style.transform = 'translateY(0)'
+          }, 100 + i * 100)
+        })
+
+      } catch(e) {
+        console.log('Could not load posts:', e)
+      }
+    }
+
+    function openRealPost(id, title, content, country, created_at, authorName) {
+      document.getElementById('post-tag').textContent = '💜 World'
+      document.getElementById('post-title').textContent = title
+      document.getElementById('post-content').textContent = content
+      document.getElementById('post-author').textContent = authorName || 'Empathia Member'
+      const date = created_at ? new Date(created_at).toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'}) : 'March 2026'
+      document.getElementById('post-meta').textContent = country + ' · ' + date
+      document.getElementById('post-overlay').classList.add('active')
+    }
+
+    async function checkUsernameSetup() {
+      try {
+        const { data: { user } } = await sb.auth.getUser()
+        if (!user) return
+
+        // Check if user already has a username in metadata
+        const existingName = user.user_metadata?.username
+          || user.user_metadata?.full_name
+          || user.user_metadata?.name
+
+        if (existingName) return // Already has a name
+
+        // Check Users table
+        const { data: profile } = await sb
+          .from('Users')
+          .select('username')
+          .eq('id', user.id)
+          .single()
+
+        if (profile?.username) return // Already saved
+
+        // Show username prompt
+        showUsernamePrompt(user)
+      } catch (e) {
+        // Silent fail — not critical
+      }
+    }
+
+    function showUsernamePrompt(user) {
+      const modal = document.createElement('div')
+      modal.style.cssText = `
+        position:fixed; inset:0; background:rgba(0,0,0,0.7);
+        display:flex; align-items:center; justify-content:center;
+        z-index:1000; backdrop-filter:blur(8px);
+      `
+      modal.innerHTML = `
+        <div style="background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:40px; max-width:420px; width:90%; font-family:'DM Mono',monospace;">
+          <div style="font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:300; margin-bottom:8px; color:var(--text);">
+            Welcome to Empathia 💜
+          </div>
+          <div style="font-size:11px; color:var(--muted); letter-spacing:0.05em; line-height:1.7; margin-bottom:24px;">
+            Choose how the world will know you.
+          </div>
+          <input
+            id="username-prompt-input"
+            type="text"
+            placeholder="Your name on Empathia..."
+            maxlength="30"
+            style="width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:2px; padding:12px 16px; font-family:'DM Mono',monospace; font-size:12px; color:var(--text); outline:none; margin-bottom:16px;"
+          >
+          <button onclick="saveUsername('${user.id}', '${user.email}')" style="width:100%; background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; border-radius:2px; padding:14px; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:0.15em; color:white; cursor:pointer; text-transform:uppercase;">
+            Enter the mirror →
+          </button>
+          <div style="font-size:9px; color:var(--muted); margin-top:12px; text-align:center; letter-spacing:0.05em;">
+            You can change this later in your profile.
+          </div>
+        </div>
+      `
+      document.body.appendChild(modal)
+    }
+
+    async function saveUsername(userId, email) {
+      const input = document.getElementById('username-prompt-input')
+      const username = input?.value.trim()
+      if (!username) {
+        input.style.borderColor = 'var(--accent2)'
+        return
+      }
+
+      try {
+        // Save to auth metadata
+        await sb.auth.updateUser({
+          data: { username: username }
+        })
+
+        // Save to Users table
+        await sb.from('Users').upsert([{
+          id: userId,
+          username: username,
+          email: email,
+          empathy_score: 0
+        }])
+
+        // Remove modal
+        document.querySelector('[style*="position:fixed"]')?.remove()
+
+      } catch (e) {
+        console.log('Username save error:', e.message)
+      }
+    }
+
+    loadRealPosts()
+  </script>
+  <script src="/theme.js"></script>
+
+</body>
+</html>

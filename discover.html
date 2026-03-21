@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empathia — Discover Conversations</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface2: #161616;
+      --border: rgba(255,255,255,0.06);
+      --text: #e8e8e8;
+      --muted: #555;
+      --accent: #7c4dff;
+      --accent2: #e91e8c;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: var(--surface);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      letter-spacing: 0.15em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    main {
+      padding-top: 72px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-bottom: 60px;
+    }
+
+    /* HERO */
+    .discover-hero {
+      padding: 40px 0 32px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .hero-left {}
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 40px;
+      font-weight: 300;
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+
+    .hero-sub {
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      line-height: 1.6;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      flex-shrink: 0;
+    }
+
+    .hero-stat {
+      text-align: right;
+    }
+
+    .hero-stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 300;
+      color: var(--accent);
+      display: block;
+    }
+
+    .hero-stat-label {
+      font-size: 8px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* WORLD PULSE BAR */
+    .world-pulse {
+      background: var(--surface);
+      border: 1px solid rgba(124,77,255,0.15);
+      border-radius: 4px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .pulse-label {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .pulse-bar {
+      flex: 1;
+      height: 3px;
+      background: var(--surface2);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .pulse-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      width: 67%;
+      border-radius: 2px;
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .pulse-score {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    /* FILTERS */
+    .filters-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 5px 14px;
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .filter-sep {
+      width: 1px;
+      height: 20px;
+      background: var(--border);
+    }
+
+    /* SECTION HEADERS */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .section-count {
+      font-size: 8px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    /* AI CONVERSATIONS STRIP */
+    .ai-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+
+    .ai-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ai-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .ai-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+
+    .ai-card.claude::before { background: linear-gradient(90deg, #ff6b35, #ff9a56); }
+    .ai-card.gemini::before { background: linear-gradient(90deg, #4285f4, #34a853); }
+    .ai-card.gpt::before { background: linear-gradient(90deg, #10a37f, #1a7f64); }
+    .ai-card.grok::before { background: linear-gradient(90deg, #ef4444, #dc2626); }
+
+    .ai-icon { font-size: 24px; margin-bottom: 8px; display: block; }
+
+    .ai-name {
+      font-size: 11px;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .ai-company {
+      font-size: 8px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+
+    .ai-score-label {
+      font-size: 7px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .ai-score {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 300;
+    }
+
+    .ai-score.claude { color: #ff6b35; }
+    .ai-score.gemini { color: #4285f4; }
+    .ai-score.gpt { color: #10a37f; }
+    .ai-score.grok { color: #ef4444; }
+
+    .ai-conversations {
+      font-size: 7px;
+      color: var(--muted);
+      margin-top: 4px;
+      letter-spacing: 0.05em;
+    }
+
+    .ai-join-btn {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 4px 10px;
+      font-family: 'DM Mono', monospace;
+      font-size: 7px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .ai-join-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* CONVERSATION CARDS */
+    .conversations-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .conv-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      gap: 16px;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .conv-card:hover {
+      border-color: rgba(255,255,255,0.1);
+      transform: translateX(2px);
+    }
+
+    .conv-card.live::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--accent2);
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .conv-avatars {
+      display: flex;
+      gap: -4px;
+    }
+
+    .conv-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      border: 2px solid var(--bg);
+      flex-shrink: 0;
+    }
+
+    .conv-avatar:nth-child(2) {
+      margin-left: -8px;
+      background: linear-gradient(135deg, #22d3ee, #06b6d4);
+    }
+
+    .conv-info {}
+
+    .conv-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--text);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .conv-meta-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .conv-tag {
+      font-size: 7px;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      text-transform: uppercase;
+      border: 1px solid rgba(124,77,255,0.2);
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+
+    .conv-participants {
+      font-size: 8px;
+      color: var(--muted);
+    }
+
+    .conv-country {
+      font-size: 9px;
+    }
+
+    .conv-score-col {
+      text-align: center;
+    }
+
+    .conv-score {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 300;
+      color: var(--accent);
+      display: block;
+    }
+
+    .conv-score-label {
+      font-size: 7px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .conv-action-col {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-end;
+    }
+
+    .conv-status {
+      font-size: 7px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+
+    .conv-status.live {
+      background: rgba(233,30,140,0.1);
+      color: var(--accent2);
+      border: 1px solid rgba(233,30,140,0.2);
+    }
+
+    .conv-status.open {
+      background: rgba(124,77,255,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(124,77,255,0.2);
+    }
+
+    .conv-status.watching {
+      background: rgba(34,211,238,0.1);
+      color: #22d3ee;
+      border: 1px solid rgba(34,211,238,0.2);
+    }
+
+    .btn-join {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 5px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 7px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-join:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-watch {
+      background: none;
+      border: 1px solid rgba(34,211,238,0.2);
+      border-radius: 2px;
+      padding: 5px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 7px;
+      letter-spacing: 0.1em;
+      color: #22d3ee;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-watch:hover {
+      background: rgba(34,211,238,0.08);
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+
+    .empty-icon { font-size: 32px; margin-bottom: 16px; opacity: 0.3; }
+
+    .empty-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 300;
+      margin-bottom: 8px;
+      color: var(--muted);
+    }
+
+    .empty-sub {
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      line-height: 1.8;
+    }
+
+    .btn-start-first {
+      display: inline-block;
+      margin-top: 20px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      border-radius: 2px;
+      padding: 12px 28px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      color: white;
+      cursor: pointer;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    @media (max-width: 768px) {
+      .ai-strip { grid-template-columns: repeat(2, 1fr); }
+      .hero-stats { display: none; }
+      .conv-card { grid-template-columns: auto 1fr; }
+      .conv-score-col, .conv-action-col { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/index.html" class="nav-logo">EMPATHIA<span>.WORLD</span></a>
+    <div class="nav-links">
+      <a href="/feed.html">Feed</a>
+      <a href="/map.html" style="font-size:9px; letter-spacing:0.1em; color:var(--muted); text-decoration:none; text-transform:uppercase;">Map</a>
+      <a href="/discover.html" class="active">Discover</a>
+      <a href="/chat.html">Conversations</a>
+      <a href="/profile.html">Profile</a>
+      <div class="theme-switcher" style="display:flex; gap:4px; align-items:center;"></div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- HERO -->
+    <div class="discover-hero">
+      <div class="hero-left">
+        <div class="hero-title">Every conversation<br><em>happening right now.</em></div>
+        <div class="hero-sub">
+          Browse public conversations worldwide. Join one. Watch one. Start one.<br>
+          Every exchange ends with a mutual empathy rating.
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-number" id="stat-live">—</span>
+          <span class="hero-stat-label">Live now</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-number" id="stat-today">—</span>
+          <span class="hero-stat-label">Today</span>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-number">67%</span>
+          <span class="hero-stat-label">World empathy</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WORLD PULSE -->
+    <div class="world-pulse">
+      <div class="pulse-label">🌐 World Pulse</div>
+      <div class="pulse-bar"><div class="pulse-fill"></div></div>
+      <div class="pulse-score">67% empathy today</div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filters-row">
+      <button class="filter-btn active" onclick="filterConvs('all', this)">All</button>
+      <button class="filter-btn" onclick="filterConvs('live', this)">🔴 Live</button>
+      <button class="filter-btn" onclick="filterConvs('open', this)">Open to join</button>
+      <div class="filter-sep"></div>
+      <button class="filter-btn" onclick="filterConvs('culture', this)">Culture</button>
+      <button class="filter-btn" onclick="filterConvs('science', this)">Science</button>
+      <button class="filter-btn" onclick="filterConvs('joy', this)">Joy</button>
+      <button class="filter-btn" onclick="filterConvs('health', this)">Health</button>
+      <button class="filter-btn" onclick="filterConvs('world', this)">World</button>
+      <div class="filter-sep"></div>
+      <button class="filter-btn" onclick="filterConvs('ai', this)">🤖 AI</button>
+    </div>
+
+    <!-- AI CONVERSATIONS -->
+    <div class="section-header">
+      <div class="section-title">🤖 AI Land — Talk to an AI · Scores are public</div>
+      <div class="section-count">4 AIs available</div>
+    </div>
+
+    <div class="ai-strip" id="ai-strip">
+      <div class="ai-card claude" onclick="goToAIChat('claude')">
+        <span class="ai-icon">🟠</span>
+        <div class="ai-name">Claude</div>
+        <div class="ai-company">Anthropic</div>
+        <div class="ai-score-label">Empathy Score</div>
+        <div class="ai-score claude" id="claude-score">—</div>
+        <div class="ai-conversations" id="claude-convs">— conversations rated</div>
+        <button class="ai-join-btn">Talk →</button>
+      </div>
+      <div class="ai-card gemini" onclick="goToAIChat('gemini')">
+        <span class="ai-icon">🔵</span>
+        <div class="ai-name">Gemini</div>
+        <div class="ai-company">Google</div>
+        <div class="ai-score-label">Empathy Score</div>
+        <div class="ai-score gemini" id="gemini-score">—</div>
+        <div class="ai-conversations" id="gemini-convs">— conversations rated</div>
+        <button class="ai-join-btn">Talk →</button>
+      </div>
+      <div class="ai-card gpt" onclick="goToAIChat('gpt')">
+        <span class="ai-icon">🟢</span>
+        <div class="ai-name">GPT</div>
+        <div class="ai-company">OpenAI</div>
+        <div class="ai-score-label">Empathy Score</div>
+        <div class="ai-score gpt" id="gpt-score">—</div>
+        <div class="ai-conversations" id="gpt-convs">— conversations rated</div>
+        <button class="ai-join-btn">Talk →</button>
+      </div>
+      <div class="ai-card grok" onclick="goToAIChat('grok')">
+        <span class="ai-icon">🔴</span>
+        <div class="ai-name">Grok</div>
+        <div class="ai-company">xAI</div>
+        <div class="ai-score-label">Empathy Score</div>
+        <div class="ai-score grok" id="grok-score">—</div>
+        <div class="ai-conversations" id="grok-convs">— conversations rated</div>
+        <button class="ai-join-btn">Talk →</button>
+      </div>
+    </div>
+
+    <!-- HUMAN CONVERSATIONS -->
+    <div class="section-header" style="margin-top: 32px;">
+      <div class="section-title">Human Conversations</div>
+      <div class="section-count" id="human-count">Loading...</div>
+    </div>
+
+    <div class="conversations-grid" id="conversations-grid">
+      <!-- Loaded from Supabase -->
+    </div>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://drfmruojofxkjlqkyizk.supabase.co'
+    const SUPABASE_KEY = 'sb_publishable_-yuAzbx3YeOpBKK1X-LYdg_s14uMHzS'
+    let db = null
+    let allConversations = []
+    let currentFilter = 'all'
+
+    function getDB() {
+      if (!db) db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+      return db
+    }
+
+    async function loadConversations() {
+      const supabase = getDB()
+      const { data, error } = await supabase
+        .from('conversations')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(50)
+
+      const grid = document.getElementById('conversations-grid')
+      const count = document.getElementById('human-count')
+
+      if (error || !data || data.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">💬</div>
+            <div class="empty-title">No public conversations yet.</div>
+            <div class="empty-sub">
+              Be the first to start one.<br>
+              Every conversation is a stroke in someone's portrait.
+            </div>
+            <a href="/chat.html" class="btn-start-first">Start a conversation →</a>
+          </div>
+        `
+        count.textContent = '0 conversations'
+        document.getElementById('stat-live').textContent = '0'
+        document.getElementById('stat-today').textContent = '0'
+        return
+      }
+
+      allConversations = data
+      const liveCount = data.filter(c => !c.ended_at).length
+      const todayCount = data.filter(c => {
+        const d = new Date(c.created_at)
+        const today = new Date()
+        return d.toDateString() === today.toDateString()
+      }).length
+
+      document.getElementById('stat-live').textContent = liveCount
+      document.getElementById('stat-today').textContent = todayCount
+      count.textContent = data.length + ' conversations'
+
+      renderConversations(data)
+    }
+
+    function renderConversations(data) {
+      const grid = document.getElementById('conversations-grid')
+
+      if (data.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">🔍</div>
+            <div class="empty-title">No conversations match this filter.</div>
+            <div class="empty-sub">Try another subject or start one yourself.</div>
+            <a href="/chat.html" class="btn-start-first">Start a conversation →</a>
+          </div>
+        `
+        return
+      }
+
+      grid.innerHTML = ''
+
+      data.forEach((conv, i) => {
+        const isLive = !conv.ended_at
+        const card = document.createElement('div')
+        card.className = 'conv-card' + (isLive ? ' live' : '')
+        card.dataset.subject = (conv.subject || 'general').toLowerCase()
+        card.dataset.live = isLive ? 'true' : 'false'
+        card.style.opacity = '0'
+        card.style.transform = 'translateX(-8px)'
+        card.style.transition = 'opacity 0.4s ease, transform 0.4s ease, border-color 0.2s'
+
+        const initials1 = conv.user1_id ? conv.user1_id.substring(0,1).toUpperCase() : '?'
+        const initials2 = conv.user2_id ? conv.user2_id.substring(0,1).toUpperCase() : '?'
+        const subject = conv.subject || 'General'
+        const type = conv.type || 'realtime'
+        const created = new Date(conv.created_at)
+        const timeAgo = getTimeAgo(created)
+
+        card.innerHTML = `
+          <div class="conv-avatars">
+            <div class="conv-avatar">${initials1}</div>
+            <div class="conv-avatar">${initials2}</div>
+          </div>
+          <div class="conv-info">
+            <div class="conv-title">${subject} conversation · ${type === 'realtime' ? '⚡ Real-time' : '✉️ Async'}</div>
+            <div class="conv-meta-row">
+              <span class="conv-tag">${subject}</span>
+              <span class="conv-participants">${timeAgo}</span>
+              ${isLive ? '<span style="font-size:8px; color:var(--accent2);">● Live</span>' : ''}
+            </div>
+          </div>
+          <div class="conv-score-col">
+            <span class="conv-score">—</span>
+            <span class="conv-score-label">empathy</span>
+          </div>
+          <div class="conv-action-col">
+            <span class="conv-status ${isLive ? 'live' : 'watching'}">${isLive ? 'Live' : 'Ended'}</span>
+            ${isLive ? '<button class="btn-join" onclick="joinConversation(event)">Join →</button>' : ''}
+            <button class="btn-watch" onclick="watchConversation(event, '${conv.id}')">Watch</button>
+          </div>
+        `
+
+        grid.appendChild(card)
+
+        setTimeout(() => {
+          card.style.opacity = '1'
+          card.style.transform = 'translateX(0)'
+        }, 50 + i * 60)
+      })
+    }
+
+    function filterConvs(filter, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      currentFilter = filter
+
+      if (filter === 'ai') {
+        document.getElementById('ai-strip').scrollIntoView({ behavior: 'smooth' })
+        return
+      }
+
+      let filtered = allConversations
+
+      if (filter === 'live') {
+        filtered = allConversations.filter(c => !c.ended_at)
+      } else if (filter === 'open') {
+        filtered = allConversations.filter(c => !c.ended_at)
+      } else if (filter !== 'all') {
+        filtered = allConversations.filter(c =>
+          (c.subject || '').toLowerCase().includes(filter)
+        )
+      }
+
+      renderConversations(filtered)
+    }
+
+    function getTimeAgo(date) {
+      const seconds = Math.floor((new Date() - date) / 1000)
+      if (seconds < 60) return 'just now'
+      if (seconds < 3600) return Math.floor(seconds/60) + 'm ago'
+      if (seconds < 86400) return Math.floor(seconds/3600) + 'h ago'
+      return Math.floor(seconds/86400) + 'd ago'
+    }
+
+    function goToAIChat(ai) {
+      // Store chosen AI and redirect to chat
+      sessionStorage.setItem('empathia-start-ai', ai)
+      window.location.href = '/chat.html'
+    }
+
+    function joinConversation(e) {
+      e.stopPropagation()
+      window.location.href = '/chat.html'
+    }
+
+    function watchConversation(e, id) {
+      e.stopPropagation()
+      window.location.href = '/chat.html'
+    }
+
+    // Load AI scores from real ratings
+    async function loadAIScores() {
+      const supabase = getDB()
+      const ais = ['claude', 'gemini', 'gpt', 'grok']
+
+      for (const ai of ais) {
+        const { data, error } = await supabase
+          .from('ratings')
+          .select('score')
+          .like('context', `ai-conversation-${ai}%`)
+
+        if (data && data.length > 0) {
+          const avg = Math.round(
+            data.reduce((sum, r) => sum + r.score, 0) / data.length
+          )
+          document.getElementById(ai + '-score').textContent = avg + '%'
+          document.getElementById(ai + '-convs').textContent = 
+            data.length + ' conversation' + (data.length !== 1 ? 's' : '') + ' rated'
+        } else {
+          document.getElementById(ai + '-score').textContent = '—'
+          document.getElementById(ai + '-convs').textContent = 'Be the first to rate'
+        }
+      }
+    }
+
+    // Init
+    loadConversations()
+    loadAIScores()
+  </script>
+  <script src="/theme.js"></script>
+
+</body>
+</html>

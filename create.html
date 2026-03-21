@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empathia — New Post</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface2: #161616;
+      --border: rgba(255,255,255,0.06);
+      --text: #e8e8e8;
+      --muted: #555;
+      --accent: #7c4dff;
+      --accent2: #e91e8c;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: var(--surface);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      letter-spacing: 0.15em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    main {
+      padding-top: 72px;
+      max-width: 800px;
+      margin: 0 auto;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-bottom: 80px;
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      padding: 40px 0 32px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 40px;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 36px;
+      font-weight: 300;
+      margin-bottom: 8px;
+    }
+
+    .page-sub {
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      line-height: 1.6;
+    }
+
+    /* FORM */
+    .form-section {
+      margin-bottom: 32px;
+    }
+
+    .form-label {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .form-label span {
+      color: var(--accent);
+      margin-left: 4px;
+    }
+
+    /* POST TYPE SELECTOR */
+    .type-selector {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+
+    .type-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px 12px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .type-btn:hover {
+      border-color: rgba(255,255,255,0.12);
+    }
+
+    .type-btn.active {
+      border-color: var(--accent);
+      background: rgba(124,77,255,0.08);
+    }
+
+    .type-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .type-label {
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .type-btn.active .type-label {
+      color: var(--accent);
+    }
+
+    /* SUBJECT SELECTOR */
+    .subject-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .subject-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 6px 14px;
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .subject-btn:hover {
+      border-color: rgba(255,255,255,0.12);
+      color: var(--text);
+    }
+
+    .subject-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(124,77,255,0.08);
+    }
+
+    /* TEXT INPUTS */
+    .input-title {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px 20px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 300;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      resize: none;
+    }
+
+    .input-title::placeholder {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .input-title:focus {
+      border-color: rgba(124,77,255,0.3);
+    }
+
+    .input-body {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text);
+      outline: none;
+      resize: vertical;
+      min-height: 200px;
+      line-height: 1.8;
+      transition: border-color 0.2s;
+    }
+
+    .input-body::placeholder {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .input-body:focus {
+      border-color: rgba(124,77,255,0.3);
+    }
+
+    .char-count {
+      font-size: 8px;
+      color: var(--muted);
+      text-align: right;
+      margin-top: 6px;
+      letter-spacing: 0.05em;
+    }
+
+    .char-count.warn { color: var(--accent2); }
+
+    /* MEDIA UPLOAD */
+    .upload-zone {
+      background: var(--surface);
+      border: 1px dashed rgba(255,255,255,0.1);
+      border-radius: 4px;
+      padding: 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .upload-zone:hover {
+      border-color: rgba(124,77,255,0.3);
+      background: rgba(124,77,255,0.04);
+    }
+
+    .upload-zone.has-file {
+      border-style: solid;
+      border-color: rgba(124,77,255,0.3);
+      padding: 20px;
+    }
+
+    .upload-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .upload-label {
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      line-height: 1.6;
+    }
+
+    .upload-label span {
+      color: var(--accent);
+      cursor: pointer;
+    }
+
+    #file-input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .file-preview {
+      display: none;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .file-preview.visible { display: flex; }
+
+    .file-preview-icon { font-size: 20px; }
+
+    .file-preview-name {
+      font-size: 9px;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .file-remove {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+
+    .file-remove:hover { color: var(--accent2); }
+
+    /* IDENTITY & ANONYMITY */
+    .identity-row {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .identity-info {
+      font-size: 9px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .identity-info strong {
+      color: var(--text);
+      display: block;
+      margin-bottom: 2px;
+      font-size: 10px;
+    }
+
+    .identity-toggle {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .id-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 6px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .id-btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(124,77,255,0.08);
+    }
+
+    /* PREVIEW */
+    .preview-card {
+      background: var(--surface);
+      border: 1px solid rgba(124,77,255,0.2);
+      border-radius: 4px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .preview-card.visible { display: block; }
+
+    .preview-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .preview-body {
+      padding: 20px;
+    }
+
+    .preview-tag {
+      font-size: 8px;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .preview-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 300;
+      line-height: 1.3;
+      margin-bottom: 10px;
+    }
+
+    .preview-excerpt {
+      font-size: 10px;
+      color: rgba(232,232,232,0.6);
+      line-height: 1.7;
+    }
+
+    .preview-footer {
+      padding: 10px 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .preview-author {
+      font-size: 9px;
+      color: var(--muted);
+    }
+
+    .preview-author span { color: var(--text); }
+
+    /* SUBMIT AREA */
+    .submit-area {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding-top: 8px;
+    }
+
+    .btn-submit {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      border-radius: 2px;
+      padding: 14px 40px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: white;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+      flex: 1;
+    }
+
+    .btn-submit:hover { opacity: 0.9; }
+    .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-preview {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 14px 24px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .btn-preview:hover {
+      border-color: rgba(255,255,255,0.15);
+      color: var(--text);
+    }
+
+    .btn-cancel {
+      background: none;
+      border: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      cursor: pointer;
+      letter-spacing: 0.1em;
+      text-decoration: underline;
+    }
+
+    /* SUCCESS OVERLAY */
+    .success-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s;
+      backdrop-filter: blur(16px) brightness(0.3);
+    }
+
+    .success-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .success-card {
+      background: var(--surface);
+      border: 1px solid rgba(124,77,255,0.3);
+      border-radius: 4px;
+      padding: 48px;
+      text-align: center;
+      max-width: 400px;
+    }
+
+    .success-icon {
+      font-size: 40px;
+      margin-bottom: 16px;
+    }
+
+    .success-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 300;
+      margin-bottom: 8px;
+    }
+
+    .success-sub {
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+
+    .success-btn {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      border-radius: 2px;
+      padding: 12px 32px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      color: white;
+      cursor: pointer;
+      text-transform: uppercase;
+      width: 100%;
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    @media (max-width: 600px) {
+      .type-selector { grid-template-columns: repeat(2, 1fr); }
+      .submit-area { flex-wrap: wrap; }
+      .btn-submit { order: -1; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/index.html" class="nav-logo">EMPATHIA<span>.WORLD</span></a>
+    <div class="nav-links">
+      <a href="/feed.html">Feed</a>
+      <a href="/profile.html">Profile</a>
+      <a href="/create.html" class="active">New Post</a>
+    </div>
+  </nav>
+
+  <main>
+
+    <div class="page-header">
+      <div class="page-title">Raise your voice.</div>
+      <div class="page-sub">
+        Every post on Empathia is a tile in the world mosaic.<br>
+        No algorithm decides its value. Only the empathy of those who read it.
+      </div>
+    </div>
+
+    <!-- POST TYPE -->
+    <div class="form-section">
+      <label class="form-label">What are you sharing ? <span>*</span></label>
+      <div class="type-selector">
+        <div class="type-btn active" onclick="selectType(this, 'text')">
+          <span class="type-icon">✍️</span>
+          <div class="type-label">Text</div>
+        </div>
+        <div class="type-btn" onclick="selectType(this, 'photo')">
+          <span class="type-icon">📷</span>
+          <div class="type-label">Photo</div>
+        </div>
+        <div class="type-btn" onclick="selectType(this, 'photo-text')">
+          <span class="type-icon">📰</span>
+          <div class="type-label">Photo + Text</div>
+        </div>
+        <div class="type-btn" onclick="selectType(this, 'video')">
+          <span class="type-icon">🎬</span>
+          <div class="type-label">Short Video</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBJECT -->
+    <div class="form-section">
+      <label class="form-label">Subject <span>*</span></label>
+      <div class="subject-selector">
+        <button class="subject-btn" onclick="selectSubject(this)">Culture</button>
+        <button class="subject-btn" onclick="selectSubject(this)">Science</button>
+        <button class="subject-btn" onclick="selectSubject(this)">Joy</button>
+        <button class="subject-btn" onclick="selectSubject(this)">Loss</button>
+        <button class="subject-btn" onclick="selectSubject(this)">Conflict</button>
+        <button class="subject-btn" onclick="selectSubject(this)">Local</button>
+        <button class="subject-btn" onclick="selectSubject(this)">Politics</button>
+        <button class="subject-btn" onclick="selectSubject(this)">Environment</button>
+        <button class="subject-btn" onclick="selectSubject(this)">Health</button>
+        <button class="subject-btn" onclick="selectSubject(this)">Education</button>
+        <button class="subject-btn" onclick="selectSubject(this)">World</button>
+      </div>
+    </div>
+
+    <!-- COUNTRY -->
+    <div class="form-section">
+      <label class="form-label">Country this post is about</label>
+      <select id="post-country" style="
+        width: 100%;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        padding: 12px 16px;
+        font-family: 'DM Mono', monospace;
+        font-size: 11px;
+        color: var(--text);
+        outline: none;
+        cursor: pointer;
+        transition: border-color 0.2s;
+      " onchange="updatePreview()">
+        <option value="🌍 World">🌍 World — Global</option>
+        <option value="🇫🇷 France">🇫🇷 France</option>
+        <option value="🇺🇸 United States">🇺🇸 United States</option>
+        <option value="🇩🇪 Germany">🇩🇪 Germany</option>
+        <option value="🇯🇵 Japan">🇯🇵 Japan</option>
+        <option value="🇬🇧 United Kingdom">🇬🇧 United Kingdom</option>
+        <option value="🇨🇦 Canada">🇨🇦 Canada</option>
+        <option value="🇧🇷 Brazil">🇧🇷 Brazil</option>
+        <option value="🇮🇳 India">🇮🇳 India</option>
+        <option value="🇨🇳 China">🇨🇳 China</option>
+        <option value="🇷🇺 Russia">🇷🇺 Russia</option>
+        <option value="🇮🇹 Italy">🇮🇹 Italy</option>
+        <option value="🇪🇸 Spain">🇪🇸 Spain</option>
+        <option value="🇵🇹 Portugal">🇵🇹 Portugal</option>
+        <option value="🇳🇱 Netherlands">🇳🇱 Netherlands</option>
+        <option value="🇧🇪 Belgium">🇧🇪 Belgium</option>
+        <option value="🇨🇭 Switzerland">🇨🇭 Switzerland</option>
+        <option value="🇸🇪 Sweden">🇸🇪 Sweden</option>
+        <option value="🇳🇴 Norway">🇳🇴 Norway</option>
+        <option value="🇩🇰 Denmark">🇩🇰 Denmark</option>
+        <option value="🇫🇮 Finland">🇫🇮 Finland</option>
+        <option value="🇦🇺 Australia">🇦🇺 Australia</option>
+        <option value="🇳🇿 New Zealand">🇳🇿 New Zealand</option>
+        <option value="🇲🇽 Mexico">🇲🇽 Mexico</option>
+        <option value="🇦🇷 Argentina">🇦🇷 Argentina</option>
+        <option value="🇨🇱 Chile">🇨🇱 Chile</option>
+        <option value="🇿🇦 South Africa">🇿🇦 South Africa</option>
+        <option value="🇳🇬 Nigeria">🇳🇬 Nigeria</option>
+        <option value="🇰🇪 Kenya">🇰🇪 Kenya</option>
+        <option value="🇪🇬 Egypt">🇪🇬 Egypt</option>
+        <option value="🇮🇱 Israel">🇮🇱 Israel</option>
+        <option value="🇵🇸 Palestine">🇵🇸 Palestine</option>
+        <option value="🇱🇧 Lebanon">🇱🇧 Lebanon</option>
+        <option value="🇸🇦 Saudi Arabia">🇸🇦 Saudi Arabia</option>
+        <option value="🇹🇷 Turkey">🇹🇷 Turkey</option>
+        <option value="🇺🇦 Ukraine">🇺🇦 Ukraine</option>
+        <option value="🇵🇱 Poland">🇵🇱 Poland</option>
+        <option value="🇬🇷 Greece">🇬🇷 Greece</option>
+        <option value="🇰🇷 South Korea">🇰🇷 South Korea</option>
+        <option value="🇹🇭 Thailand">🇹🇭 Thailand</option>
+        <option value="🇻🇳 Vietnam">🇻🇳 Vietnam</option>
+        <option value="🇵🇭 Philippines">🇵🇭 Philippines</option>
+        <option value="🇮🇩 Indonesia">🇮🇩 Indonesia</option>
+        <option value="🇲🇦 Morocco">🇲🇦 Morocco</option>
+        <option value="🇸🇳 Senegal">🇸🇳 Senegal</option>
+        <option value="🇨🇩 DR Congo">🇨🇩 DR Congo</option>
+        <option value="🇵🇲 Saint-Pierre-et-Miquelon">🇵🇲 Saint-Pierre-et-Miquelon</option>
+      </select>
+    </div>
+
+    <!-- @ TAG -->
+    <div class="form-section">
+      <label class="form-label">Tag someone <span style="color:var(--muted); font-size:8px;">— optional · they don't need an account yet</span></label>
+      <input
+        type="text"
+        id="post-tag-person"
+        placeholder="@Firstname.Employer.City.Country — example: @Jessica.ASAP.Tours.France"
+        style="
+          width: 100%;
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 4px;
+          padding: 12px 16px;
+          font-family: 'DM Mono', monospace;
+          font-size: 11px;
+          color: var(--text);
+          outline: none;
+          transition: border-color 0.2s;
+        "
+        oninput="this.style.borderColor = this.value ? 'rgba(124,77,255,0.3)' : ''; updateTagPreview(this.value)"
+      >
+      <div id="tag-preview" style="font-size:9px; color:var(--accent); margin-top:6px; letter-spacing:0.05em; display:none;"></div>
+      <div style="font-size:8px; color:var(--muted); margin-top:6px; letter-spacing:0.05em; line-height:1.6;">
+        Format → @Firstname.Employer.City.Country<br>
+        💜 Handle reserved even if they are not on Empathia yet. When they join with matching details — their portrait already exists.
+      </div>
+    </div>
+
+    <!-- TITLE -->
+    <div class="form-section">
+      <label class="form-label">Title or Opening Line <span>*</span></label>
+      <textarea
+        class="input-title"
+        id="post-title"
+        placeholder="The sentence that makes someone stop scrolling..."
+        rows="2"
+        maxlength="200"
+        oninput="updatePreview(); updateCharCount(this, 'title-count', 200)"
+      ></textarea>
+      <div class="char-count" id="title-count">0 / 200</div>
+    </div>
+
+    <!-- BODY -->
+    <div class="form-section" id="body-section">
+      <label class="form-label">Your voice</label>
+      <textarea
+        class="input-body"
+        id="post-body"
+        placeholder="Tell the story. Share the moment. Speak the truth.
+No minimum. No maximum. Only what needs to be said."
+        oninput="updatePreview(); updateCharCount(this, 'body-count', 2000)"
+        maxlength="2000"
+      ></textarea>
+      <div class="char-count" id="body-count">0 / 2000</div>
+    </div>
+
+    <!-- MEDIA UPLOAD -->
+    <div class="form-section" id="media-section" style="display:none;">
+      <label class="form-label">Media</label>
+      <div class="upload-zone" id="upload-zone">
+        <input type="file" id="file-input" accept="image/*,video/*" onchange="handleFile(this)">
+        <span class="upload-icon">📎</span>
+        <div class="upload-label">
+          Drop your file here or <span>browse to upload</span><br>
+          Images: JPG, PNG, GIF · Videos: MP4 (max 60s)
+        </div>
+        <div class="file-preview" id="file-preview">
+          <span class="file-preview-icon" id="file-icon">📷</span>
+          <span class="file-preview-name" id="file-name">—</span>
+          <button class="file-remove" onclick="removeFile(event)">×</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- IDENTITY -->
+    <div class="form-section">
+      <label class="form-label">Post as</label>
+      <div class="identity-row">
+        <div class="identity-info">
+          <strong id="identity-label">M.J.Delaunay · France</strong>
+          Your name and country will be visible on this post.
+          Switch to anonymous mode to post without attribution.
+        </div>
+        <div class="identity-toggle">
+          <button class="id-btn active" onclick="setIdentity(this, 'public')">🌍 Public</button>
+          <button class="id-btn" onclick="setIdentity(this, 'anon')">👤 Anonymous</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="form-section">
+      <label class="form-label">Preview — how it will appear in the feed</label>
+      <div class="preview-card visible" id="preview-card">
+        <div class="preview-header">Feed tile preview</div>
+        <div class="preview-body">
+          <div class="preview-tag" id="preview-tag">— Select a subject</div>
+          <div class="preview-title" id="preview-title" style="color:var(--muted); font-style:italic;">
+            Your title will appear here...
+          </div>
+          <div class="preview-excerpt" id="preview-excerpt"></div>
+        </div>
+        <div class="preview-footer">
+          <div class="preview-author">by <span id="preview-author">M.J.Delaunay</span> · France · 0%</div>
+          <div style="font-size:11px; color:var(--muted);">♡</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-area">
+      <button class="btn-submit" id="submit-btn" onclick="submitPost()">
+        Raise my voice — publish
+      </button>
+      <a href="/feed.html"><button class="btn-cancel">cancel</button></a>
+    </div>
+
+  </main>
+
+  <!-- SUCCESS -->
+  <div class="success-overlay" id="success-overlay">
+    <div class="success-card">
+      <div class="success-icon">💜</div>
+      <div class="success-title">Your voice is in the world.</div>
+      <div class="success-sub">
+        Your post is now live in the Empathia feed.<br>
+        Every person who reads it will have the choice<br>
+        to rate the empathy it carries.
+      </div>
+      <div id="edit-timer" style="font-size:9px; color:var(--accent); letter-spacing:0.1em; margin-bottom:16px; padding:8px; border:1px solid rgba(124,77,255,0.2); border-radius:4px;">
+        ✏️ You can edit this post for <span id="edit-countdown">30:00</span>
+      </div>
+      <button class="success-btn" style="margin-bottom:10px;" onclick="window.location.href='/feed.html'">
+        Return to the feed →
+      </button>
+      <button onclick="editPost()" style="background:none; border:1px solid var(--border); border-radius:2px; padding:10px; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.1em; color:var(--muted); cursor:pointer; width:100%; text-transform:uppercase; transition:all 0.2s;">
+        ✏️ Edit my post
+      </button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://drfmruojofxkjlqkyizk.supabase.co'
+    const SUPABASE_KEY = 'sb_publishable_-yuAzbx3YeOpBKK1X-LYdg_s14uMHzS'
+    let db = null
+    let currentType = 'text'
+    let currentSubject = null
+    let currentIdentity = 'public'
+
+    function getDB() {
+      if (!db) db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+      return db
+    }
+
+    function selectType(btn, type) {
+      document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      currentType = type
+      // Show/hide sections
+      const mediaSection = document.getElementById('media-section')
+      const bodySection = document.getElementById('body-section')
+      if (type === 'photo') {
+        mediaSection.style.display = 'block'
+        bodySection.style.display = 'none'
+      } else if (type === 'video') {
+        mediaSection.style.display = 'block'
+        bodySection.style.display = 'none'
+      } else if (type === 'photo-text') {
+        mediaSection.style.display = 'block'
+        bodySection.style.display = 'block'
+      } else {
+        mediaSection.style.display = 'none'
+        bodySection.style.display = 'block'
+      }
+    }
+
+    function selectSubject(btn) {
+      document.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      currentSubject = btn.textContent
+      document.getElementById('preview-tag').textContent = currentSubject.toUpperCase()
+      updatePreview()
+    }
+
+    function setIdentity(btn, mode) {
+      document.querySelectorAll('.id-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      currentIdentity = mode
+      const label = document.getElementById('identity-label')
+      const previewAuthor = document.getElementById('preview-author')
+      if (mode === 'anon') {
+        label.textContent = 'Anonymous · IP-verified'
+        previewAuthor.textContent = 'Anonymous'
+      } else {
+        label.textContent = 'M.J.Delaunay · France'
+        previewAuthor.textContent = 'M.J.Delaunay'
+      }
+    }
+
+    function updateTagPreview(value) {
+      const preview = document.getElementById('tag-preview')
+      if (!preview) return
+      if (!value) {
+        preview.style.display = 'none'
+        return
+      }
+      const handle = value.startsWith('@') ? value : '@' + value
+      const parts = handle.replace('@','').split('.')
+      let info = ''
+      if (parts[0]) info += `Name: ${parts[0]}`
+      if (parts[1]) info += ` · Employer: ${parts[1]}`
+      if (parts[2]) info += ` · City: ${parts[2]}`
+      if (parts[3]) info += ` · Country: ${parts[3]}`
+      preview.textContent = `💜 Handle reserved: ${handle} — ${info}`
+      preview.style.display = 'block'
+    }
+
+    function updatePreview() {
+      const title = document.getElementById('post-title').value
+      const body = document.getElementById('post-body') ? document.getElementById('post-body').value : ''
+      const previewTitle = document.getElementById('preview-title')
+      const previewExcerpt = document.getElementById('preview-excerpt')
+
+      if (title) {
+        previewTitle.textContent = title
+        previewTitle.style.color = 'var(--text)'
+        previewTitle.style.fontStyle = 'normal'
+      } else {
+        previewTitle.textContent = 'Your title will appear here...'
+        previewTitle.style.color = 'var(--muted)'
+        previewTitle.style.fontStyle = 'italic'
+      }
+
+      if (body) {
+        previewExcerpt.textContent = body.substring(0, 120) + (body.length > 120 ? '...' : '')
+      } else {
+        previewExcerpt.textContent = ''
+      }
+    }
+
+    function updateCharCount(el, countId, max) {
+      const count = el.value.length
+      const el2 = document.getElementById(countId)
+      el2.textContent = count + ' / ' + max
+      if (count > max * 0.9) {
+        el2.classList.add('warn')
+      } else {
+        el2.classList.remove('warn')
+      }
+    }
+
+    function handleFile(input) {
+      const file = input.files[0]
+      if (!file) return
+      const zone = document.getElementById('upload-zone')
+      const preview = document.getElementById('file-preview')
+      const icon = document.getElementById('file-icon')
+      const name = document.getElementById('file-name')
+      zone.classList.add('has-file')
+      preview.classList.add('visible')
+      icon.textContent = file.type.startsWith('video') ? '🎬' : '📷'
+      name.textContent = file.name + ' (' + (file.size / 1024 / 1024).toFixed(1) + ' MB)'
+    }
+
+    function removeFile(e) {
+      e.stopPropagation()
+      document.getElementById('file-input').value = ''
+      document.getElementById('upload-zone').classList.remove('has-file')
+      document.getElementById('file-preview').classList.remove('visible')
+    }
+
+    function updateTagPreview(value) {
+      const preview = document.getElementById('tag-preview')
+      if (!value) {
+        preview.style.display = 'none'
+        return
+      }
+      const handle = value.startsWith('@') ? value : '@' + value
+      const parts = handle.replace('@','').split('.')
+      let info = handle + ' — '
+      if (parts[0]) info += parts[0]
+      if (parts[1]) info += ' · ' + parts[1]
+      if (parts[2]) info += ' · ' + parts[2]
+      if (parts[3]) info += ' · ' + parts[3]
+      info += ' · handle reserved 💜'
+      preview.textContent = info
+      preview.style.display = 'block'
+    }
+
+    function updateTagPreview(value) {
+      const preview = document.getElementById('tag-preview')
+      if (!value) { preview.style.display = 'none'; return }
+      
+      // Auto-add @ if missing
+      const handle = value.startsWith('@') ? value : '@' + value
+      
+      // Parse the handle parts
+      const parts = handle.replace('@','').split('.')
+      let description = '🔖 Handle reserved → ' + handle
+      
+      if (parts.length >= 2) {
+        description += '<br>👤 ' + parts[0]
+        if (parts[1]) description += ' · ' + parts[1]
+        if (parts[2]) description += ' · ' + parts[2]
+        if (parts[3]) description += ' · ' + parts[3]
+      }
+      
+      description += '<br>💜 Portrait will exist when they join'
+      preview.innerHTML = description
+      preview.style.display = 'block'
+    }
+
+    function editPost() {
+      document.getElementById('success-overlay').classList.remove('active')
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+
+      // Reload content back into form
+      if (window._lastPostTitle) {
+        document.getElementById('post-title').value = window._lastPostTitle
+        updatePreview()
+      }
+      if (window._lastPostBody) {
+        const bodyField = document.getElementById('post-body')
+        if (bodyField) {
+          bodyField.value = window._lastPostBody
+          updatePreview()
+        }
+      }
+
+      const btn = document.getElementById('submit-btn')
+      btn.textContent = 'Update my post →'
+      btn.disabled = false
+      btn.onclick = updatePost
+
+      document.querySelector('.page-title').textContent = 'Edit your voice.'
+    }
+
+    async function updatePost() {
+      const title = document.getElementById('post-title').value.trim()
+      const body = document.getElementById('post-body') ? document.getElementById('post-body').value.trim() : ''
+
+      if (!title) { alert('Please add a title.'); return }
+      if (!window._lastPostId) { alert('Post ID not found. Cannot update.'); return }
+
+      const btn = document.getElementById('submit-btn')
+      btn.textContent = 'Updating...'
+      btn.disabled = true
+
+      try {
+        const supabase = getDB()
+        const { error } = await supabase
+          .from('posts')
+          .update({ content: title + (body ? '\n\n' + body : '') })
+          .eq('id', window._lastPostId)
+
+        if (error) throw error
+
+        btn.textContent = 'Updated 💜'
+        setTimeout(() => {
+          window.location.href = '/feed.html'
+        }, 1000)
+
+      } catch (err) {
+        btn.textContent = 'Update my post →'
+        btn.disabled = false
+        alert('Error: ' + err.message)
+      }
+    }
+
+    async function submitPost() {
+      const title = document.getElementById('post-title').value.trim()
+      const body = document.getElementById('post-body') ? document.getElementById('post-body').value.trim() : ''
+
+      if (!title) {
+        alert('Please add a title or opening line.')
+        return
+      }
+
+      if (!currentSubject) {
+        alert('Please select a subject.')
+        return
+      }
+
+      let currentPostId = null
+
+      const btn = document.getElementById('submit-btn')
+      btn.textContent = 'Publishing...'
+      btn.disabled = true
+
+      try {
+        const supabase = getDB()
+        const { data: { user } } = await supabase.auth.getUser()
+
+        if (!user) {
+          window.location.href = '/signup.html'
+          return
+        }
+
+        const tag = document.getElementById('post-tag-person')?.value.trim() || null
+
+        const { data, error } = await supabase.from('posts').insert([{
+          author_id: user.id,
+          content: title + (body ? '\n\n' + body : '') + (tag ? '\n\n' + tag : ''),
+          country: document.getElementById('post-country')?.value || '🌍 World',
+          empathy_score: 0,
+          identity_mode: currentIdentity
+        }]).select()
+
+        if (error) throw error
+
+        // Store the post id for editing
+        if (data && data[0]) {
+          window._lastPostId = data[0].id
+          window._lastPostTitle = title
+          window._lastPostBody = body
+        }
+
+        document.getElementById('success-overlay').classList.add('active')
+
+        // Start 30 minute edit countdown
+        let secondsLeft = 30 * 60
+        const countdown = document.getElementById('edit-countdown')
+        const editTimer = document.getElementById('edit-timer')
+        const editBtn = document.querySelector('[onclick="editPost()"]')
+
+        const timer = setInterval(() => {
+          secondsLeft--
+          const mins = Math.floor(secondsLeft / 60)
+          const secs = secondsLeft % 60
+          countdown.textContent = `${mins}:${secs.toString().padStart(2, '0')}`
+          if (secondsLeft <= 0) {
+            clearInterval(timer)
+            editTimer.style.display = 'none'
+            editBtn.style.display = 'none'
+          }
+        }, 1000)
+
+      } catch (err) {
+        btn.textContent = 'Raise my voice — publish'
+        btn.disabled = false
+        alert('Error: ' + err.message)
+      }
+    }
+
+    // Animate on load
+    document.querySelectorAll('.form-section, .page-header, .submit-area').forEach((el, i) => {
+      el.style.opacity = '0'
+      el.style.transform = 'translateY(10px)'
+      el.style.transition = 'opacity 0.4s ease, transform 0.4s ease'
+      setTimeout(() => {
+        el.style.opacity = '1'
+        el.style.transform = 'translateY(0)'
+      }, 60 + i * 60)
+    })
+  </script>
+
+<script src="/theme.js"></script>
+</body>
+</html>

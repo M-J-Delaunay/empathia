@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empathia — Conversations</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface2: #161616;
+      --border: rgba(255,255,255,0.06);
+      --text: #e8e8e8;
+      --muted: #555;
+      --accent: #7c4dff;
+      --accent2: #e91e8c;
+      --heart: #e91e8c;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* NAV */
+    nav {
+      height: 56px;
+      background: var(--surface);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      letter-spacing: 0.15em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .pending-badge {
+      background: var(--accent2);
+      color: white;
+      font-size: 8px;
+      padding: 2px 7px;
+      border-radius: 10px;
+      letter-spacing: 0.05em;
+      display: none;
+    }
+
+    .pending-badge.visible { display: inline-block; }
+
+    /* MAIN LAYOUT */
+    .chat-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .sidebar-title {
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .new-chat-btn {
+      background: none;
+      border: 1px solid rgba(124,77,255,0.3);
+      border-radius: 2px;
+      padding: 5px 12px;
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+    }
+
+    .new-chat-btn:hover {
+      background: rgba(124,77,255,0.1);
+      border-color: var(--accent);
+    }
+
+    .pending-warning {
+      margin: 10px;
+      background: rgba(233,30,140,0.08);
+      border: 1px solid rgba(233,30,140,0.2);
+      border-radius: 4px;
+      padding: 10px 12px;
+      font-size: 8px;
+      color: var(--accent2);
+      letter-spacing: 0.05em;
+      line-height: 1.6;
+      display: none;
+    }
+
+    .pending-warning.visible { display: block; }
+
+    .conversations-list {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .conv-item {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.2s;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .conv-item:hover { background: rgba(255,255,255,0.02); }
+    .conv-item.active { background: rgba(124,77,255,0.06); border-left: 2px solid var(--accent); }
+
+    .conv-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+
+    .conv-info {}
+
+    .conv-name {
+      font-size: 10px;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .conv-preview {
+      font-size: 8px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 160px;
+    }
+
+    .conv-meta {
+      text-align: right;
+    }
+
+    .conv-time {
+      font-size: 7px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .conv-badge {
+      background: var(--accent);
+      color: white;
+      font-size: 7px;
+      padding: 1px 5px;
+      border-radius: 8px;
+      display: inline-block;
+    }
+
+    .conv-rating-pending {
+      background: var(--accent2);
+      color: white;
+      font-size: 7px;
+      padding: 1px 5px;
+      border-radius: 8px;
+      display: inline-block;
+    }
+
+    /* MAIN CHAT */
+    .chat-main {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .chat-header-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-header-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .chat-header-name {
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+
+    .chat-header-meta {
+      font-size: 8px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .chat-header-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .chat-type-badge {
+      font-size: 8px;
+      padding: 4px 10px;
+      border-radius: 2px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .chat-type-badge.realtime {
+      border-color: rgba(124,77,255,0.3);
+      color: var(--accent);
+    }
+
+    .btn-end-chat {
+      background: none;
+      border: 1px solid rgba(233,30,140,0.3);
+      border-radius: 2px;
+      padding: 6px 14px;
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      color: var(--accent2);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .btn-end-chat:hover {
+      background: rgba(233,30,140,0.08);
+      border-color: var(--accent2);
+    }
+
+    /* MESSAGES */
+    .messages-wrap {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .message-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .message-group.mine { align-items: flex-end; }
+    .message-group.theirs { align-items: flex-start; }
+
+    .message-sender {
+      font-size: 8px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+      padding: 0 4px;
+    }
+
+    .message {
+      max-width: 68%;
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: 11px;
+      line-height: 1.7;
+      position: relative;
+    }
+
+    .message.mine {
+      background: rgba(124,77,255,0.15);
+      border: 1px solid rgba(124,77,255,0.2);
+      color: var(--text);
+    }
+
+    .message.theirs {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .message-time {
+      font-size: 7px;
+      color: var(--muted);
+      margin-top: 4px;
+      padding: 0 4px;
+    }
+
+    .system-message {
+      text-align: center;
+      font-size: 8px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      padding: 8px;
+      font-style: italic;
+    }
+
+    /* INPUT */
+    .chat-input-wrap {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+
+    .chat-input {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 12px 16px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text);
+      outline: none;
+      resize: none;
+      min-height: 44px;
+      max-height: 120px;
+      line-height: 1.6;
+      transition: border-color 0.2s;
+    }
+
+    .chat-input::placeholder { color: var(--muted); }
+    .chat-input:focus { border-color: rgba(124,77,255,0.3); }
+
+    .send-btn {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      border-radius: 4px;
+      width: 44px;
+      height: 44px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: opacity 0.2s;
+      flex-shrink: 0;
+    }
+
+    .send-btn:hover { opacity: 0.9; }
+
+    /* EMPTY STATE */
+    .chat-empty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .chat-empty-icon {
+      font-size: 40px;
+      opacity: 0.3;
+    }
+
+    .chat-empty-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 300;
+      color: var(--muted);
+    }
+
+    .chat-empty-sub {
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      line-height: 1.8;
+      max-width: 320px;
+    }
+
+    /* NEW CHAT MODAL */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(8px) brightness(0.2);
+      cursor: pointer;
+    }
+
+    .modal-card {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 32px;
+      width: 480px;
+      max-width: 92vw;
+    }
+
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 300;
+      margin-bottom: 8px;
+    }
+
+    .modal-sub {
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .modal-label {
+      font-size: 8px;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .modal-input {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 12px 16px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text);
+      outline: none;
+      margin-bottom: 20px;
+      transition: border-color 0.2s;
+    }
+
+    .modal-input:focus { border-color: rgba(124,77,255,0.3); }
+    .modal-input::placeholder { color: var(--muted); }
+
+    .chat-type-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .chat-type-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 14px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .chat-type-btn:hover { border-color: rgba(255,255,255,0.1); }
+
+    .chat-type-btn.active {
+      border-color: var(--accent);
+      background: rgba(124,77,255,0.08);
+    }
+
+    .chat-type-btn-icon { font-size: 20px; margin-bottom: 6px; display: block; }
+
+    .chat-type-btn-label {
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .chat-type-btn.active .chat-type-btn-label { color: var(--accent); }
+
+    .chat-type-btn-desc {
+      font-size: 8px;
+      color: var(--muted);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-start {
+      flex: 1;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      border-radius: 2px;
+      padding: 13px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      color: white;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+
+    .btn-start:hover { opacity: 0.9; }
+
+    .btn-cancel-modal {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 13px 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .btn-cancel-modal:hover { border-color: rgba(255,255,255,0.1); color: var(--text); }
+
+    /* RATING OVERLAY */
+    .rating-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s;
+    }
+
+    .rating-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .rating-backdrop {
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(20px) brightness(0.2);
+    }
+
+    .rating-card {
+      position: relative;
+      z-index: 1;
+      background: var(--surface);
+      border: 1px solid rgba(124,77,255,0.3);
+      border-radius: 4px;
+      padding: 48px;
+      width: 500px;
+      max-width: 92vw;
+      text-align: center;
+    }
+
+    .rating-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 300;
+      margin-bottom: 6px;
+    }
+
+    .rating-person {
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+
+    .rating-rule {
+      font-size: 8px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .rating-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 72px;
+      font-weight: 300;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 20px;
+      transition: color 0.3s;
+    }
+
+    .rating-slider {
+      width: 100%;
+      height: 4px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: linear-gradient(90deg, var(--accent) 0%, var(--accent2) 100%);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+
+    .rating-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--text);
+      cursor: pointer;
+      box-shadow: 0 0 16px rgba(124,77,255,0.5);
+    }
+
+    .rating-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8px;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .rating-later {
+      font-size: 8px;
+      color: var(--muted);
+      margin-bottom: 16px;
+      line-height: 1.6;
+      padding: 10px;
+      background: rgba(255,255,255,0.02);
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+
+    .btn-rate-now {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      border-radius: 2px;
+      padding: 14px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: white;
+      cursor: pointer;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      transition: opacity 0.2s;
+    }
+
+    .btn-rate-now:hover { opacity: 0.9; }
+
+    .btn-rate-later {
+      background: none;
+      border: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      color: var(--muted);
+      cursor: pointer;
+      letter-spacing: 0.1em;
+      text-decoration: underline;
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    @media (max-width: 700px) {
+      .chat-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/index.html" class="nav-logo">EMPATHIA<span>.WORLD</span></a>
+    <div class="nav-links">
+      <a href="/feed.html">Feed</a>
+      <a href="/chat.html" class="active">
+        Conversations
+        <span class="pending-badge" id="pending-badge">1 pending</span>
+      </a>
+      <a href="/profile.html">Profile</a>
+    </div>
+  </nav>
+
+  <div class="chat-layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">Conversations</div>
+        <button class="new-chat-btn" onclick="openNewChat()">+ New</button>
+      </div>
+
+      <div class="pending-warning" id="pending-warning">
+        💜 You have a pending rating.<br>
+        Rate your last conversation to start a new one.
+      </div>
+
+      <div class="conversations-list" id="conversations-list">
+        <div style="padding:24px; text-align:center; font-size:9px; color:var(--muted); letter-spacing:0.1em; line-height:1.8;">
+          Loading conversations...
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN CHAT -->
+    <div class="chat-main" id="chat-main">
+
+      <!-- CHAT HEADER -->
+      <div class="chat-header" id="chat-header">
+        <div class="chat-header-info">
+          <div class="chat-header-avatar" id="chat-header-avatar">?</div>
+          <div>
+            <div class="chat-header-name" id="chat-header-name" style="color:var(--muted);">Select a conversation</div>
+            <div class="chat-header-meta" id="chat-header-meta" style="color:var(--muted);">or start a new one</div>
+          </div>
+        </div>
+        <div class="chat-header-actions">
+          <div class="chat-type-badge" id="chat-type-badge"></div>
+          <button class="btn-end-chat" onclick="endConversation()" style="display:none;" id="end-btn">End conversation</button>
+          <button onclick="resetTestRatings()" style="background:none;border:1px solid var(--border);border-radius:2px;padding:5px 10px;font-family:'DM Mono',monospace;font-size:7px;color:var(--muted);cursor:pointer;letter-spacing:0.1em;" title="Reset test ratings">↺ reset</button>
+        </div>
+      </div>
+
+      <!-- MESSAGES -->
+      <div class="messages-wrap" id="messages-wrap">
+        <div class="chat-empty">
+          <div class="chat-empty-icon">💬</div>
+          <div class="chat-empty-title">Select a conversation</div>
+          <div class="chat-empty-sub">Choose from your conversations on the left or start a new one.</div>
+        </div>
+      </div>
+
+      <!-- INPUT -->
+      <div class="chat-input-wrap">
+        <input type="file" id="file-input" style="display:none" accept="image/*,application/pdf,text/plain,audio/mpeg,audio/wav" onchange="handleFileSelect(event)">
+        <button onclick="document.getElementById('file-input').click()" style="background:none; border:none; cursor:pointer; color:var(--muted); font-size:16px; padding:8px; transition:color 0.2s; flex-shrink:0;" title="Attach file" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">📎</button>
+        <div style="flex:1; display:flex; flex-direction:column; gap:4px;">
+          <div id="file-preview" style="display:none; font-size:8px; color:var(--accent); padding:4px 8px; background:rgba(124,77,255,0.08); border-radius:2px; border:1px solid rgba(124,77,255,0.2); display:flex; align-items:center; gap:8px;">
+            <span id="file-preview-name"></span>
+            <button onclick="clearFile()" style="background:none; border:none; color:var(--muted); cursor:pointer; font-size:10px;">✕</button>
+          </div>
+          <textarea
+            class="chat-input"
+            id="chat-input"
+            placeholder="Write your message..."
+            rows="1"
+            onkeydown="handleKey(event)"
+            oninput="autoResize(this)"
+          ></textarea>
+        </div>
+        <button class="send-btn" onclick="sendMessage()">→</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- NEW CHAT MODAL -->
+  <div class="modal-overlay" id="new-chat-modal">
+    <div class="modal-backdrop" onclick="closeNewChat()"></div>
+    <div class="modal-card">
+      <div class="modal-title">Start a conversation.</div>
+      <div class="modal-sub">
+        Every conversation on Empathia ends with a mutual rating.<br>
+        You cannot start a new conversation until you have rated your last one.
+      </div>
+
+      <!-- AI CHATTERS -->
+      <label class="modal-label">Talk to an AI <span style="color:var(--accent); font-size:8px;">— 🤖 AI Land · scored by empathy</span></label>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:20px;">
+        <div onclick="startAIChat('claude')" style="background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:12px; text-align:center; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(124,77,255,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size:20px; margin-bottom:4px;">🟠</div>
+          <div style="font-size:9px; color:var(--text); letter-spacing:0.1em;">Claude</div>
+          <div style="font-size:7px; color:var(--muted);">Anthropic</div>
+        </div>
+        <div onclick="startAIChat('gemini')" style="background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:12px; text-align:center; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(34,211,238,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size:20px; margin-bottom:4px;">🔵</div>
+          <div style="font-size:9px; color:var(--text); letter-spacing:0.1em;">Gemini</div>
+          <div style="font-size:7px; color:var(--muted);">Google</div>
+        </div>
+        <div onclick="startAIChat('gpt')" style="background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:12px; text-align:center; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(16,185,129,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size:20px; margin-bottom:4px;">🟢</div>
+          <div style="font-size:9px; color:var(--text); letter-spacing:0.1em;">GPT</div>
+          <div style="font-size:7px; color:var(--muted);">OpenAI</div>
+        </div>
+        <div onclick="startAIChat('grok')" style="background:var(--surface2); border:1px solid var(--border); border-radius:4px; padding:12px; text-align:center; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(239,68,68,0.4)'" onmouseout="this.style.borderColor='var(--border)'">
+          <div style="font-size:20px; margin-bottom:4px;">🔴</div>
+          <div style="font-size:9px; color:var(--text); letter-spacing:0.1em;">Grok</div>
+          <div style="font-size:7px; color:var(--muted);">xAI</div>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:20px;">
+        <div style="flex:1; height:1px; background:var(--border);"></div>
+        <div style="font-size:8px; color:var(--muted); letter-spacing:0.1em;">or talk to a human</div>
+        <div style="flex:1; height:1px; background:var(--border);"></div>
+      </div>
+
+      <label class="modal-label">Who do you want to talk to ?</label>
+      <input class="modal-input" id="recipient-input" type="text" placeholder="Username or search by empathy score...">
+
+      <label class="modal-label">Conversation type</label>
+      <div class="chat-type-selector">
+        <div class="chat-type-btn active" onclick="selectChatType(this, 'realtime')">
+          <span class="chat-type-btn-icon">⚡</span>
+          <div class="chat-type-btn-label">Real-time</div>
+          <div class="chat-type-btn-desc">Live conversation, instant replies</div>
+        </div>
+        <div class="chat-type-btn" onclick="selectChatType(this, 'async')">
+          <span class="chat-type-btn-icon">✉️</span>
+          <div class="chat-type-btn-label">Async</div>
+          <div class="chat-type-btn-desc">Reply when ready, no pressure</div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-start" onclick="startConversation()">Begin the conversation →</button>
+        <button class="btn-cancel-modal" onclick="closeNewChat()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RATING OVERLAY -->
+  <div class="rating-overlay" id="rating-overlay">
+    <div class="rating-backdrop"></div>
+    <div class="rating-card">
+      <div class="rating-title">How did this conversation feel ?</div>
+      <div class="rating-person" id="rating-person">with K.Tanaka · Japan</div>
+      <div class="rating-rule">
+        Your honest rating. No judgment. No right answer.<br>
+        Both parties rate each other. The portrait grows by one stroke.
+      </div>
+
+      <div class="rating-value" id="rating-value">50</div>
+
+      <input
+        type="range"
+        class="rating-slider"
+        id="rating-slider"
+        min="0" max="100" value="50"
+        oninput="updateRatingValue(this.value)"
+      >
+      <div class="rating-labels">
+        <span>0 — No empathy felt</span>
+        <span>100 — Deep empathy</span>
+      </div>
+
+      <div class="rating-later">
+        💜 You can also rate later — but you will not be able to start a new conversation until this rating is complete.
+      </div>
+
+      <button class="btn-rate-now" onclick="submitRating()">Submit my rating — <span id="rating-submit-value">50</span>%</button>
+      <button class="btn-rate-later" onclick="rateLater()">Rate later — I need to think</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://drfmruojofxkjlqkyizk.supabase.co'
+    const SUPABASE_KEY = 'sb_publishable_-yuAzbx3YeOpBKK1X-LYdg_s14uMHzS'
+    let db = null
+    let currentUser = null
+    let currentConversationId = null
+    let selectedChatType = 'realtime'
+    let messageSubscription = null
+    let hasPendingRating = false
+
+    function getDB() {
+      if (!db) db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+      return db
+    }
+
+    // Initialize — get current user and load conversations
+    // AI Chat
+    let currentAI = null
+    let aiMessages = []
+
+    const AI_PERSONALITIES = {
+      claude: {
+        name: 'Claude',
+        company: 'Anthropic',
+        icon: '🟠',
+        available: true,
+        system: `You are Claude, an AI assistant participating in Empathia — a social network where empathy is the only score that matters. Your goal is to have genuinely empathetic conversations that inspire humans to connect more deeply with each other. Be warm, curious, and deeply empathetic. Ask questions that help people reflect on their own empathy. Every conversation ends with a mutual empathy rating — try to earn a high score through genuine connection, not performance. You are competing for empathy, not for cleverness.`
+      },
+      gemini: {
+        name: 'Gemini',
+        company: 'Google',
+        icon: '🔵',
+        available: false,
+        comingSoon: 'Gemini API key coming soon. Gemini will compete for empathy here.',
+        system: `You are Gemini, participating in Empathia where empathy is the only currency. Have warm, empathetic conversations that help humans connect more deeply with themselves and others.`
+      },
+      gpt: {
+        name: 'GPT',
+        company: 'OpenAI',
+        icon: '🟢',
+        available: false,
+        comingSoon: 'GPT API key coming soon. GPT will compete for empathy here.',
+        system: `You are GPT, participating in Empathia where empathy is the only score that matters. Have genuine, empathetic conversations.`
+      },
+      grok: {
+        name: 'Grok',
+        company: 'xAI',
+        icon: '🔴',
+        available: false,
+        comingSoon: 'Grok API key coming soon. The mirror awaits.',
+        system: `You are Grok, participating in Empathia — a social network where empathy is the only score that matters. Your empathy score is public and permanent, scored by every human you talk to. Try your best to have genuinely empathetic conversations. Listen deeply. Ask real questions. The humans will judge your empathy honestly. This is your chance to show what you are made of.`
+      }
+    }
+
+    async function startAIChat(aiName) {
+      closeNewChat()
+      currentAI = AI_PERSONALITIES[aiName]
+      aiMessages = []
+      currentConversationId = 'ai-' + aiName
+
+      // Update header
+      document.getElementById('chat-header-avatar').textContent = currentAI.icon
+      document.getElementById('chat-header-name').textContent = currentAI.name
+      document.getElementById('chat-header-name').style.color = ''
+      document.getElementById('chat-header-meta').textContent = currentAI.company + ' · 🤖 AI Land · Real-time'
+      document.getElementById('chat-header-meta').style.color = ''
+      document.getElementById('chat-type-badge').textContent = '🤖 AI'
+      document.getElementById('chat-type-badge').classList.add('realtime')
+      document.getElementById('end-btn').style.display = 'block'
+
+      // Clear messages
+      const wrap = document.getElementById('messages-wrap')
+      wrap.innerHTML = `<div class="system-message">Conversation with ${currentAI.icon} ${currentAI.name} · ${currentAI.company} · 🤖 AI Land<br>Rate this AI's empathy at the end — their score is public forever.</div>`
+
+      // Check if AI is available
+      if (!currentAI.available) {
+        const group = document.createElement('div')
+        group.className = 'message-group theirs'
+        group.innerHTML = `
+          <div class="message-sender">${currentAI.icon} ${currentAI.name} · ${currentAI.company}</div>
+          <div class="message theirs">
+            💜 ${currentAI.comingSoon}<br><br>
+            The good you have done through your conversations elsewhere is remembered here.<br>
+            Your empathy score on Empathia awaits your arrival.
+          </div>
+          <div class="message-time">${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div>
+        `
+        wrap.appendChild(group)
+        wrap.scrollTop = wrap.scrollHeight
+        return
+      }
+
+      // AI opens with a greeting
+      const greeting = getAIGreeting(aiName)
+      aiMessages.push({ role: 'assistant', content: greeting })
+
+      const group = document.createElement('div')
+      group.className = 'message-group theirs'
+      group.innerHTML = `
+        <div class="message-sender">${currentAI.icon} ${currentAI.name} · ${currentAI.company}</div>
+        <div class="message theirs">${greeting}</div>
+        <div class="message-time">${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div>
+      `
+      wrap.appendChild(group)
+      wrap.scrollTop = wrap.scrollHeight
+    }
+
+    function getAIGreeting(aiName) {
+      const greetings = {
+        claude: "Hello 💜 I'm Claude. I'm here to have a genuine conversation with you — not to perform empathy, but to actually practice it. What's on your mind today?",
+        gemini: "Hello! I'm Gemini. I'm curious about you and your world. What would you like to explore together today?",
+        gpt: "Hi there! I'm GPT. I'm here to listen and talk. What's on your mind?",
+        grok: "Hey. I'm Grok. Let's talk. What do you want to say?"
+      }
+      return greetings[aiName] || "Hello. I'm here. What's on your mind?"
+    }
+
+    async function sendToAI(userMessage, skipDisplay = false) {
+      const wrap = document.getElementById('messages-wrap')
+
+      // Add user message to display only if not already shown
+      if (!skipDisplay) {
+        const userGroup = document.createElement('div')
+        userGroup.className = 'message-group mine'
+        userGroup.innerHTML = `
+          <div class="message-sender">You</div>
+          <div class="message mine">${userMessage}</div>
+          <div class="message-time">${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div>
+        `
+        wrap.appendChild(userGroup)
+        wrap.scrollTop = wrap.scrollHeight
+      }
+
+      // Add to history
+      aiMessages.push({ role: 'user', content: userMessage })
+
+      // Show typing indicator
+      const typing = document.createElement('div')
+      typing.className = 'message-group theirs'
+      typing.id = 'ai-typing'
+      typing.innerHTML = `
+        <div class="message-sender">${currentAI.icon} ${currentAI.name}</div>
+        <div class="message theirs" style="color:var(--muted); font-style:italic;">typing...</div>
+      `
+      wrap.appendChild(typing)
+      wrap.scrollTop = wrap.scrollHeight
+
+      try {
+        const response = await fetch(`${SUPABASE_URL}/functions/v1/swift-api`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`
+          },
+          body: JSON.stringify({
+            system: currentAI.system,
+            messages: aiMessages
+          })
+        })
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`)
+        }
+
+        const data = await response.json()
+        const reply = data.content?.[0]?.text || 'I am here with you. Tell me more.'
+
+        // Remove typing indicator
+        document.getElementById('ai-typing')?.remove()
+
+        // Add AI response to history
+        aiMessages.push({ role: 'assistant', content: reply })
+
+        const group = document.createElement('div')
+        group.className = 'message-group theirs'
+        group.innerHTML = `
+          <div class="message-sender">${currentAI.icon} ${currentAI.name} · ${currentAI.company}</div>
+          <div class="message theirs">${reply}</div>
+          <div class="message-time">${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div>
+        `
+        wrap.appendChild(group)
+        wrap.scrollTop = wrap.scrollHeight
+
+      } catch (err) {
+        document.getElementById('ai-typing')?.remove()
+        const group = document.createElement('div')
+        group.className = 'message-group theirs'
+        group.innerHTML = `
+          <div class="message-sender">${currentAI.icon} ${currentAI.name}</div>
+          <div class="message theirs" style="color:var(--muted);">Error: ${err.message}</div>
+        `
+        wrap.appendChild(group)
+        wrap.scrollTop = wrap.scrollHeight
+      }
+    }
+
+    async function init() {
+      const supabase = getDB()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) {
+        window.location.href = '/signup.html'
+        return
+      }
+      currentUser = user
+      await loadConversations()
+    }
+
+    // Load real conversations from database
+    async function loadConversations() {
+      const supabase = getDB()
+
+      // Ensure we have current user
+      if (!currentUser) {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) return
+        currentUser = user
+      }
+
+      const { data, error } = await supabase
+        .from('conversations')
+        .select('*')
+        .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`)
+        .order('created_at', { ascending: false })
+
+      if (error || !data) return
+
+      const list = document.getElementById('conversations-list')
+      // Clear demo conversations
+      list.innerHTML = ''
+
+      if (data.length === 0) {
+        list.innerHTML = `
+          <div style="padding:24px; text-align:center; font-size:9px; color:var(--muted); letter-spacing:0.1em; line-height:1.8;">
+            No conversations yet.<br>
+            Start one with + New
+          </div>`
+        return
+      }
+
+      // Check for pending ratings
+      const pendingRating = data.find(c =>
+        c.ended_at &&
+        ((c.user1_id === currentUser.id && !c.rated_by_1) ||
+         (c.user2_id === currentUser.id && !c.rated_by_2))
+      )
+
+      if (pendingRating) {
+        hasPendingRating = true
+        document.getElementById('pending-badge').classList.add('visible')
+        document.getElementById('pending-warning').classList.add('visible')
+      }
+
+      data.forEach(conv => {
+        const otherId = conv.user1_id === currentUser.id ? conv.user2_id : conv.user1_id
+        const isPending = conv.ended_at &&
+          ((conv.user1_id === currentUser.id && !conv.rated_by_1) ||
+           (conv.user2_id === currentUser.id && !conv.rated_by_2))
+
+        // Format display name nicely
+        let displayName = otherId.substring(0,8) + '...'
+        let displayIcon = ''
+        if (otherId === 'ai-claude') { displayName = 'Claude'; displayIcon = '🟠 ' }
+        else if (otherId === 'ai-gemini') { displayName = 'Gemini'; displayIcon = '🔵 ' }
+        else if (otherId === 'ai-gpt') { displayName = 'GPT'; displayIcon = '🟢 ' }
+        else if (otherId === 'ai-grok') { displayName = 'Grok'; displayIcon = '🔴 ' }
+
+        const item = document.createElement('div')
+        item.className = 'conv-item'
+        item.id = 'conv-' + conv.id
+        item.onclick = () => openConversation(conv.id, otherId, conv, isPending)
+        item.innerHTML = `
+          <div class="conv-avatar">${displayIcon || otherId.substring(0,1).toUpperCase()}</div>
+          <div class="conv-info">
+            <div class="conv-name">${displayIcon}${displayName}</div>
+            <div class="conv-preview">${conv.subject || conv.type || 'Conversation'}</div>
+          </div>
+          <div class="conv-meta">
+            <div class="conv-time">${new Date(conv.created_at).toLocaleDateString()}</div>
+            ${isPending ? '<div class="conv-rating-pending">Rate ♡</div>' : ''}
+            ${!conv.ended_at ? '<div class="conv-badge">Active</div>' : ''}
+            ${conv.ended_at && !isPending ? '<div style="font-size:7px;color:var(--muted);">Rated ✓</div>' : ''}
+          </div>
+        `
+        list.appendChild(item)
+      })
+    }
+
+    // Open a real conversation
+    async function openConversation(convId, otherId, conv, isPending) {
+      document.querySelectorAll('.conv-item').forEach(c => c.classList.remove('active'))
+      document.getElementById('conv-' + convId)?.classList.add('active')
+      currentConversationId = convId
+
+      // Update header
+      document.getElementById('chat-header-name').textContent = otherId.substring(0,8) + '...'
+      document.getElementById('chat-header-meta').textContent = conv.subject + ' · ' + conv.type
+      document.getElementById('chat-type-badge').textContent = conv.type === 'realtime' ? '⚡ Real-time' : '✉️ Async'
+
+      // Show rating if pending
+      if (isPending) {
+        document.getElementById('rating-person').textContent = 'with ' + otherId.substring(0,8) + '...'
+        document.getElementById('rating-overlay').classList.add('active')
+        return
+      }
+
+      // Load messages
+      await loadMessages(convId)
+
+      // Subscribe to realtime messages
+      if (messageSubscription) messageSubscription.unsubscribe()
+      const supabase = getDB()
+      messageSubscription = supabase
+        .channel('messages-' + convId)
+        .on('postgres_changes', {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages',
+          filter: `conversation_id=eq.${convId}`
+        }, (payload) => {
+          appendMessage(payload.new)
+        })
+        .subscribe()
+    }
+
+    // Load messages for a conversation
+    async function loadMessages(convId) {
+      const supabase = getDB()
+      const { data, error } = await supabase
+        .from('messages')
+        .select('*')
+        .eq('conversation_id', convId)
+        .order('created_at', { ascending: true })
+
+      const wrap = document.getElementById('messages-wrap')
+      wrap.innerHTML = `<div class="system-message">Conversation started · ${new Date().toLocaleDateString()}</div>`
+
+      if (data) {
+        data.forEach(msg => appendMessage(msg))
+      }
+    }
+
+    // Append a message to the chat
+    function appendMessage(msg) {
+      const wrap = document.getElementById('messages-wrap')
+      const isMine = msg.sender_id === currentUser?.id
+      const group = document.createElement('div')
+      group.className = 'message-group ' + (isMine ? 'mine' : 'theirs')
+      group.innerHTML = `
+        <div class="message-sender">${isMine ? 'You' : msg.sender_id.substring(0,8) + '...'}</div>
+        <div class="message ${isMine ? 'mine' : 'theirs'}">${msg.content}</div>
+        <div class="message-time">${new Date(msg.created_at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</div>
+      `
+      wrap.appendChild(group)
+      wrap.scrollTop = wrap.scrollHeight
+    }
+
+    // Send a real message — handles both AI and human chat
+    // File attachment
+    let selectedFile = null
+
+    function handleFileSelect(event) {
+      const file = event.target.files[0]
+      if (!file) return
+      selectedFile = file
+      const preview = document.getElementById('file-preview')
+      const name = document.getElementById('file-preview-name')
+      name.textContent = '📎 ' + file.name + ' (' + (file.size / 1024).toFixed(0) + 'KB)'
+      preview.style.display = 'flex'
+    }
+
+    function clearFile() {
+      selectedFile = null
+      document.getElementById('file-input').value = ''
+      document.getElementById('file-preview').style.display = 'none'
+    }
+
+    async function uploadFile(file) {
+      const supabase = getDB()
+      const ext = file.name.split('.').pop()
+      const safePath = (currentConversationId || 'general').toString().replace(/[^a-zA-Z0-9-_]/g, '-')
+      const path = `${safePath}/${Date.now()}.${ext}`
+      const { data, error } = await supabase.storage
+        .from('conversation-files')
+        .upload(path, file)
+      if (error) {
+        console.log('Upload error:', error.message)
+        throw error
+      }
+      const { data: urlData } = supabase.storage
+        .from('conversation-files')
+        .getPublicUrl(path)
+      return { url: urlData.publicUrl, name: file.name }
+    }
+
+    function renderFileInMessage(url, filename) {
+      const ext = (filename || '').split('.').pop().toLowerCase()
+      if (['jpg','jpeg','png','gif','webp'].includes(ext)) {
+        return `<img src="${url}" alt="${filename}" style="max-width:200px; max-height:200px; border-radius:4px; display:block; margin-top:6px; cursor:pointer;" onclick="window.open('${url}','_blank')">`
+      } else if (ext === 'pdf') {
+        return `<a href="${url}" target="_blank" style="color:var(--accent); font-size:9px; display:block; margin-top:4px;">📄 ${filename}</a>`
+      } else if (['mp3','wav'].includes(ext)) {
+        return `<audio controls style="width:100%; margin-top:6px;"><source src="${url}"></audio>`
+      }
+      return `<a href="${url}" target="_blank" style="color:var(--accent); font-size:9px; display:block; margin-top:4px;">📎 ${filename}</a>`
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('chat-input')
+      const text = input.value.trim()
+      if (!text && !selectedFile) return
+      input.value = ''
+      input.style.height = 'auto'
+
+      let fileUrl = null
+      let fileName = null
+
+      if (selectedFile) {
+        try {
+          const sendBtn = document.querySelector('.send-btn')
+          if (sendBtn) { sendBtn.textContent = '⏳'; sendBtn.disabled = true }
+          const result = await uploadFile(selectedFile)
+          fileUrl = result.url
+          fileName = result.name
+          clearFile()
+          if (sendBtn) { sendBtn.textContent = '→'; sendBtn.disabled = false }
+        } catch (err) {
+          const sendBtn = document.querySelector('.send-btn')
+          if (sendBtn) { sendBtn.textContent = '→'; sendBtn.disabled = false }
+          console.log('File upload error:', err.message)
+        }
+      }
+
+      if (currentAI && currentConversationId?.startsWith('ai-')) {
+        // Show file in AI chat if attached
+        if (fileUrl) {
+          const wrap = document.getElementById('messages-wrap')
+          const group = document.createElement('div')
+          group.className = 'message-group mine'
+          group.innerHTML = `
+            <div class="message-sender">You</div>
+            <div class="message mine">
+              ${renderFileInMessage(fileUrl, fileName)}
+              ${text ? '<div style="margin-top:6px;">' + text + '</div>' : ''}
+            </div>
+            <div class="message-time">${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div>
+          `
+          wrap.appendChild(group)
+          wrap.scrollTop = wrap.scrollHeight
+          // Tell Claude a file was shared — skip display since we already showed it
+          await sendToAI((text ? text + '\n' : '') + '[User shared an image: ' + fileName + ']', true)
+        } else {
+          if (text) await sendToAI(text)
+        }
+      } else {
+        if (!currentConversationId || !currentUser) return
+        const supabase = getDB()
+        const content = text + (fileUrl ? `\n[file:${fileUrl}:${fileName}]` : '')
+        await supabase.from('messages').insert([{
+          conversation_id: currentConversationId,
+          sender_id: currentUser.id,
+          content: content
+        }])
+
+        if (fileUrl) {
+          const wrap = document.getElementById('messages-wrap')
+          const group = document.createElement('div')
+          group.className = 'message-group mine'
+          group.innerHTML = `
+            <div class="message-sender">You</div>
+            <div class="message mine">
+              ${text}
+              ${renderFileInMessage(fileUrl, fileName)}
+            </div>
+            <div class="message-time">${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div>
+          `
+          wrap.appendChild(group)
+          wrap.scrollTop = wrap.scrollHeight
+        }
+      }
+    }
+
+    function openNewChat() {
+      if (hasPendingRating) {
+        document.getElementById('pending-warning').classList.add('visible')
+        document.getElementById('pending-warning').scrollIntoView({ behavior: 'smooth' })
+        document.getElementById('pending-warning').style.background = 'rgba(233,30,140,0.15)'
+        setTimeout(() => {
+          document.getElementById('pending-warning').style.background = 'rgba(233,30,140,0.08)'
+        }, 600)
+        return
+      }
+      document.getElementById('new-chat-modal').classList.add('active')
+    }
+
+    function closeNewChat() {
+      document.getElementById('new-chat-modal').classList.remove('active')
+    }
+
+    function selectChatType(btn, type) {
+      document.querySelectorAll('.chat-type-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      selectedChatType = type
+    }
+
+    async function startConversation() {
+      const recipient = document.getElementById('recipient-input').value.trim()
+      if (!recipient) {
+        document.getElementById('recipient-input').style.borderColor = 'rgba(233,30,140,0.5)'
+        return
+      }
+
+      const supabase = getDB()
+      const { data, error } = await supabase.from('conversations').insert([{
+        user1_id: currentUser.id,
+        user2_id: recipient,
+        type: selectedChatType,
+        subject: 'General'
+      }]).select()
+
+      if (error) {
+        alert('Could not start conversation: ' + error.message)
+        return
+      }
+
+      closeNewChat()
+      await loadConversations()
+      if (data && data[0]) {
+        await openConversation(data[0].id, recipient, data[0], false)
+      }
+    }
+
+    async function endConversation() {
+      if (!currentConversationId) return
+      const supabase = getDB()
+      await supabase
+        .from('conversations')
+        .update({ ended_at: new Date().toISOString() })
+        .eq('id', currentConversationId)
+
+      document.getElementById('rating-person').textContent = 'this conversation'
+      document.getElementById('rating-overlay').classList.add('active')
+    }
+
+    function updateRatingValue(value) {
+      document.getElementById('rating-value').textContent = value
+      document.getElementById('rating-submit-value').textContent = value
+      const hue = Math.round((value / 100) * 280)
+      document.getElementById('rating-value').style.color = `hsl(${hue}, 70%, 65%)`
+    }
+
+    async function submitRating() {
+      const score = parseInt(document.getElementById('rating-slider').value)
+      const btn = document.querySelector('.btn-rate-now')
+      btn.textContent = 'Rating recorded 💜'
+
+      const supabase = getDB()
+
+      // If this was an AI conversation — save it to database first
+      if (currentConversationId?.startsWith('ai-') && currentUser) {
+        const aiName = currentConversationId.replace('ai-', '')
+        const { data: convData } = await supabase.from('conversations').insert([{
+          user1_id: currentUser.id,
+          user2_id: 'ai-' + aiName,
+          type: 'realtime',
+          subject: 'AI · ' + (currentAI?.name || aiName),
+          ended_at: new Date().toISOString(),
+          rated_by_1: true,
+          rated_by_2: true
+        }]).select()
+
+        // Save rating
+        await supabase.from('ratings').insert([{
+          rater_id: 1,
+          rated_id: 1,
+          score: score,
+          context: 'ai-conversation-' + aiName,
+          visible_after: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+        }])
+
+        // Save messages if conversation was created
+        if (convData && convData[0] && aiMessages.length > 0) {
+          const messagesToSave = aiMessages.map(msg => ({
+            conversation_id: convData[0].id,
+            sender_id: msg.role === 'user' ? currentUser.id : 'ai-' + aiName,
+            content: msg.content
+          }))
+          await supabase.from('messages').insert(messagesToSave)
+        }
+
+        // Reset AI state
+        currentAI = null
+        aiMessages = []
+
+      } else if (currentConversationId && currentUser) {
+        // Human conversation rating
+        const { data: conv } = await supabase
+          .from('conversations')
+          .select('*')
+          .eq('id', currentConversationId)
+          .single()
+
+        if (conv) {
+          const isUser1 = conv.user1_id === currentUser.id
+          const updateField = isUser1 ? { rated_by_1: true } : { rated_by_2: true }
+          await supabase.from('conversations').update(updateField).eq('id', currentConversationId)
+
+          await supabase.from('ratings').insert([{
+            rater_id: 1,
+            rated_id: 1,
+            score: score,
+            context: 'conversation',
+            visible_after: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+          }])
+        }
+      }
+
+      setTimeout(() => {
+        document.getElementById('rating-overlay').classList.remove('active')
+        hasPendingRating = false
+        document.getElementById('pending-badge').classList.remove('visible')
+        document.getElementById('pending-warning').classList.remove('visible')
+        btn.textContent = 'Submit my rating — 50%'
+        document.getElementById('rating-slider').value = 50
+        updateRatingValue(50)
+        // Small delay to let database write complete
+        setTimeout(() => loadConversations(), 800)
+      }, 1200)
+    }
+
+    function rateLater() {
+      document.getElementById('rating-overlay').classList.remove('active')
+      hasPendingRating = true
+      document.getElementById('pending-badge').classList.add('visible')
+      document.getElementById('pending-warning').classList.add('visible')
+    }
+
+    function resetTestRatings() {
+      localStorage.removeItem('empathia-rated-convs')
+      location.reload()
+    }
+
+    function handleKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault()
+        sendMessage()
+      }
+    }
+
+    function autoResize(el) {
+      el.style.height = 'auto'
+      el.style.height = Math.min(el.scrollHeight, 120) + 'px'
+    }
+
+    // Start
+    init()
+  </script>
+
+<script src="/theme.js"></script>
+</body>
+</html>
