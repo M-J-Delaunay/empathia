@@ -1,9 +1,115 @@
-# 🌐 Empathia — v0.21
+# 🌐 Empathia — v0.22
 *March 2026*
 
-> Added: Family Mode — the mirror for the most intimate human structure. Anonymous, delayed, protected. The family can see itself honestly for the first time.
+> Added: Connections System, Real Interactions on Profile, Post Ratings live, Username setup for OAuth users. The portrait grows with every connection.
 
 > This is the current version.
+
+## 🤝 The Connections System — v0.22
+
+*Not followers. Not friends. Connections.*
+
+On every existing social network, following someone is an act of consumption — you collect them. On Empathia, connecting with someone is an act of mutual recognition. Both people must consent. Both people are changed by it.
+
+### What a Connection Is
+
+```
+A Connection on Empathia →
+   Two people who have →
+   
+   1. Had at least one rated conversation
+      together on Empathia
+      
+   2. Mutually chosen to connect
+      after that conversation
+      
+   A Connection cannot be forced.
+   A Connection cannot be bought.
+   A Connection cannot be faked.
+   It requires a real exchange
+   and a mutual choice.
+```
+
+### What Connections Enable
+
+```
+Connected people →
+   See each other's public posts
+   first in their feed
+   
+   Can start conversations directly
+   without the usual gate
+   
+   Contribute to each other's
+   Connection empathy score →
+   A separate score that measures
+   the quality of your connections
+   not just your individual empathy
+   
+   Can invite each other
+   to Family Trees
+   and Research Streams
+```
+
+### The Connection Score
+
+```
+Your Connections section
+shows two numbers →
+
+   1. Number of connections
+   
+   2. Connection empathy score →
+      The average empathy of all your
+      rated conversations with
+      your connections
+      
+      This is different from
+      your overall score →
+      
+      "How empathetic are you
+       with the people
+       who chose to stay ?"
+```
+
+### What Connections Do NOT Do
+
+```
+Connections on Empathia →
+   Do NOT show your posts
+   to people who didn't choose them
+   
+   Do NOT create an algorithm
+   that amplifies popular content
+   
+   Do NOT create a follower economy
+   where numbers replace meaning
+   
+   "Quality of connection
+    over quantity of followers.
+    Always."
+```
+
+### Finding People
+
+```
+The "Find people" section →
+   Shows people with high empathy scores
+   in your country first
+   
+   Shows people who posted
+   on subjects you care about
+   
+   Shows people who rated
+   conversations similarly to you
+   
+   Never shows people based on →
+   Popularity
+   Follower count
+   Advertising spend
+```
+
+---
 
 ---
 
