@@ -1,7 +1,7 @@
-# 🌐 Empathia — v0.20
+# 🌐 Empathia — v0.21
 *March 2026*
 
-> Added: World Empathy Map, Full Color Spectrum, Real Usernames, Military Identity Mode concept, File Attachments live, AI scores from real ratings, Score Portrait real data. The map fills as voices are raised.
+> Added: Family Mode — the mirror for the most intimate human structure. Anonymous, delayed, protected. The family can see itself honestly for the first time.
 
 > This is the current version.
 
@@ -1077,7 +1077,359 @@ const archiveLegendaryEvent = (streamId, recipeId) => {
 
 ---
 
-## 🌍 World Empathy Map — v0.20
+## 👨‍👩‍👧‍👦 Family Mode — v0.21
+
+*The most intimate mirror. The one most needed. The one least expected.*
+
+No institution in human history has ever had an honest empathy score. Not governments, not corporations, not militaries. And not families.
+
+Families are the first place empathy is learned — or broken. They are the origin of everything that follows. And yet they have never had a mirror.
+
+Family Mode gives them one.
+
+### How It Works
+
+```
+A family member creates a Family Tree
+on Empathia →
+   
+   They invite other family members
+   Each member tags themselves
+   to their family tree
+   
+   Once tagged →
+   They can rate the empathy
+   of the family as a whole
+   
+   Not individuals within it —
+   The family as a unit
+   The collective empathy
+   of the structure
+```
+
+### The Latency Principle Applied
+
+```
+Family ratings are delayed
+before they affect the score →
+
+   No immediate feedback
+   No reactive voting
+   No friction in the moment
+   
+   Ratings are collected
+   averaged
+   and revealed slowly
+   
+   "The portrait is painted
+    stroke by stroke
+    not in a single gesture."
+```
+
+### Full Anonymity Within the Family
+
+```
+No family member can see
+who voted what →
+
+   The score is collective
+   The voice is anonymous
+   
+   The father cannot see
+   what the child said
+   
+   The child cannot see
+   what the parent said
+   
+   Only the score speaks
+   Only the portrait shows
+```
+
+### The AI Witness
+
+For families where speaking is too dangerous — where a member is suffering but cannot say so openly —
+
+```
+A family member can chat
+with an AI on Empathia →
+
+   If the conversation is about
+   their family experience →
+   
+   The AI recognizes this
+   and offers →
+   "Would you like to rate
+    your family's empathy
+    based on this conversation ?"
+   
+   If yes →
+   Their vote is cast
+   Anonymously
+   Silently
+   Without confrontation
+   
+   "For families where the mirror
+    must be held by someone outside
+    before it can be held at all."
+```
+
+### Going Public
+
+```
+A family can choose
+to make their score public →
+
+   This requires →
+   ALL family members to consent
+   Not a majority
+   Every single member
+   
+   If all consent →
+   Their family empathy score
+   becomes visible publicly
+   
+   They become an example
+   A proof that it is possible
+   A light for other families
+   
+   The rest of the family content —
+   conversations, individual votes,
+   tree structure — remains
+   completely invisible
+   
+   Only the score is shared
+   Only the light
+```
+
+### The Family Code System
+
+```
+How families are created and identified →
+
+Step 1 →
+   A family member creates a tree
+   They choose an internal name
+   visible only to members
+   (example: "La famille Delaunay")
+   
+Step 2 →
+   The system generates a private
+   invitation code
+   
+   The creator shares this code
+   with family members they trust →
+   "Here is the code to join our tree."
+   
+Step 3 →
+   Members join by code only
+   No location required
+   No verification required
+   Trust is the only key
+
+Public identity →
+   Until the family goes public →
+   They appear only as →
+   "Family #4471 · Score 78%"
+   
+   No name. No location. No identity.
+   Only the score.
+```
+
+### No Location Data — Ever
+
+```
+Location-based identification
+was considered and rejected →
+
+Reason →
+   Location data could identify
+   anonymous family members
+   and violate the privacy
+   that makes honest rating possible
+   
+   A family in a small village
+   where everyone knows everyone
+   needs protection more
+   than they need precision
+   
+   The code system provides
+   precision without location.
+   Privacy without ambiguity.
+```
+
+### The Share Link — Proof of Score
+
+```
+When a family chooses to go public →
+   They receive a unique share link →
+   
+   empathia.world/family/[unique-token]
+   
+   This page shows →
+   Their chosen family name
+   Their empathy score
+   Number of conversations
+   Member count (no names)
+   Date they joined Empathia
+   
+   Nothing else. Nothing private.
+   Only what they chose to share.
+```
+
+```
+They can share this link →
+   On social media
+   In a biography
+   In a message
+   
+   As proof →
+   "This score belongs to us.
+    We earned it together.
+    We chose to be seen."
+   
+Security of the share link →
+   The token is random
+   Cannot be guessed
+   Only the family holds it
+   They choose when to share
+   They can revoke it at any time
+   Even if found by others →
+   Only the public score is visible
+   Nothing private. Ever.
+```
+
+### The Public Family as an Act
+
+```
+A family that goes public
+becomes an Act on Empathia →
+
+   "The Delaunay family
+    scored 84% empathy
+    over 3 years
+    and 847 conversations.
+    They chose to be seen."
+    
+   That is extraordinary courage.
+   That belongs in the Archive.
+   That is the proof
+   it is possible.
+   
+   An example for every family
+   that is still learning
+   to hold the mirror.
+```
+
+---
+
+```
+Two family members tagged to
+the same tree have a conversation
+on Empathia →
+
+   They are submitted to TWO ratings →
+   
+   Rating 1 →
+   Individual empathy score
+   of each person in the conversation
+   (standard conversation rating)
+   
+   Rating 2 →
+   Family empathy score
+   as a collective unit
+   
+   Why both ?
+   Most family members will speak
+   about their family indirectly
+   in any conversation —
+   whether they intend to or not.
+   This captures the truth
+   of the family dynamic
+   from multiple angles.
+```
+
+### Minimum Family Size
+
+```
+A family tree can start
+with as few as 2 members →
+
+   Two people who choose to
+   hold a mirror together
+   is already a family
+   in the Empathia sense.
+```
+
+### The Honesty Weight — Conversations Count
+
+```
+Family scores are not just averages
+of ratings received →
+
+They are weighted by →
+   Number of conversations had
+   on Empathia
+   
+   A family with a perfect score
+   from 1 or 2 conversations →
+   Does not rank highly
+   
+   A family with a strong score
+   from 200 conversations →
+   Ranks at the top
+   
+   "The portrait requires
+    many strokes
+    to be trusted."
+   
+   This prevents →
+   A family of two
+   giving each other perfect scores
+   and appearing at the top
+   of the global ranking
+```
+
+### On Gaming the System
+
+```
+Some family members will try
+to give only high scores.
+Some families will try to appear
+more empathetic than they are.
+
+The delay handles this →
+   Immediate reactions cool
+   Truth settles over time
+   
+The conversation weight handles this →
+   You cannot fake 200 conversations
+   You cannot fake the patterns
+   that emerge over months
+   
+"With enough use time,
+ the truth will come out."
+ — M.J.Delaunay
+```
+
+### Why This Matters
+   
+Children learn empathy
+from what they witness at home —
+not from what they are told.
+
+A family that sees its own score
+has the first real tool
+to change what it passes on
+to the next generation.
+
+"It takes courage to change.
+ But it is the only option
+ so that our children
+ might have children."
+ — M.J.Delaunay, March 2026
+```
+
+---
 
 *The first honest portrait of human empathy at scale.*
 
