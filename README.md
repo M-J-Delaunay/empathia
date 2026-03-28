@@ -1,9 +1,115 @@
-# 🌐 Empathia — v0.24
+# 🌐 Empathia — v0.25
 *March 2026*
 
-> Added: The Youth Voice Principle — children are not dismissed because they are minors. Their voices carry equal weight. They need supervision, not censorship. Everyone's children become everyone's children.
+> Added: Score Integrity System — layered protection against boosting, artificial inflation, and coordinated manipulation. The score cannot be bought. The score cannot be gamed. The score can only be earned.
 
 > This is the current version.
+
+## 🛡️ Score Integrity System — v0.25
+
+*You cannot fake 200 genuine conversations.*
+
+### The Attack Vector
+
+```
+A group of friends →
+   Open a conversation
+   Close it immediately
+   Rate each other 100%
+   Repeat daily
+   
+   Or pay someone to do this
+   at scale
+   
+   Result → artificially inflated score
+   that means nothing
+   and poisons the mirror
+```
+
+### The Layered Protection
+
+```
+Layer 1 → One rating per conversation
+   Already exists
+   Each conversation generates
+   one rating opportunity only
+   Cannot be re-rated
+
+Layer 2 → Minimum conversation threshold
+   A conversation must reach →
+   A minimum number of messages
+   AND a minimum elapsed time
+   before the rating is unlocked
+   
+   Too short = no score generated
+   "A 30-second exchange
+    does not build a portrait."
+
+Layer 3 → Conversation weight
+   Not all conversations carry
+   equal weight in the score →
+   
+   A 2-minute conversation →
+   Low weight
+   
+   A 45-minute conversation →
+   Full weight
+   
+   The portrait requires depth.
+   Depth cannot be faked quickly.
+
+Layer 4 → Pattern detection
+   The system monitors →
+   Same two users rating each other
+   repeatedly in short succession
+   
+   Trigger →
+   Ratings automatically quarantined
+   Protective Council notified
+   Score protected during review
+   
+   "The mirror notices
+    when the same hand
+    keeps touching it."
+```
+
+### On Paid Boosting
+
+```
+Paid boosting is harder to prevent
+but the layered system makes it →
+   Expensive — requires many accounts
+   Slow — conversation length enforced
+   Visible — pattern detection triggers
+   Ultimately ineffective —
+   
+   "You cannot pay for
+    200 genuine conversations.
+    You cannot pay for
+    the portrait that emerges
+    from years of real exchange."
+```
+
+### The Philosophy
+
+```
+The score is not a number.
+It is a portrait.
+
+A portrait painted by strangers
+who owe you nothing.
+Over time.
+Through real exchange.
+
+No shortcut produces a portrait.
+Only time and truth do that.
+
+"The score cannot be bought.
+ The score cannot be gamed.
+ The score can only be earned."
+```
+
+---
 
 ---
 
