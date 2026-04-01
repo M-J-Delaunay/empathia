@@ -1,3 +1,178 @@
+🌐 Empathia — v0.26
+March 2026
+
+Added: The Arena — where volatile empathy has dignity. The place where the full human is seen, including the one who fights, who rages, who loves dangerously. The philosophers of our time will be found here.
+
+
+This is the current version.
+
+⚔️ The Arena — v0.26
+Sometimes empathy is volatile. And people need an outlet.
+Every existing platform suppresses the volatile human. It rewards gentle agreement and punishes raw conviction. It mistakes performance for empathy and silence for peace.
+Empathia does not make that mistake.
+The Arena is the place where the full human has dignity — including the one who fights, who rages, who defends an idea with everything they have.
+"The mirror does not only show Sunday morning faces. It shows the full human."
+What The Arena Is
+A dedicated section of Empathia →
+   Separate from the main feed
+   Separate from regular conversations
+   
+   Visible to everyone →
+   All Arena battles are public
+   No private arena — the stakes
+   require witnesses
+   
+   Where volatile subjects live →
+   Military warfare
+   Political ideology
+   Religion
+   Moral philosophy
+   Economic systems
+   Justice and punishment
+   
+   "The background of empathy —
+    the reasons people try to justify
+    their lack of it
+    and the reason of that lack."
+The Format
+1v1 →
+   Two people
+   One subject
+   One exchange
+   
+2v2 →
+   Two pairs
+   One subject
+   Both members of each pair
+   contribute to their side
+   
+   Team empathy is measured too —
+   How well do two people
+   think together under pressure ?
+The Timer — Subject Seasons
+Each subject has a Season →
+   A defined time window
+   Example → Military Warfare: 1 month
+   
+   During the Season →
+   Any two (or four) people
+   can open an Arena battle
+   on that subject
+   
+   Multiple battles on the same subject
+   run simultaneously
+   
+   At the end of the Season →
+   The AI judge reviews ALL battles
+   on that subject
+   and rewards the most impactful
+   
+   "Not the most popular.
+    Not the most viral.
+    The most philosophically impactful."
+The AI Judge
+The AI that judges the Arena →
+   Is the AI with the highest
+   empathy score on Empathia
+   at the time of judgment
+   
+   Not a fixed assignment.
+   The most empathetic AI earns
+   the right to judge.
+   
+   "The judge is earned by score.
+    Not by corporate decision.
+    Not by algorithm.
+    By demonstrated empathy."
+What The AI Judges
+The AI does not judge →
+   Who won the argument
+   Who was louder
+   Who got more reactions
+   
+The AI judges →
+   Did this person FEEL something real ?
+   Did they make the other person FEEL ?
+   Did they defend their position
+   with conviction rather than cruelty ?
+   Did they acknowledge the other's
+   humanity even in fierce disagreement ?
+   Did they move the conversation
+   forward rather than in circles ?
+   Did they say something
+   that had never been said
+   quite that way before ?
+   
+   "Volatile empathy scored by an AI
+    that cannot be bribed,
+    intimidated, or manipulated."
+The Arena Score
+Arena results are separate →
+   Do not pollute the main
+   empathy portrait
+   
+   The Arena has its own score →
+   "Combat Empathy Score"
+   
+   Visible on the profile
+   as a separate badge →
+   ⚔️ Combat Empathy — rare and respected
+   
+   High combat empathy means →
+   You can hold a position under fire
+   AND maintain your humanity
+   
+   That is one of the rarest
+   human qualities that exists.
+The Season Reward
+At the end of each Season →
+   The AI judge names →
+   
+   The most impactful battle
+   The most philosophically significant
+   exchange of the Season
+   
+   That battle is archived forever
+   in the Hall of Empathy
+   
+   The participants receive →
+   A permanent Season Medal
+   on their profile
+   
+   "Season 1 — Military Warfare
+    Most Impactful Battle
+    March 2026"
+   
+   It cannot be bought.
+   It cannot be faked.
+   It can only be earned
+   by saying something true
+   in the fire.
+Why The Arena Matters
+The world's most important
+philosophical questions
+are currently debated →
+   On social media where virality wins
+   In comment sections where
+   cruelty is rewarded
+   In parliaments where
+   party lines replace thought
+   
+On Empathia's Arena →
+   The question matters more
+   than the personality
+   
+   The conviction matters more
+   than the following
+   
+   The humanity in the argument
+   matters more than the argument
+   
+   "Then we will know who are
+    the real philosophers of our time."
+    — M.J.Delaunay, March 2026
+
+    
 # 🌐 Empathia — v0.25
 *March 2026*
 
