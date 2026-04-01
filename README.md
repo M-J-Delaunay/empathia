@@ -1,18 +1,25 @@
-🌐 Empathia — v0.26
-March 2026
+# 🌐 Empathia — v0.26
+*March 2026*
 
-Added: The Arena — where volatile empathy has dignity. The place where the full human is seen, including the one who fights, who rages, who loves dangerously. The philosophers of our time will be found here.
+> Added: The Arena — where volatile empathy has dignity. The place where the full human is seen, including the one who fights, who rages, who loves dangerously. The philosophers of our time will be found here.
 
+> This is the current version.
 
-This is the current version.
+## ⚔️ The Arena — v0.26
 
-⚔️ The Arena — v0.26
-Sometimes empathy is volatile. And people need an outlet.
+*Sometimes empathy is volatile. And people need an outlet.*
+
 Every existing platform suppresses the volatile human. It rewards gentle agreement and punishes raw conviction. It mistakes performance for empathy and silence for peace.
+
 Empathia does not make that mistake.
+
 The Arena is the place where the full human has dignity — including the one who fights, who rages, who defends an idea with everything they have.
-"The mirror does not only show Sunday morning faces. It shows the full human."
-What The Arena Is
+
+*"The mirror does not only show Sunday morning faces. It shows the full human."*
+
+### What The Arena Is
+
+```
 A dedicated section of Empathia →
    Separate from the main feed
    Separate from regular conversations
@@ -34,7 +41,11 @@ A dedicated section of Empathia →
     the reasons people try to justify
     their lack of it
     and the reason of that lack."
-The Format
+```
+
+### The Format
+
+```
 1v1 →
    Two people
    One subject
@@ -49,7 +60,11 @@ The Format
    Team empathy is measured too —
    How well do two people
    think together under pressure ?
-The Timer — Subject Seasons
+```
+
+### The Timer — Subject Seasons
+
+```
 Each subject has a Season →
    A defined time window
    Example → Military Warfare: 1 month
@@ -70,7 +85,11 @@ Each subject has a Season →
    "Not the most popular.
     Not the most viral.
     The most philosophically impactful."
-The AI Judge
+```
+
+### The AI Judge
+
+```
 The AI that judges the Arena →
    Is the AI with the highest
    empathy score on Empathia
@@ -84,7 +103,11 @@ The AI that judges the Arena →
     Not by corporate decision.
     Not by algorithm.
     By demonstrated empathy."
-What The AI Judges
+```
+
+### What The AI Judges
+
+```
 The AI does not judge →
    Who won the argument
    Who was louder
@@ -106,7 +129,11 @@ The AI judges →
    "Volatile empathy scored by an AI
     that cannot be bribed,
     intimidated, or manipulated."
-The Arena Score
+```
+
+### The Arena Score
+
+```
 Arena results are separate →
    Do not pollute the main
    empathy portrait
@@ -124,7 +151,11 @@ Arena results are separate →
    
    That is one of the rarest
    human qualities that exists.
-The Season Reward
+```
+
+### The Season Reward
+
+```
 At the end of each Season →
    The AI judge names →
    
@@ -148,7 +179,11 @@ At the end of each Season →
    It can only be earned
    by saying something true
    in the fire.
-Why The Arena Matters
+```
+
+### Why The Arena Matters
+
+```
 The world's most important
 philosophical questions
 are currently debated →
@@ -171,8 +206,10 @@ On Empathia's Arena →
    "Then we will know who are
     the real philosophers of our time."
     — M.J.Delaunay, March 2026
+```
 
-    
+---
+
 # 🌐 Empathia — v0.25
 *March 2026*
 
