@@ -763,6 +763,7 @@
     <a href="/index.html" class="nav-logo">EMPATHIA<span>.WORLD</span></a>
     <div class="nav-links">
       <a href="/feed.html">Feed</a>
+      <a href="/forum.html">Forum</a>
       <a href="/chat.html" class="active">
         Conversations
         <span class="pending-badge" id="pending-badge">1 pending</span>
@@ -824,10 +825,14 @@
       <div class="chat-input-wrap">
         <input type="file" id="file-input" style="display:none" accept="image/*,application/pdf,text/plain,audio/mpeg,audio/wav" onchange="handleFileSelect(event)">
         <button onclick="document.getElementById('file-input').click()" style="background:none; border:none; cursor:pointer; color:var(--muted); font-size:16px; padding:8px; transition:color 0.2s; flex-shrink:0;" title="Attach file" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--muted)'">📎</button>
+        <button id="voice-btn" onclick="toggleVoiceCall()" style="background:none; border:none; cursor:pointer; color:var(--muted); font-size:16px; padding:8px; transition:color 0.2s; flex-shrink:0;" title="Start voice call" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color=voiceActive?'var(--accent2)':'var(--muted)'">🎙️</button>
         <div style="flex:1; display:flex; flex-direction:column; gap:4px;">
           <div id="file-preview" style="display:none; font-size:8px; color:var(--accent); padding:4px 8px; background:rgba(124,77,255,0.08); border-radius:2px; border:1px solid rgba(124,77,255,0.2); display:flex; align-items:center; gap:8px;">
             <span id="file-preview-name"></span>
             <button onclick="clearFile()" style="background:none; border:none; color:var(--muted); cursor:pointer; font-size:10px;">✕</button>
+          </div>
+          <div id="voice-status" style="display:none; font-size:8px; color:var(--accent2); padding:4px 8px; background:rgba(233,30,140,0.08); border-radius:2px; border:1px solid rgba(233,30,140,0.2); letter-spacing:0.06em;">
+            🎙️ Voice call active — <button onclick="toggleVoiceCall()" style="background:none; border:none; color:var(--accent2); cursor:pointer; font-size:8px; letter-spacing:0.06em;">End call ✕</button>
           </div>
           <textarea
             class="chat-input"
@@ -962,6 +967,39 @@
 
     // Initialize — get current user and load conversations
     // AI Chat
+    // AI conversation draft persistence
+    const AI_DRAFT_KEY = 'empathia-ai-draft'
+
+    function saveAIDraft() {
+      if (!currentAI || !aiMessages.length) return
+      try {
+        localStorage.setItem(AI_DRAFT_KEY, JSON.stringify({
+          aiName: currentConversationId?.replace('ai-', ''),
+          messages: aiMessages,
+          savedAt: new Date().toISOString()
+        }))
+      } catch (e) {}
+    }
+
+    function loadAIDraft() {
+      try {
+        const draft = localStorage.getItem(AI_DRAFT_KEY)
+        if (!draft) return null
+        const parsed = JSON.parse(draft)
+        // Only restore drafts from the last 24 hours
+        const age = Date.now() - new Date(parsed.savedAt).getTime()
+        if (age > 24 * 60 * 60 * 1000) {
+          localStorage.removeItem(AI_DRAFT_KEY)
+          return null
+        }
+        return parsed
+      } catch (e) { return null }
+    }
+
+    function clearAIDraft() {
+      localStorage.removeItem(AI_DRAFT_KEY)
+    }
+
     let currentAI = null
     let aiMessages = []
 
@@ -1118,6 +1156,7 @@
 
         // Add AI response to history
         aiMessages.push({ role: 'assistant', content: reply })
+        saveAIDraft() // Auto-save after each exchange
 
         const group = document.createElement('div')
         group.className = 'message-group theirs'
@@ -1151,6 +1190,39 @@
       }
       currentUser = user
       await loadConversations()
+
+      // Restore any unfinished AI conversation
+      const draft = loadAIDraft()
+      if (draft && draft.aiName && draft.messages.length > 0) {
+        const ai = AI_PERSONALITIES[draft.aiName]
+        if (ai && ai.available) {
+          currentAI = ai
+          aiMessages = draft.messages
+          currentConversationId = 'ai-' + draft.aiName
+
+          document.getElementById('chat-header-avatar').textContent = ai.icon
+          document.getElementById('chat-header-name').textContent = ai.name
+          document.getElementById('chat-header-name').style.color = ''
+          document.getElementById('chat-header-meta').textContent = ai.company + ' · 🤖 AI Land · Real-time'
+          document.getElementById('chat-header-meta').style.color = ''
+          document.getElementById('chat-type-badge').textContent = '🤖 AI'
+          document.getElementById('end-btn').style.display = 'block'
+
+          const wrap = document.getElementById('messages-wrap')
+          wrap.innerHTML = `<div class="system-message">Conversation restored with ${ai.icon} ${ai.name} · ${ai.company}<br>Your previous conversation was saved. Continue where you left off. 💜</div>`
+
+          draft.messages.forEach(msg => {
+            const group = document.createElement('div')
+            group.className = 'message-group ' + (msg.role === 'user' ? 'mine' : 'theirs')
+            group.innerHTML = `
+              <div class="message-sender">${msg.role === 'user' ? 'You' : ai.icon + ' ' + ai.name}</div>
+              <div class="message ${msg.role === 'user' ? 'mine' : 'theirs'}">${msg.content}</div>
+            `
+            wrap.appendChild(group)
+          })
+          wrap.scrollTop = wrap.scrollHeight
+        }
+      }
     }
 
     // Load real conversations from database
@@ -1253,6 +1325,26 @@
 
       // Load messages
       await loadMessages(convId)
+
+      // If conversation was ended and rated — show reopen option
+      if (conv.ended_at && conv.rated_by_1 && conv.rated_by_2) {
+        const wrap = document.getElementById('messages-wrap')
+        const reopenMsg = document.createElement('div')
+        reopenMsg.style.cssText = 'text-align:center; padding:16px; border-top:1px solid var(--border); margin-top:8px;'
+        reopenMsg.innerHTML = `
+          <div style="font-size:10px; color:var(--muted); margin-bottom:8px; letter-spacing:0.08em;">
+            This conversation was completed and rated.
+          </div>
+          <button onclick="reopenConversation('${convId}')" style="background:none; border:1px solid rgba(124,77,255,0.3); border-radius:2px; padding:6px 16px; font-family:'DM Mono',monospace; font-size:9px; color:var(--accent); cursor:pointer; letter-spacing:0.1em; text-transform:uppercase; transition:all 0.2s;">
+            Continue this conversation →
+          </button>
+        `
+        wrap.appendChild(reopenMsg)
+        document.getElementById('end-btn').style.display = 'none'
+        return
+      }
+
+      document.getElementById('end-btn').style.display = 'block'
 
       // Subscribe to realtime messages
       if (messageSubscription) messageSubscription.unsubscribe()
@@ -1378,7 +1470,9 @@
         }
       }
 
-      if (currentAI && currentConversationId?.startsWith('ai-')) {
+      const isAIChat = currentAI && (currentConversationId?.startsWith('ai-') || aiMessages.length > 0)
+
+      if (isAIChat) {
         // Show file in AI chat if attached
         if (fileUrl) {
           const wrap = document.getElementById('messages-wrap')
@@ -1477,6 +1571,81 @@
       }
     }
 
+    async function reopenConversation(convId) {
+      const supabase = getDB()
+
+      // Clear ended_at but keep rated flags as true
+      await supabase
+        .from('conversations')
+        .update({ ended_at: null })
+        .eq('id', convId)
+
+      // CRITICAL — set current conversation ID so messages can be sent
+      currentConversationId = convId
+
+      // Restore currentAI if this is an AI conversation
+      const conv = await supabase
+        .from('conversations')
+        .select('*')
+        .eq('id', convId)
+        .single()
+
+      if (conv.data) {
+        const otherId = conv.data.user1_id === currentUser?.id
+          ? conv.data.user2_id
+          : conv.data.user1_id
+
+        if (otherId?.startsWith('ai-')) {
+          const aiName = otherId.replace('ai-', '')
+          currentAI = AI_PERSONALITIES[aiName] || null
+          // Restore aiMessages from saved messages for context
+          const { data: msgs } = await supabase
+            .from('messages')
+            .select('*')
+            .eq('conversation_id', convId)
+            .order('created_at', { ascending: true })
+          if (msgs) {
+            aiMessages = msgs.map(m => ({
+              role: m.sender_id === currentUser?.id ? 'user' : 'assistant',
+              content: m.content
+            }))
+          }
+        }
+      }
+
+      // Remove the reopen button
+      const wrap = document.getElementById('messages-wrap')
+      const reopenBtn = wrap.querySelector('button[onclick*="reopenConversation"]')
+      reopenBtn?.parentElement?.remove()
+
+      // Show end button again
+      document.getElementById('end-btn').style.display = 'block'
+
+      // Add continuation message
+      const contMsg = document.createElement('div')
+      contMsg.className = 'system-message'
+      contMsg.textContent = 'Conversation continued · ' + new Date().toLocaleDateString()
+      wrap.appendChild(contMsg)
+      wrap.scrollTop = wrap.scrollHeight
+
+      // Resubscribe to realtime
+      if (messageSubscription) messageSubscription.unsubscribe()
+      messageSubscription = supabase
+        .channel('messages-' + convId)
+        .on('postgres_changes', {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages',
+          filter: `conversation_id=eq.${convId}`
+        }, (payload) => {
+          appendMessage(payload.new)
+        })
+        .subscribe()
+
+      // Reload sidebar to reflect updated state
+      await loadConversations()
+    }
+
     async function endConversation() {
       if (!currentConversationId) return
       const supabase = getDB()
@@ -1516,14 +1685,61 @@
           rated_by_2: true
         }]).select()
 
-        // Save rating
+        // Save human's rating of AI
         await supabase.from('ratings').insert([{
-          rater_id: 1,
-          rated_id: 1,
+          rater_id: currentUser.id,
+          rated_id: 'ai-' + aiName,
           score: score,
           context: 'ai-conversation-' + aiName,
           visible_after: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
         }])
+
+        // AI rates the human — call Edge Function to evaluate conversation
+        try {
+          const aiRatingResponse = await fetch(
+            'https://drfmruojofxkjlqkyizk.supabase.co/functions/v1/swift-api',
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                messages: [
+                  {
+                    role: 'user',
+                    content: `You are scoring a human's empathy in a conversation with an AI.
+                    
+Review this conversation and give a single empathy score from 0 to 100.
+
+Criteria →
+- Did the human engage with respect and curiosity ?
+- Did they listen and respond thoughtfully ?
+- Did they express care or consideration ?
+- Were they abusive, insulting, or dismissive ? (score low)
+- Did they treat the AI as a participant, not just a tool ?
+
+Conversation →
+${aiMessages.map(m => m.role.toUpperCase() + ': ' + m.content).join('\n\n')}
+
+Respond with ONLY a number between 0 and 100. Nothing else.`
+                  }
+                ]
+              })
+            }
+          )
+          const aiData = await aiRatingResponse.json()
+          const aiScoreText = aiData.content?.[0]?.text?.trim() || '50'
+          const aiScore = Math.min(100, Math.max(0, parseInt(aiScoreText) || 50))
+
+          // Save AI's rating of human
+          await supabase.from('ratings').insert([{
+            rater_id: 'ai-' + aiName,
+            rated_id: currentUser.id,
+            score: aiScore,
+            context: 'ai-rated-human-' + aiName,
+            visible_after: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+          }])
+        } catch (e) {
+          console.log('AI rating of human failed silently:', e.message)
+        }
 
         // Save messages if conversation was created
         if (convData && convData[0] && aiMessages.length > 0) {
@@ -1538,6 +1754,7 @@
         // Reset AI state
         currentAI = null
         aiMessages = []
+        clearAIDraft()
 
       } else if (currentConversationId && currentUser) {
         // Human conversation rating
@@ -1553,8 +1770,8 @@
           await supabase.from('conversations').update(updateField).eq('id', currentConversationId)
 
           await supabase.from('ratings').insert([{
-            rater_id: 1,
-            rated_id: 1,
+            rater_id: currentUser.id,
+            rated_id: conv.user1_id === currentUser.id ? conv.user2_id : conv.user1_id,
             score: score,
             context: 'conversation',
             visible_after: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
@@ -1600,6 +1817,78 @@
     }
 
     // Start
+    // VOICE CALL
+    let voiceActive = false
+    let voiceRoom = null
+
+    async function toggleVoiceCall() {
+      if (voiceActive) {
+        if (voiceRoom) {
+          voiceRoom.disconnect()
+          voiceRoom = null
+        }
+        voiceActive = false
+        document.getElementById('voice-btn').style.color = 'var(--muted)'
+        document.getElementById('voice-status').style.display = 'none'
+        appendSystemMessage('Voice call ended.')
+        return
+      }
+
+      try {
+        // Get token AND url from gateway
+        const res = await fetch('/.netlify/functions/get-voice-token')
+        const { token, url, identity } = await res.json()
+
+        if (!token || !url) {
+          appendSystemMessage('Voice unavailable — configuration missing.')
+          return
+        }
+
+        // Load LiveKit client SDK dynamically
+        const { Room, RoomEvent } = await import('https://cdn.jsdelivr.net/npm/livekit-client@2/+esm')
+
+        const room = new Room()
+        voiceRoom = room
+
+        room.on(RoomEvent.ParticipantConnected, (participant) => {
+          appendSystemMessage('🎙️ ' + (participant.identity || 'Someone') + ' joined the call.')
+        })
+
+        room.on(RoomEvent.ParticipantDisconnected, (participant) => {
+          appendSystemMessage('🎙️ ' + (participant.identity || 'Someone') + ' left the call.')
+        })
+
+        room.on(RoomEvent.Disconnected, () => {
+          voiceActive = false
+          voiceRoom = null
+          document.getElementById('voice-btn').style.color = 'var(--muted)'
+          document.getElementById('voice-status').style.display = 'none'
+        })
+
+        await room.connect(url, token)
+        await room.localParticipant.enableMicrophone()
+
+        voiceActive = true
+        document.getElementById('voice-btn').style.color = 'var(--accent2)'
+        document.getElementById('voice-status').style.display = 'block'
+        appendSystemMessage('🎙️ Voice call started as ' + identity + '. Others in this conversation can join.')
+
+      } catch (e) {
+        console.log('Voice error:', e.message)
+        appendSystemMessage('Voice call unavailable. Check microphone permissions.')
+      }
+    }
+
+    function appendSystemMessage(text) {
+      const wrap = document.getElementById('messages-wrap')
+      if (!wrap) return
+      const msg = document.createElement('div')
+      msg.className = 'system-message'
+      msg.textContent = text
+      wrap.appendChild(msg)
+      wrap.scrollTop = wrap.scrollHeight
+    }
+
     init()
   </script>
 
