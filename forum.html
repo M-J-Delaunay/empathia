@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empathia — Forum</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <script src="/theme.js" defer></script>
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --surface2: #161616;
+      --border: rgba(255,255,255,0.06);
+      --text: #e8e8e8;
+      --muted: #555;
+      --accent: #7c4dff;
+      --accent2: #e91e8c;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: var(--surface);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      letter-spacing: 0.15em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a {
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    main {
+      padding: 80px 24px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .page-header {
+      margin-bottom: 32px;
+    }
+
+    .page-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .page-sub {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* FILTERS */
+    .filters {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 5px 12px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
+    .filter-btn.active { color: var(--accent); border-color: rgba(124,77,255,0.4); }
+
+    .new-thread-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      color: white;
+      padding: 6px 16px;
+      border-radius: 2px;
+      cursor: pointer;
+      margin-left: auto;
+      transition: opacity 0.2s;
+    }
+    .new-thread-btn:hover { opacity: 0.85; }
+
+    /* THREAD GRID */
+    .thread-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    /* THREAD CARD */
+    .thread-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .thread-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .thread-card:hover { border-color: rgba(124,77,255,0.2); }
+    .thread-card:hover::before { opacity: 1; }
+
+    /* Card type variants */
+    .thread-card.open::before { background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+    .thread-card.open:hover { border-color: rgba(124,77,255,0.3); }
+
+    .thread-card.unlimited::before { background: linear-gradient(90deg, #f59e0b, #ef4444); }
+    .thread-card.unlimited { border-color: rgba(245,158,11,0.15); }
+    .thread-card.unlimited:hover { border-color: rgba(245,158,11,0.3); }
+
+    .thread-card.closed {
+      opacity: 0.6;
+    }
+    .thread-card.closed::before { background: var(--muted); }
+    .thread-card.closed:hover { opacity: 0.8; }
+
+    .thread-card.active {
+      border-color: rgba(124,77,255,0.35);
+    }
+    .thread-card.active::before { background: linear-gradient(90deg, var(--accent2), var(--accent)); opacity: 1; }
+
+    /* Card content */
+    .thread-author {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .thread-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .thread-author-name {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .thread-type-badge {
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 2px;
+      margin-left: auto;
+    }
+    .badge-open { color: var(--accent); background: rgba(124,77,255,0.1); }
+    .badge-unlimited { color: #f59e0b; background: rgba(245,158,11,0.1); }
+    .badge-closed { color: var(--muted); background: rgba(255,255,255,0.05); }
+    .badge-active { color: var(--accent2); background: rgba(233,30,140,0.1); }
+
+    .thread-subject {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 300;
+      line-height: 1.4;
+      color: var(--text);
+      margin-bottom: 16px;
+      letter-spacing: 0.02em;
+    }
+
+    .thread-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    .thread-seats {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .seat-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: background 0.2s;
+    }
+    .seat-dot.filled { background: var(--accent); }
+    .seat-dot.unlimited { background: #f59e0b; }
+
+    .thread-action-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 8px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 4px 10px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .thread-action-btn:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+    .thread-action-btn.extend { color: var(--accent); border-color: rgba(124,77,255,0.3); }
+    .thread-action-btn.join { color: var(--accent); border-color: rgba(124,77,255,0.3); }
+    .thread-action-btn.continue { color: var(--accent2); border-color: rgba(233,30,140,0.3); }
+
+    /* CREATE THREAD OVERLAY */
+    .create-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .create-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .create-modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 36px;
+      max-width: 480px;
+      width: 90%;
+    }
+
+    .create-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      font-weight: 300;
+      margin-bottom: 6px;
+    }
+
+    .create-sub {
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .create-input {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 12px 16px;
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      color: var(--text);
+      outline: none;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+    .create-input:focus { border-color: rgba(124,77,255,0.4); }
+
+    .create-options {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .seat-option {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 6px 14px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .seat-option.selected {
+      color: var(--accent);
+      border-color: rgba(124,77,255,0.4);
+      background: rgba(124,77,255,0.08);
+    }
+    .seat-option.unlimited-opt.selected {
+      color: #f59e0b;
+      border-color: rgba(245,158,11,0.4);
+      background: rgba(245,158,11,0.08);
+    }
+
+    .create-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .btn-cancel {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 10px 20px;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+
+    .btn-open-thread {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-open-thread:hover { opacity: 0.85; }
+
+    /* THREAD VIEW OVERLAY */
+    .thread-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 80px 24px 40px;
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      overflow-y: auto;
+    }
+    .thread-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .thread-view {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      width: 100%;
+      max-width: 640px;
+    }
+
+    .thread-view-header {
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .thread-view-subject {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 24px;
+      font-weight: 300;
+      line-height: 1.3;
+      flex: 1;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 18px;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+
+    .thread-view-meta {
+      padding: 16px 28px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+
+    .thread-messages {
+      padding: 20px 28px;
+      min-height: 200px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .thread-message {
+      margin-bottom: 16px;
+    }
+
+    .thread-message-author {
+      font-size: 9px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+
+    .thread-message-content {
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .message-heart-row {
+      margin-top: 6px;
+    }
+
+    .message-heart-btn {
+      background: none;
+      border: none;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 2px 0;
+      transition: color 0.2s;
+      letter-spacing: 0.05em;
+    }
+    .message-heart-btn:hover { color: var(--accent2); }
+    .message-heart-btn.hearted { color: var(--accent2); }
+
+    /* CARD HEARTS VISUALIZATION */
+    .card-hearts {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      border-radius: 4px;
+      z-index: 0;
+    }
+
+    .heart-layer {
+      position: absolute;
+      font-size: 12px;
+      color: rgba(233,30,140,0.12);
+      animation: heart-float 4s ease-in-out infinite;
+      user-select: none;
+    }
+
+    .heart-layer.large {
+      font-size: 80px;
+      color: rgba(233,30,140,0.08);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: heart-pulse 3s ease-in-out infinite;
+    }
+
+    .heart-layer.mega {
+      font-size: 160px;
+      color: rgba(233,30,140,0.1);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: heart-pulse 3s ease-in-out infinite;
+    }
+
+    .heart-layer.ultra {
+      font-size: 260px;
+      color: rgba(233,30,140,0.12);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -52%);
+      animation: heart-pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes heart-float {
+      0%, 100% { transform: translateY(0) rotate(-5deg); opacity: 0.6; }
+      50% { transform: translateY(-6px) rotate(5deg); opacity: 1; }
+    }
+
+    @keyframes heart-pulse {
+      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.08; }
+      50% { transform: translate(-50%, -50%) scale(1.04); opacity: 0.14; }
+    }
+
+    .thread-card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .thread-input-area {
+      padding: 16px 28px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      gap: 10px;
+    }
+
+    .thread-input {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 10px 14px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      color: var(--text);
+      outline: none;
+      resize: none;
+    }
+    .thread-input:focus { border-color: rgba(124,77,255,0.4); }
+
+    .thread-send-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      background: rgba(124,77,255,0.15);
+      border: 1px solid rgba(124,77,255,0.3);
+      color: var(--accent);
+      padding: 10px 16px;
+      border-radius: 2px;
+      cursor: pointer;
+      align-self: flex-end;
+    }
+
+    /* ARCHIVED THREAD */
+    .archived-thread {
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      margin-bottom: 8px;
+      opacity: 0.5;
+      font-size: 10px;
+      color: var(--muted);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .empty-state-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 300;
+      margin-bottom: 8px;
+      color: var(--text);
+      opacity: 0.5;
+    }
+    .empty-state-sub {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 600px) {
+      .thread-grid { grid-template-columns: 1fr; }
+      main { padding: 72px 16px 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/index.html" class="nav-logo">EMPATHIA<span>.WORLD</span></a>
+    <div class="nav-links">
+      <a href="/feed.html">Feed</a>
+      <a href="/forum.html" class="active">Forum</a>
+      <a href="/chat.html">Chat</a>
+      <a href="/map.html">Map</a>
+      <a href="/profile.html">Profile</a>
+      <div class="theme-switcher" style="display:flex; gap:4px; align-items:center;"></div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="page-header">
+      <div class="page-title">The Forum</div>
+      <div class="page-sub">Open conversations. Limited seats. Infinite threads.</div>
+    </div>
+
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterThreads('all', this)">All</button>
+      <button class="filter-btn" onclick="filterThreads('open', this)">Open seats</button>
+      <button class="filter-btn" onclick="filterThreads('active', this)">Joined</button>
+      <button class="filter-btn" onclick="filterThreads('unlimited', this)">∞ Unlimited</button>
+      <button class="filter-btn" onclick="filterThreads('closed', this)">Archived</button>
+      <button class="new-thread-btn" onclick="openCreateModal()">+ Open a thread</button>
+    </div>
+
+    <div class="thread-grid" id="thread-grid">
+      <!-- Threads loaded here -->
+    </div>
+  </main>
+
+  <!-- CREATE THREAD MODAL -->
+  <div class="create-overlay" id="create-overlay">
+    <div class="create-modal">
+      <div class="create-title">Open a thread 💜</div>
+      <div class="create-sub">State a subject. Set your seats. Let the conversation begin.</div>
+
+      <textarea
+        class="create-input"
+        id="thread-subject-input"
+        placeholder="What's the subject of this conversation ?"
+        maxlength="140"
+        rows="3"
+        style="resize:none; line-height:1.6;"
+      ></textarea>
+
+      <div style="font-size:9px; color:var(--muted); letter-spacing:0.08em; margin-bottom:10px; text-transform:uppercase;">Seats</div>
+      <div class="create-options" id="seat-options">
+        <button class="seat-option selected" onclick="selectSeats(this, 2)">2</button>
+        <button class="seat-option" onclick="selectSeats(this, 3)">3</button>
+        <button class="seat-option" onclick="selectSeats(this, 5)">5</button>
+        <button class="seat-option" onclick="selectSeats(this, 10)">10</button>
+        <button class="seat-option unlimited-opt" onclick="selectSeats(this, 0)">∞ Unlimited</button>
+      </div>
+
+      <div class="create-actions">
+        <button class="btn-cancel" onclick="closeCreateModal()">Cancel</button>
+        <button class="btn-open-thread" onclick="createThread()">Open thread →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- THREAD VIEW OVERLAY -->
+  <div class="thread-overlay" id="thread-overlay">
+    <div class="thread-view" id="thread-view-content">
+      <!-- Thread content loaded here -->
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://drfmruojofxkjlqkyizk.supabase.co'
+    const SUPABASE_KEY = 'sb_publishable_-yuAzbx3YeOpBKK1X-LYdg_s14uMHzS'
+    let sb = null
+    let currentUser = null
+    let selectedSeats = 2
+    let currentFilter = 'all'
+    let threads = []
+
+    function getDB() {
+      if (!sb) sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+      return sb
+    }
+
+    async function heartMessage(messageId, threadId, btn) {
+      const supabase = getDB()
+
+      // Increment hearts on message
+      const { data: msg } = await supabase
+        .from('forum_messages')
+        .select('hearts')
+        .eq('id', messageId)
+        .single()
+
+      const newHearts = (msg?.hearts || 0) + 1
+
+      await supabase.from('forum_messages')
+        .update({ hearts: newHearts })
+        .eq('id', messageId)
+
+      // Update count on button
+      btn.querySelector('.msg-heart-count').textContent = newHearts
+      btn.classList.add('hearted')
+      btn.textContent = ''
+      btn.innerHTML = `♥ <span class="msg-heart-count">${newHearts}</span>`
+      btn.classList.add('hearted')
+
+      // Update thread total_hearts
+      const { data: allMsgs } = await supabase
+        .from('forum_messages')
+        .select('hearts')
+        .eq('thread_id', threadId)
+
+      const total = (allMsgs || []).reduce((sum, m) => sum + (m.hearts || 0), 0)
+
+      await supabase.from('forum_threads')
+        .update({ total_hearts: total })
+        .eq('id', threadId)
+
+      // Refresh threads silently to update card
+      const { data } = await supabase
+        .from('forum_threads')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(30)
+      if (data) { threads = data; renderThreads(data) }
+    }
+
+    async function init() {
+      const supabase = getDB()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) currentUser = user
+      await loadThreads()
+    }
+
+    async function loadThreads() {
+      const supabase = getDB()
+
+      const { data, error } = await supabase
+        .from('forum_threads')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(30)
+
+      const grid = document.getElementById('thread-grid')
+
+      if (error || !data || data.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1;">
+            <div class="empty-state-title">No threads yet</div>
+            <div class="empty-state-sub">Be the first to open a conversation.<br>State a subject. Set your seats.<br>Let the world respond.</div>
+          </div>
+        `
+        return
+      }
+
+      threads = data
+      renderThreads(data)
+    }
+
+    function renderThreads(data) {
+      const grid = document.getElementById('thread-grid')
+      grid.innerHTML = ''
+
+      const filtered = currentFilter === 'all' ? data : data.filter(t => {
+        if (currentFilter === 'open') return !t.closed && t.seats !== 0 && (t.joined_count || 0) < t.seats
+        if (currentFilter === 'unlimited') return t.seats === 0
+        if (currentFilter === 'closed') return t.closed
+        if (currentFilter === 'active') return currentUser && (t.participants || []).includes(currentUser.id)
+        return true
+      })
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-state-title">No threads here</div><div class="empty-state-sub">Try a different filter.</div></div>`
+        return
+      }
+
+      filtered.forEach(thread => {
+        const card = buildThreadCard(thread)
+        grid.appendChild(card)
+      })
+    }
+
+    function buildThreadCard(thread) {
+      const isUnlimited = thread.seats === 0
+      const isClosed = thread.closed
+      const isActive = currentUser && (thread.participants || []).includes(currentUser.id)
+      const joined = thread.joined_count || 0
+      const isFull = !isUnlimited && joined >= thread.seats
+
+      let cardClass = 'thread-card'
+      let badgeText = ''
+      let badgeClass = ''
+      let actionBtn = ''
+
+      if (isClosed) {
+        cardClass += ' closed'
+        badgeText = 'Archived'
+        badgeClass = 'badge-closed'
+        actionBtn = `<button class="thread-action-btn extend" onclick="event.stopPropagation(); extendThread('${thread.id}')">Extend →</button>`
+      } else if (isActive) {
+        cardClass += ' active'
+        badgeText = 'Joined'
+        badgeClass = 'badge-active'
+        actionBtn = `<button class="thread-action-btn continue">Continue →</button>`
+      } else if (isUnlimited) {
+        cardClass += ' unlimited'
+        badgeText = '∞'
+        badgeClass = 'badge-unlimited'
+        actionBtn = `<button class="thread-action-btn join">Speak →</button>`
+      } else if (!isFull) {
+        cardClass += ' open'
+        badgeText = 'Open'
+        badgeClass = 'badge-open'
+        actionBtn = `<button class="thread-action-btn join">Speak →</button>`
+      } else {
+        badgeText = 'Full'
+        badgeClass = 'badge-closed'
+        actionBtn = `<button class="thread-action-btn" style="opacity:0.4; cursor:default;">Full · Read →</button>`
+      }
+
+      // Seat dots
+      let seatDots = ''
+      if (isUnlimited) {
+        seatDots = `<span style="color:#f59e0b; font-size:10px;">∞ open</span>`
+      } else {
+        for (let i = 0; i < thread.seats; i++) {
+          seatDots += `<div class="seat-dot ${i < joined ? 'filled' : ''}"></div>`
+        }
+        seatDots += `<span style="margin-left:6px;">${joined}/${thread.seats}</span>`
+      }
+
+      // Author initial
+      const initial = (thread.author_name || 'E').charAt(0).toUpperCase()
+
+      const card = document.createElement('div')
+      card.className = cardClass
+      card.dataset.threadId = thread.id
+      card.onclick = () => openThread(thread.id)
+
+      // Build heart visualization
+      const hearts = thread.total_hearts || 0
+      let heartHTML = ''
+      if (hearts >= 10000) {
+        heartHTML = `<div class="card-hearts"><div class="heart-layer ultra">♥</div></div>`
+      } else if (hearts >= 1000) {
+        heartHTML = `<div class="card-hearts"><div class="heart-layer mega">♥</div></div>`
+      } else if (hearts >= 100) {
+        const smallCount = hearts - 100
+        let smalls = ''
+        for (let i = 0; i < Math.min(smallCount, 9); i++) {
+          smalls += `<div class="heart-layer" style="top:${10+Math.random()*80}%; left:${5+Math.random()*90}%; font-size:${8+Math.random()*10}px; animation-delay:${Math.random()*3}s;">♥</div>`
+        }
+        heartHTML = `<div class="card-hearts"><div class="heart-layer large">♥</div>${smalls}</div>`
+      } else if (hearts >= 10) {
+        let smalls = ''
+        for (let i = 0; i < Math.min(hearts, 9); i++) {
+          smalls += `<div class="heart-layer" style="top:${10+Math.random()*80}%; left:${5+Math.random()*90}%; font-size:${7+Math.random()*8}px; animation-delay:${Math.random()*3}s;">♥</div>`
+        }
+        heartHTML = `<div class="card-hearts">${smalls}</div>`
+      }
+
+      card.innerHTML = `
+        ${heartHTML}
+        <div class="thread-card-inner">
+          <div class="thread-author">
+            <div class="thread-avatar">${initial}</div>
+            <div class="thread-author-name">${thread.author_name || 'Empathia Member'}</div>
+            <span class="thread-type-badge ${badgeClass}">${badgeText}</span>
+          </div>
+          <div class="thread-subject">${thread.subject}</div>
+          <div class="thread-footer">
+            <div class="thread-seats">${seatDots}</div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              ${hearts > 0 ? `<span style="font-size:9px; color:var(--accent2); letter-spacing:0.05em;">♥ ${hearts}</span>` : ''}
+              ${actionBtn}
+            </div>
+          </div>
+        </div>
+      `
+      return card
+    }
+
+    function filterThreads(filter, btn) {
+      currentFilter = filter
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'))
+      btn.classList.add('active')
+      renderThreads(threads)
+    }
+
+    function selectSeats(btn, count) {
+      document.querySelectorAll('.seat-option').forEach(b => b.classList.remove('selected'))
+      btn.classList.add('selected')
+      selectedSeats = count
+    }
+
+    function openCreateModal() {
+      document.getElementById('create-overlay').classList.add('active')
+      document.getElementById('thread-subject-input').focus()
+    }
+
+    function closeCreateModal() {
+      document.getElementById('create-overlay').classList.remove('active')
+    }
+
+    async function createThread() {
+      const subjectEl = document.getElementById('thread-subject-input')
+      const subject = subjectEl?.value.trim()
+
+      if (!subject) {
+        subjectEl.style.borderColor = 'var(--accent2)'
+        return
+      }
+
+      // Get fresh user session
+      const supabase = getDB()
+      const { data: { user } } = await supabase.auth.getUser()
+
+      if (!user) {
+        window.location.href = '/signup.html'
+        return
+      }
+
+      const btn = document.querySelector('.btn-open-thread')
+      btn.textContent = 'Opening...'
+      btn.disabled = true
+
+      const username = user.user_metadata?.username
+        || user.user_metadata?.full_name
+        || user.email?.split('@')[0]
+        || 'Empathia Member'
+
+      const { error } = await supabase.from('forum_threads').insert([{
+        subject,
+        seats: selectedSeats,
+        author_id: user.id,
+        author_name: username,
+        joined_count: 1,
+        participants: [user.id],
+        closed: false,
+        extend_requests: [],
+        parent_thread_id: null,
+        total_hearts: 0
+      }])
+
+      btn.textContent = 'Open thread →'
+      btn.disabled = false
+
+      if (error) {
+        console.log('Thread create error:', error.message)
+        subjectEl.style.borderColor = 'var(--accent2)'
+        return
+      }
+
+      closeCreateModal()
+      subjectEl.value = ''
+      subjectEl.style.borderColor = ''
+      await loadThreads()
+    }
+
+    async function extendThread(threadId) {
+      if (!currentUser) { window.location.href = '/signup.html'; return }
+      const supabase = getDB()
+      const thread = threads.find(t => t.id === threadId)
+      if (!thread) return
+
+      const extendReqs = thread.extend_requests || []
+      if (extendReqs.includes(currentUser.id)) return
+
+      const newReqs = [...extendReqs, currentUser.id]
+      await supabase.from('forum_threads').update({ extend_requests: newReqs }).eq('id', threadId)
+
+      // If 2+ people want to extend → create sub-thread
+      if (newReqs.length >= 2) {
+        const username = currentUser.user_metadata?.username
+          || currentUser.user_metadata?.full_name
+          || currentUser.email?.split('@')[0]
+          || 'Empathia Member'
+
+        await supabase.from('forum_threads').insert([{
+          subject: thread.subject,
+          seats: 5,
+          author_id: currentUser.id,
+          author_name: username,
+          joined_count: 1,
+          participants: [currentUser.id],
+          closed: false,
+          extend_requests: [],
+          parent_thread_id: threadId
+        }])
+      }
+
+      await loadThreads()
+    }
+
+    async function openThread(threadId) {
+      const supabase = getDB()
+      const thread = threads.find(t => t.id === threadId)
+      if (!thread) return
+
+      // Load messages for this thread
+      const { data: messages } = await supabase
+        .from('forum_messages')
+        .select('*')
+        .eq('thread_id', threadId)
+        .order('created_at', { ascending: true })
+
+      // Load parent thread if exists
+      let parentHTML = ''
+      if (thread.parent_thread_id) {
+        const { data: parent } = await supabase
+          .from('forum_threads')
+          .select('subject, joined_count')
+          .eq('id', thread.parent_thread_id)
+          .single()
+
+        if (parent) {
+          parentHTML = `
+            <div class="archived-thread">
+              ↑ Extended from: "${parent.subject}" · ${parent.joined_count} participants
+            </div>
+          `
+        }
+      }
+
+      const isParticipant = currentUser && (thread.participants || []).includes(currentUser.id)
+      const isUnlimited = thread.seats === 0
+      const isClosed = thread.closed
+      const joined = thread.joined_count || 0
+
+      const messagesHTML = (messages || []).map(m => `
+        <div class="thread-message">
+          <div class="thread-message-author">${m.author_name || 'Empathia Member'} · ${new Date(m.created_at).toLocaleDateString('en-GB', {day:'numeric', month:'short'})}</div>
+          <div class="thread-message-content">${m.content}</div>
+          <div class="message-heart-row">
+            <button class="message-heart-btn" onclick="heartMessage('${m.id}', '${threadId}', this)">
+              ♡ <span class="msg-heart-count">${m.hearts || 0}</span>
+            </button>
+          </div>
+        </div>
+      `).join('') || `<div style="color:var(--muted); font-size:10px; text-align:center; padding:20px;">No messages yet. Be the first to speak.</div>`
+
+      const canPost = !isClosed && (isParticipant || isUnlimited || (!isClosed && joined < thread.seats))
+
+      const inputArea = canPost ? `
+        <div class="thread-input-area">
+          <textarea class="thread-input" id="thread-msg-input-${threadId}" placeholder="${isParticipant ? 'Continue the conversation...' : 'Say something to join this thread...'}" rows="2"></textarea>
+          <button class="thread-send-btn" onclick="sendThreadMessage('${threadId}')">Send →</button>
+        </div>
+      ` : isClosed ? `
+        <div style="padding:16px 28px; border-top:1px solid var(--border); text-align:center; font-size:9px; color:var(--muted); letter-spacing:0.06em;">
+          This thread is closed. ${(thread.extend_requests||[]).length}/2 extend requests.
+          <button class="thread-action-btn extend" style="margin-left:12px;" onclick="extendThread('${threadId}')">Extend →</button>
+        </div>
+      ` : `
+        <div style="padding:16px 28px; border-top:1px solid var(--border); text-align:center; font-size:9px; color:var(--muted);">
+          This thread is full. Reading only.
+        </div>
+      `
+
+      document.getElementById('thread-view-content').innerHTML = `
+        <div class="thread-view-header">
+          <div>
+            ${parentHTML}
+            <div class="thread-view-subject">${thread.subject}</div>
+          </div>
+          <button class="close-btn" onclick="closeThreadView()">✕</button>
+        </div>
+        <div class="thread-view-meta">
+          <span>by ${thread.author_name}</span>
+          <span>·</span>
+          <span>${isUnlimited ? '∞ unlimited' : joined + '/' + thread.seats + ' seats'}</span>
+          <span>·</span>
+          <span>${isClosed ? 'Closed' : 'Active'}</span>
+        </div>
+        <div class="thread-messages" id="thread-messages-${threadId}">
+          ${messagesHTML}
+        </div>
+        ${inputArea}
+      `
+
+      document.getElementById('thread-overlay').classList.add('active')
+    }
+
+    function closeThreadView() {
+      document.getElementById('thread-overlay').classList.remove('active')
+    }
+
+    async function sendThreadMessage(threadId) {
+      const input = document.getElementById(`thread-msg-input-${threadId}`)
+      const content = input?.value.trim()
+      if (!content || !currentUser) return
+
+      const supabase = getDB()
+      const username = currentUser.user_metadata?.username
+        || currentUser.user_metadata?.full_name
+        || currentUser.email?.split('@')[0]
+        || 'Empathia Member'
+
+      const thread = threads.find(t => t.id === threadId)
+      const participants = thread?.participants || []
+      const isNewParticipant = !participants.includes(currentUser.id)
+
+      // First message = seat claimed automatically
+      if (isNewParticipant) {
+        const newParticipants = [...participants, currentUser.id]
+        await supabase.from('forum_threads').update({
+          participants: newParticipants,
+          joined_count: newParticipants.length
+        }).eq('id', threadId)
+      }
+
+      await supabase.from('forum_messages').insert([{
+        thread_id: threadId,
+        author_id: currentUser.id,
+        author_name: username,
+        content
+      }])
+
+      input.value = ''
+
+      // Check if 2/3 of limited participants have stopped → could auto-close
+      // (future feature — for now manual)
+
+      await loadThreads()
+      await openThread(threadId)
+    }
+
+    // Click outside to close overlays
+    document.getElementById('create-overlay').addEventListener('click', e => {
+      if (e.target === document.getElementById('create-overlay')) closeCreateModal()
+    })
+    document.getElementById('thread-overlay').addEventListener('click', e => {
+      if (e.target === document.getElementById('thread-overlay')) closeThreadView()
+    })
+
+    init()
+  </script>
+</body>
+</html>

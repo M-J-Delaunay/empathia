@@ -784,6 +784,17 @@ No minimum. No maximum. Only what needs to be said."
           <button class="id-btn active" onclick="setIdentity(this, 'public')">🌍 Public</button>
           <button class="id-btn" onclick="setIdentity(this, 'anon')">👤 Anonymous</button>
         </div>
+
+        <!-- Name blur toggle -->
+        <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border); display:flex; align-items:center; gap:12px;">
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer; font-size:10px; color:var(--muted); letter-spacing:0.05em;">
+            <input type="checkbox" id="name-blur-toggle" onchange="toggleNameBlur(this)" style="accent-color:var(--accent); width:14px; height:14px;">
+            Blur names in this post
+          </label>
+          <span style="font-size:9px; color:var(--muted); letter-spacing:0.04em;">
+            — Replaces names with roles to protect identities
+          </span>
+        </div>
       </div>
     </div>
 
@@ -846,6 +857,17 @@ No minimum. No maximum. Only what needs to be said."
     let currentType = 'text'
     let currentSubject = null
     let currentIdentity = 'public'
+    let nameBlurEnabled = false
+
+    function toggleNameBlur(checkbox) {
+      nameBlurEnabled = checkbox.checked
+      const info = document.querySelector('.identity-info')
+      if (nameBlurEnabled) {
+        document.getElementById('preview-author').textContent = 'Anonymous role · protected'
+      } else {
+        updatePreviewAuthor()
+      }
+    }
 
     function getDB() {
       if (!db) db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
@@ -1103,7 +1125,7 @@ No minimum. No maximum. Only what needs to be said."
           content: title + (body ? '\n\n' + body : '') + (tag ? '\n\n' + tag : ''),
           country: document.getElementById('post-country')?.value || '🌍 World',
           empathy_score: 0,
-          identity_mode: currentIdentity
+          identity_mode: nameBlurEnabled ? 'blur' : currentIdentity
         }]).select()
 
         if (error) throw error

@@ -54,7 +54,11 @@
       display: flex;
       gap: 20px;
       align-items: center;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .nav-links::-webkit-scrollbar { display: none; }
 
     .nav-links a {
       font-size: 9px;
@@ -582,6 +586,7 @@
       <a href="/feed.html">Feed</a>
       <a href="/map.html" style="font-size:9px; letter-spacing:0.1em; color:var(--muted); text-decoration:none; text-transform:uppercase;">Map</a>
       <a href="/discover.html" class="active">Discover</a>
+      <a href="/forum.html" style="font-size:9px; letter-spacing:0.1em; color:var(--muted); text-decoration:none; text-transform:uppercase;">Forum</a>
       <a href="/chat.html">Conversations</a>
       <a href="/profile.html">Profile</a>
       <div class="theme-switcher" style="display:flex; gap:4px; align-items:center;"></div>

@@ -58,7 +58,11 @@
       display: flex;
       align-items: center;
       gap: 20px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .nav-right::-webkit-scrollbar { display: none; }
 
     .nav-score {
       font-size: 10px;
@@ -643,6 +647,7 @@
       <a href="/create.html" style="font-size:9px; letter-spacing:0.1em; color:var(--accent); text-decoration:none; border:1px solid rgba(124,77,255,0.3); padding:5px 14px; border-radius:2px; transition:all 0.2s;">+ New Post</a>
       <a href="/map.html" style="font-size:9px; letter-spacing:0.1em; color:var(--muted); text-decoration:none; text-transform:uppercase;">Map</a>
       <a href="/discover.html" style="font-size:9px; letter-spacing:0.1em; color:var(--muted); text-decoration:none; text-transform:uppercase;">Discover</a>
+      <a href="/forum.html" style="font-size:9px; letter-spacing:0.1em; color:var(--muted); text-decoration:none; text-transform:uppercase;">Forum</a>
       <a href="/chat.html" style="font-size:9px; letter-spacing:0.1em; color:var(--muted); text-decoration:none; text-transform:uppercase;">Conversations</a>
       <div class="theme-switcher" style="display:flex; gap:4px; align-items:center;"></div>
       <div class="nav-score">YOUR SCORE <span id="user-score">—</span></div>
@@ -1049,6 +1054,24 @@
 
         if (error || !posts || posts.length === 0) return
 
+        // Batch lookup all author usernames from Users table
+        const authorIds = [...new Set(
+          posts
+            .filter(p => p.author_id && p.identity_mode !== 'anonymous' && p.identity_mode !== 'blur')
+            .map(p => p.author_id)
+        )]
+
+        const usernameMap = {}
+        if (authorIds.length > 0) {
+          const { data: users } = await sb
+            .from('Users')
+            .select('id, username')
+            .in('id', authorIds)
+          if (users) {
+            users.forEach(u => { usernameMap[u.id] = u.username })
+          }
+        }
+
         const mosaic = document.getElementById('mosaic')
         const worldTile = mosaic.querySelector('.tile-world')
 
@@ -1059,11 +1082,14 @@
           const country = post.country || '—'
           const isFirst = i === 0
 
-          // Show real username if this is the current user's post
+          // Show real username from Users table lookup
           const isMyPost = post.author_id === currentUserId
           const authorName = post.identity_mode === 'anonymous'
             ? 'Anonymous'
-            : isMyPost ? currentUsername : 'Empathia Member'
+            : post.identity_mode === 'blur'
+            ? 'Protected voice'
+            : usernameMap[post.author_id]
+            || (isMyPost ? currentUsername : 'Empathia Member')
 
           const tile = document.createElement('div')
           tile.className = isFirst ? 'tile tile-large' : 'tile tile-medium'
