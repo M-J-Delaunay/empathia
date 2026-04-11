@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#7c4dff">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Empathia — Discover Conversations</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
   <style>
@@ -689,6 +694,15 @@
 
     <!-- HUMAN CONVERSATIONS -->
     <div class="section-header" style="margin-top: 32px;">
+      <div class="section-title">👤 Members — Start a conversation</div>
+      <div class="section-count" id="members-count">Loading...</div>
+    </div>
+
+    <div class="conversations-grid" id="members-grid">
+      <!-- Loaded from Supabase -->
+    </div>
+
+    <div class="section-header" style="margin-top: 32px;">
       <div class="section-title">Human Conversations</div>
       <div class="section-count" id="human-count">Loading...</div>
     </div>
@@ -710,6 +724,107 @@
     function getDB() {
       if (!db) db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
       return db
+    }
+
+    async function loadMembers() {
+      const supabase = getDB()
+      const { data: { user } } = await supabase.auth.getUser()
+
+      const { data: members } = await supabase
+        .from('Users')
+        .select('id, username, country, empathy_score')
+        .order('empathy_score', { ascending: false })
+        .limit(20)
+
+      const grid = document.getElementById('members-grid')
+      const count = document.getElementById('members-count')
+
+      if (!members || members.length === 0) {
+        grid.innerHTML = `<div style="color:var(--muted); font-size:10px; padding:16px; letter-spacing:0.06em;">No members yet. Be the first to join.</div>`
+        count.textContent = '0 members'
+        return
+      }
+
+      count.textContent = members.length + ' members'
+      grid.innerHTML = ''
+
+      members.forEach(member => {
+        if (user && member.id === user.id) return // Skip self
+
+        const card = document.createElement('div')
+        card.style.cssText = `
+          background: var(--surface);
+          border: 1px solid var(--border);
+          border-radius: 4px;
+          padding: 16px 20px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 12px;
+          margin-bottom: 8px;
+          transition: border-color 0.2s;
+        `
+        card.onmouseover = () => card.style.borderColor = 'rgba(124,77,255,0.25)'
+        card.onmouseout = () => card.style.borderColor = 'var(--border)'
+
+        const initial = (member.username || 'E').charAt(0).toUpperCase()
+        const score = member.empathy_score || 0
+
+        card.innerHTML = `
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent2)); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600; color:white; flex-shrink:0;">
+              ${initial}
+            </div>
+            <div>
+              <div style="font-size:11px; color:var(--text); letter-spacing:0.04em;">${member.username || 'Empathia Member'}</div>
+              <div style="font-size:9px; color:var(--muted); letter-spacing:0.06em; margin-top:2px;">${member.country || '🌍'} · ${score}% empathy</div>
+            </div>
+          </div>
+          <button onclick="startHumanConversation('${member.id}', '${member.username || 'Member'}')"
+            style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; background:none; border:1px solid rgba(124,77,255,0.3); border-radius:2px; padding:6px 14px; color:var(--accent); cursor:pointer; white-space:nowrap; transition:all 0.2s;"
+            onmouseover="this.style.background='rgba(124,77,255,0.1)'"
+            onmouseout="this.style.background='none'"
+          >
+            Talk →
+          </button>
+        `
+        grid.appendChild(card)
+      })
+    }
+
+    async function startHumanConversation(userId, username) {
+      const supabase = getDB()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) { window.location.href = '/signup.html'; return }
+
+      // Check if conversation already exists
+      const { data: existing } = await supabase
+        .from('conversations')
+        .select('id')
+        .or(`and(user1_id.eq.${user.id},user2_id.eq.${userId}),and(user1_id.eq.${userId},user2_id.eq.${user.id})`)
+        .is('ended_at', null)
+        .single()
+
+      if (existing) {
+        window.location.href = '/chat.html'
+        return
+      }
+
+      // Create new conversation
+      const { data: conv, error } = await supabase
+        .from('conversations')
+        .insert([{
+          user1_id: user.id,
+          user2_id: userId,
+          type: 'realtime',
+          subject: 'Conversation with ' + username
+        }])
+        .select()
+        .single()
+
+      if (!error && conv) {
+        window.location.href = '/chat.html'
+      }
     }
 
     async function loadConversations() {
@@ -900,8 +1015,15 @@
     // Init
     loadConversations()
     loadAIScores()
+    loadMembers()
   </script>
   <script src="/theme.js"></script>
 
+<script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/service-worker.js")
+        .catch(err => console.log("SW error:", err));
+    }
+  </script>
 </body>
 </html>
