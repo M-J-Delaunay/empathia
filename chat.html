@@ -1403,6 +1403,18 @@
         return
       }
 
+      // Cache the other person's username for message display
+      if (!otherId.startsWith('ai-')) {
+        const { data: otherUser } = await supabase
+          .from('Users')
+          .select('username')
+          .eq('auth_id', otherId)
+          .single()
+        if (otherUser?.username) {
+          conversationUsernames[otherId] = otherUser.username
+        }
+      }
+
       // Load messages
       await loadMessages(convId)
 
@@ -1460,13 +1472,18 @@
     }
 
     // Append a message to the chat
+    let conversationUsernames = {} // cache of sender_id -> username
+
     function appendMessage(msg) {
       const wrap = document.getElementById('messages-wrap')
       const isMine = msg.sender_id === currentUser?.id
+      const senderName = isMine
+        ? 'You'
+        : conversationUsernames[msg.sender_id] || msg.sender_id.substring(0,8) + '...'
       const group = document.createElement('div')
       group.className = 'message-group ' + (isMine ? 'mine' : 'theirs')
       group.innerHTML = `
-        <div class="message-sender">${isMine ? 'You' : msg.sender_id.substring(0,8) + '...'}</div>
+        <div class="message-sender">${senderName}</div>
         <div class="message ${isMine ? 'mine' : 'theirs'}">${msg.content}</div>
         <div class="message-time">${new Date(msg.created_at).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</div>
       `
