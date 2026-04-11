@@ -806,7 +806,7 @@
         .single()
 
       if (existing) {
-        window.location.href = '/chat.html'
+        window.location.href = '/chat.html?conv=' + existing.id
         return
       }
 
@@ -823,7 +823,7 @@
         .single()
 
       if (!error && conv) {
-        window.location.href = '/chat.html'
+        window.location.href = '/chat.html?conv=' + conv.id
       }
     }
 

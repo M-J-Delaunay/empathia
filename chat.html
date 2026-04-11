@@ -1224,6 +1224,27 @@
       currentUser = user
       await loadConversations()
 
+      // Auto-open conversation if ID passed in URL
+      const urlParams = new URLSearchParams(window.location.search)
+      const convId = urlParams.get('conv')
+      if (convId) {
+        setTimeout(async () => {
+          const supabase = getDB()
+          const { data: conv } = await supabase
+            .from('conversations')
+            .select('*')
+            .eq('id', convId)
+            .single()
+          if (conv) {
+            const otherId = conv.user1_id === user.id ? conv.user2_id : conv.user1_id
+            const isPending = conv.ended_at &&
+              ((conv.user1_id === user.id && !conv.rated_by_1) ||
+               (conv.user2_id === user.id && !conv.rated_by_2))
+            openConversation(conv.id, otherId, conv, isPending)
+          }
+        }, 500)
+      }
+
       // Restore any unfinished AI conversation
       const draft = loadAIDraft()
       if (draft && draft.aiName && draft.messages.length > 0) {
