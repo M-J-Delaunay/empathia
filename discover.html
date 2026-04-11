@@ -732,7 +732,9 @@
 
       const { data: members } = await supabase
         .from('Users')
-        .select('id, username, country, empathy_score')
+        .select('auth_id, username, country, empathy_score')
+        .not('auth_id', 'is', null)
+        .not('username', 'is', null)
         .order('empathy_score', { ascending: false })
         .limit(20)
 
@@ -749,7 +751,7 @@
       grid.innerHTML = ''
 
       members.forEach(member => {
-        if (user && member.id === user.id) return // Skip self
+        if (user && member.auth_id === user.id) return // Skip self
 
         const card = document.createElement('div')
         card.style.cssText = `
@@ -780,7 +782,7 @@
               <div style="font-size:9px; color:var(--muted); letter-spacing:0.06em; margin-top:2px;">${member.country || '🌍'} · ${score}% empathy</div>
             </div>
           </div>
-          <button onclick="startHumanConversation('${member.id}', '${member.username || 'Member'}')"
+          <button onclick="startHumanConversation('${member.auth_id}', '${member.username || 'Member'}')"
             style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; background:none; border:1px solid rgba(124,77,255,0.3); border-radius:2px; padding:6px 14px; color:var(--accent); cursor:pointer; white-space:nowrap; transition:all 0.2s;"
             onmouseover="this.style.background='rgba(124,77,255,0.1)'"
             onmouseout="this.style.background='none'"
