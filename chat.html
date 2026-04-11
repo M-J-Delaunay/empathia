@@ -1770,7 +1770,10 @@
     async function submitRating() {
       const score = parseInt(document.getElementById('rating-slider').value)
       const btn = document.querySelector('.btn-rate-now')
-      btn.textContent = 'Rating recorded 💜'
+      if (btn) {
+        btn.textContent = 'Recording... 💜'
+        btn.disabled = true
+      }
 
       const supabase = getDB()
 
