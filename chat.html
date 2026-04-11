@@ -1324,6 +1324,20 @@
         document.getElementById('pending-warning').classList.add('visible')
       }
 
+      // Batch lookup usernames for human conversations
+      const humanIds = data
+        .map(c => c.user1_id === currentUser.id ? c.user2_id : c.user1_id)
+        .filter(id => !id?.startsWith('ai-'))
+      
+      const usernameMap = {}
+      if (humanIds.length > 0) {
+        const { data: users } = await supabase
+          .from('Users')
+          .select('auth_id, username')
+          .in('auth_id', humanIds)
+        if (users) users.forEach(u => { usernameMap[u.auth_id] = u.username })
+      }
+
       data.forEach(conv => {
         const otherId = conv.user1_id === currentUser.id ? conv.user2_id : conv.user1_id
         const isPending = conv.ended_at &&
@@ -1331,7 +1345,7 @@
            (conv.user2_id === currentUser.id && !conv.rated_by_2))
 
         // Format display name nicely
-        let displayName = otherId.substring(0,8) + '...'
+        let displayName = usernameMap[otherId] || otherId.substring(0,8) + '...'
         let displayIcon = ''
         if (otherId === 'ai-claude') { displayName = 'Claude'; displayIcon = '🟠 ' }
         else if (otherId === 'ai-gemini') { displayName = 'Gemini'; displayIcon = '🔵 ' }
@@ -1365,14 +1379,26 @@
       document.getElementById('conv-' + convId)?.classList.add('active')
       currentConversationId = convId
 
+      // Look up the other user's real username
+      let displayName = otherId.substring(0,8) + '...'
+      if (!otherId.startsWith('ai-')) {
+        const supabase = getDB()
+        const { data: otherUser } = await supabase
+          .from('Users')
+          .select('username')
+          .eq('auth_id', otherId)
+          .single()
+        if (otherUser?.username) displayName = otherUser.username
+      }
+
       // Update header
-      document.getElementById('chat-header-name').textContent = otherId.substring(0,8) + '...'
+      document.getElementById('chat-header-name').textContent = displayName
       document.getElementById('chat-header-meta').textContent = conv.subject + ' · ' + conv.type
       document.getElementById('chat-type-badge').textContent = conv.type === 'realtime' ? '⚡ Real-time' : '✉️ Async'
 
       // Show rating if pending
       if (isPending) {
-        document.getElementById('rating-person').textContent = 'with ' + otherId.substring(0,8) + '...'
+        document.getElementById('rating-person').textContent = 'with ' + displayName
         document.getElementById('rating-overlay').classList.add('active')
         return
       }
