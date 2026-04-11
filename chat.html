@@ -1405,13 +1405,18 @@
 
       // Cache the other person's username for message display
       if (!otherId.startsWith('ai-')) {
-        const { data: otherUser } = await supabase
-          .from('Users')
-          .select('username')
-          .eq('auth_id', otherId)
-          .single()
-        if (otherUser?.username) {
-          conversationUsernames[otherId] = otherUser.username
+        try {
+          const supabase = getDB()
+          const { data: otherUser } = await supabase
+            .from('Users')
+            .select('username')
+            .eq('auth_id', otherId)
+            .single()
+          if (otherUser?.username) {
+            conversationUsernames[otherId] = otherUser.username
+          }
+        } catch (e) {
+          // Silent fail — messages still load
         }
       }
 
