@@ -1881,17 +1881,23 @@ Respond with ONLY a number between 0 and 100. Nothing else.`
         }
       }
 
+      const overlay = document.getElementById('rating-overlay')
+      const slider = document.getElementById('rating-slider')
+
       setTimeout(() => {
-        document.getElementById('rating-overlay').classList.remove('active')
+        overlay.classList.remove('active')
         hasPendingRating = false
         document.getElementById('pending-badge').classList.remove('visible')
         document.getElementById('pending-warning').classList.remove('visible')
-        btn.textContent = 'Submit my rating — 50%'
-        document.getElementById('rating-slider').value = 50
+        if (btn) {
+          btn.textContent = 'Submit my rating — 50%'
+          btn.disabled = false
+        }
+        if (slider) slider.value = 50
         updateRatingValue(50)
-        // Small delay to let database write complete
+        currentConversationId = null
         setTimeout(() => loadConversations(), 800)
-      }, 1200)
+      }, 1500)
     }
 
     function rateLater() {
