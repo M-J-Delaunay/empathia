@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#7c4dff">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Empathia — Profile</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
   <style>
@@ -939,6 +944,23 @@
             <div class="settings-card-title" style="margin-bottom:12px;">Account</div>
             <div class="setting-row">
               <div>
+                <div class="setting-label">Username</div>
+                <div class="setting-sub">How the world knows you</div>
+              </div>
+            </div>
+            <input
+              id="username-edit-input"
+              type="text"
+              maxlength="30"
+              placeholder="Your username..."
+              style="width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:2px; padding:10px 12px; font-family:'DM Mono',monospace; font-size:11px; color:var(--text); outline:none; margin-bottom:8px;"
+            >
+            <button onclick="saveUsername()" style="font-family:'DM Mono',monospace; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; background:none; border:1px solid rgba(124,77,255,0.3); border-radius:2px; padding:6px 14px; color:var(--accent); cursor:pointer; margin-bottom:16px;">
+              Save username →
+            </button>
+
+            <div class="setting-row">
+              <div>
                 <div class="setting-label">Theme</div>
                 <div class="setting-sub">Choose your visual experience</div>
               </div>
@@ -1004,6 +1026,33 @@
       return db
     }
 
+    async function saveUsername() {
+      const input = document.getElementById('username-edit-input')
+      const newUsername = input?.value.trim()
+      if (!newUsername) return
+
+      const supabase = getDB()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+
+      await supabase.auth.updateUser({ data: { username: newUsername, full_name: newUsername } })
+      await supabase.from('Users').upsert([{ auth_id: user.id, username: newUsername }])
+
+      const btn = document.querySelector('button[onclick="saveUsername()"]')
+      if (btn) {
+        btn.textContent = 'Saved ✓'
+        btn.style.color = '#22c55e'
+        setTimeout(() => {
+          btn.textContent = 'Save username →'
+          btn.style.color = ''
+        }, 2000)
+      }
+
+      // Update display name on page
+      const nameEl = document.querySelector('.profile-name')
+      if (nameEl) nameEl.textContent = newUsername
+    }
+
     async function signOut() {
       const supabase = getDB()
       await supabase.auth.signOut()
@@ -1057,6 +1106,14 @@
       const savedDesc = user.user_metadata?.description || ''
       const descField = document.getElementById('profile-description')
       if (descField && savedDesc) descField.value = savedDesc
+
+      // Load current username into edit field
+      const currentName = user.user_metadata?.username
+        || user.user_metadata?.full_name
+        || user.email?.split('@')[0]
+        || ''
+      const usernameField = document.getElementById('username-edit-input')
+      if (usernameField) usernameField.value = currentName
 
       // Update avatar initial
       document.querySelector('.avatar').textContent = username.charAt(0).toUpperCase()
@@ -1285,5 +1342,11 @@
   </script>
 
 <script src="/theme.js"></script>
+<script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("/service-worker.js")
+        .catch(err => console.log("SW error:", err));
+    }
+  </script>
 </body>
 </html>
