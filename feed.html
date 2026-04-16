@@ -945,13 +945,17 @@
           const postId = currentPost.replace('real-', '')
 
           // Save to ratings table
-          await sb.from('ratings').insert([{
+          const { error: insertErr } = await sb.from('ratings').insert([{
             rater_id: user.id,
             rated_id: postId,
             score: currentRating,
             context: 'post-' + postId,
             visible_after: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
           }])
+
+          if (insertErr) {
+            console.error('Rating insert failed:', insertErr.message, insertErr.details)
+          }
 
           // Get average score for this post
           const { data: ratings, error: rErr } = await sb
