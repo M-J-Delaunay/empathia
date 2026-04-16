@@ -954,19 +954,23 @@
           }])
 
           // Get average score for this post
-          const { data: ratings } = await sb
+          const { data: ratings, error: rErr } = await sb
             .from('ratings')
             .select('score')
-            .like('context', `post-${postId}`)
+            .eq('context', `post-${postId}`)
 
           if (ratings && ratings.length > 0) {
             const avg = Math.round(
               ratings.reduce((sum, r) => sum + r.score, 0) / ratings.length
             )
             // Update post empathy_score
-            await sb.from('posts')
+            const { error: uErr } = await sb.from('posts')
               .update({ empathy_score: avg })
-              .eq('id', postId)
+              .eq('id', parseInt(postId))
+
+            // Update score display immediately
+            const scoreEl = document.querySelector(`#real-post-${postId} .tile-author span[data-score]`)
+            if (scoreEl) scoreEl.textContent = avg + '%'
 
             // Update heart count display
             const heartCount = document.querySelector(`#real-post-${postId} .heart-count`)
