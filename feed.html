@@ -912,8 +912,10 @@
     }
 
     function openRatingFromPost() {
+      const savedPost = currentPost
       closePost()
       setTimeout(() => {
+        currentPost = savedPost
         document.getElementById('rating-slider').value = 50
         updateRating(50)
         document.getElementById('rating-overlay').classList.add('active')
