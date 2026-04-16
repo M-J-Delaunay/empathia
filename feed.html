@@ -940,15 +940,19 @@
       btn.disabled = true
 
       try {
-        const { data: { user } } = await sb.auth.getUser()
+        if (!currentUserId) {
+          btn.textContent = 'SIGN IN TO RATE'
+          btn.disabled = false
+          return
+        }
 
         // Save rating to database
-        if (user && currentPost && !currentPost.startsWith('culture-') && !currentPost.startsWith('science-') && !currentPost.startsWith('joy-') && !currentPost.startsWith('conflict-') && !currentPost.startsWith('local-') && !currentPost.startsWith('loss-')) {
+        if (currentPost && !currentPost.startsWith('culture-') && !currentPost.startsWith('science-') && !currentPost.startsWith('joy-') && !currentPost.startsWith('conflict-') && !currentPost.startsWith('local-') && !currentPost.startsWith('loss-')) {
           const postId = currentPost.replace('real-', '')
 
           // Save to ratings table
           const { error: insertErr } = await sb.from('ratings').insert([{
-            rater_id: user.id,
+            rater_id: currentUserId,
             rated_id: postId,
             score: currentRating,
             context: 'post-' + postId,
