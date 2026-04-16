@@ -1070,10 +1070,10 @@
         if (authorIds.length > 0) {
           const { data: users } = await sb
             .from('Users')
-            .select('id, username')
-            .in('id', authorIds)
+            .select('auth_id, username')
+            .in('auth_id', authorIds)
           if (users) {
-            users.forEach(u => { usernameMap[u.id] = u.username })
+            users.forEach(u => { usernameMap[u.auth_id] = u.username })
           }
         }
 
