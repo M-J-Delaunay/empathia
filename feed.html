@@ -946,8 +946,8 @@
           return
         }
 
-        // Save rating to database
-        if (currentPost && !currentPost.startsWith('culture-') && !currentPost.startsWith('science-') && !currentPost.startsWith('joy-') && !currentPost.startsWith('conflict-') && !currentPost.startsWith('local-') && !currentPost.startsWith('loss-')) {
+        // Save rating only for real database posts
+        if (currentPost && currentPost.startsWith('real-')) {
           const postId = currentPost.replace('real-', '')
 
           // Save to ratings table
@@ -964,7 +964,7 @@
           }
 
           // Get average score for this post
-          const { data: ratings, error: rErr } = await sb
+          const { data: ratings } = await sb
             .from('ratings')
             .select('score')
             .eq('context', `post-${postId}`)
@@ -973,16 +973,10 @@
             const avg = Math.round(
               ratings.reduce((sum, r) => sum + r.score, 0) / ratings.length
             )
-            // Update post empathy_score
-            const { error: uErr } = await sb.from('posts')
+            await sb.from('posts')
               .update({ empathy_score: avg })
               .eq('id', parseInt(postId))
 
-            // Update score display immediately
-            const scoreEl = document.querySelector(`#real-post-${postId} .tile-author span[data-score]`)
-            if (scoreEl) scoreEl.textContent = avg + '%'
-
-            // Update heart count display
             const heartCount = document.querySelector(`#real-post-${postId} .heart-count`)
             if (heartCount) heartCount.textContent = ratings.length
           }
