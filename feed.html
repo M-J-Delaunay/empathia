@@ -941,9 +941,15 @@
 
       try {
         if (!currentUserId) {
-          btn.textContent = 'SIGN IN TO RATE'
-          btn.disabled = false
-          return
+          // Try fetching user directly as fallback
+          const { data: { user } } = await sb.auth.getUser()
+          if (user) {
+            currentUserId = user.id
+          } else {
+            btn.textContent = 'SIGN IN TO RATE'
+            btn.disabled = false
+            return
+          }
         }
 
         // Save rating only for real database posts
@@ -1053,6 +1059,7 @@
         const { data: { user } } = await sb.auth.getUser()
         if (user) {
           currentUserId = user.id
+          window._currentUserId = user.id
           currentUsername = user.user_metadata?.full_name
             || user.user_metadata?.name
             || user.email?.split('@')[0]
