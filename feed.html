@@ -983,6 +983,18 @@
               .update({ empathy_score: avg })
               .eq('id', parseInt(postId))
 
+            // Update score display on tile immediately
+            const scoreEl = document.getElementById(`score-display-${postId}`)
+            if (scoreEl) {
+              const color = avg >= 80 ? '#06b6d4'
+                : avg >= 60 ? '#22c55e'
+                : avg >= 40 ? '#84cc16'
+                : avg >= 20 ? '#d97706'
+                : '#991b1b'
+              scoreEl.textContent = avg + '%'
+              scoreEl.style.color = color
+            }
+
             const heartCount = document.querySelector(`#real-post-${postId} .heart-count`)
             if (heartCount) heartCount.textContent = ratings.length
           }
@@ -1146,7 +1158,7 @@
               ${body ? `<div class="tile-excerpt">${body.substring(0, 150)}${body.length > 150 ? '...' : ''}</div>` : ''}
             </div>
             <div class="tile-footer">
-              <div class="tile-author">by <span>${authorName}</span> · ${country} · <span style="color:${scoreColor}; font-weight:600;">${score}%</span></div>
+              <div class="tile-author">by <span>${authorName}</span> · ${country} · <span id="score-display-${post.id}" style="color:${scoreColor}; font-weight:600;">${score}%</span></div>
               <div class="tile-actions">
                 <button class="heart-btn" onclick="event.stopPropagation(); openRating(event, 'real-${post.id}')">♡ <span class="heart-count">0</span></button>
               </div>
